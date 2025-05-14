@@ -1,0 +1,12 @@
+name: wsi-ssrl
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - jupyterlab
+  - openslide
+  - matplotlib
+  - lxml
+  - openjdk
+  - openslide-python
+prefix: /Users/stefanoroybisignano/miniconda3/envs/wsi-ssrl
