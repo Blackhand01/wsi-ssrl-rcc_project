@@ -1,7 +1,12 @@
 # wsi-ssrl-rcc_project
 
-This repository contains the code and experiments for classifying Renal Cell Carcinoma subtypes using self-supervised learning techniques on Whole Slide Images (WSIs).
+This repository contains the code and experiments for classifying Renal Cell Carcinoma subtypes using self-supervised learning techniques on Whole Slide Images (WSIs). Project for MLA Course.
 
+## Team Members
+
+- **Stefano Roy Bisignano** 
+- **Mirko Di Maggio** 
+- **Rida Ben Hassi** 
 ---
 
 ## 🛠️ Prerequisites
