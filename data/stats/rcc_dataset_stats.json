@@ -1,0 +1,5251 @@
+{
+  "ccRCC": {
+    "summary": {
+      "n_wsis": 125,
+      "n_annotated_wsis": 118,
+      "n_unannotated_wsis": 7,
+      "n_roi_files": 122,
+      "mean_rois_per_wsi": 0.98
+    },
+    "files": [
+      {
+        "filename": "HP19.754.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.754.A8.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A8.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A8.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.10064.A13.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.10064.A13.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.10064.A13.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4372.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4372.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4372.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.8394.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.8394.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.8394.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.5524.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.5524.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.5524.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7949.2A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7949.2A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7949.2A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.754.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.9347.2A.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.9347.2A.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.9347.2A.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.5524.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.5524.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.5524.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4075.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4075.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4075.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.754.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 2,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A1.ccRCC-1.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.3695.2A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.3695.2A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.3695.2A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.754.A9.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A9.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A9.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4372.A7.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4372.A7.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4372.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.9421.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.9421.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.9421.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A7.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 3,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A7.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A7.ccRCC-2.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A7.ccRCC-1.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.999.A.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.999.A.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.999.A.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.5524.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.5524.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.5524.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7715.2A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7715.2A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7715.2A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.10064.A14.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.10064.A14.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.10064.A14.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.2434.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.2434.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.2434.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A9.ccRCC-1.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP19.7421.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7421.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7421.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.10064.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.10064.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.10064.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.754.A7.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A7.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A7.ccRCC-2.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP19.4075.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4075.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4075.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.8394.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.8394.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.8394.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.2434.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.2434.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.2434.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4372.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4372.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4372.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A7.ccRCC-1.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP19.7840.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.754.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.10064.A7.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.10064.A7.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.10064.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.2434.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.2434.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.2434.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A9.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 2,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A9.ccRCC-1.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A9.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A9.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A9.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4075.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4075.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4075.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4075.A9.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4075.A9.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4075.A9.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.3695.2A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.3695.2A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.3695.2A1.ccRCC.scn"
+      },
+      {
+        "filename": "H19.754.IHC.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "H19.754.IHC.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "H19.754.IHC.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.754.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4372.A8.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4372.A8.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4372.A8.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A1.ccRCC-1.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP19.10064.A10.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.10064.A10.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.10064.A10.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.2434.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.2434.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.2434.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A12.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A12.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A12.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.10064.A1-1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP19.7949.2A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7949.2A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7949.2A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.10064.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.10064.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.10064.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.5254.A.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.5254.A.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.5254.A.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4372.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4372.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4372.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.10064.A16.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.10064.A16.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.10064.A16.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.2434.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.2434.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.2434.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7864.1A.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7864.1A.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7864.1A.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4075.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4075.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4075.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP15.12550.A7.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.12550.A7.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.12550.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.8355.A8.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.8355.A8.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.8355.A8.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.9282.A10.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.9282.A10.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.9282.A10.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.9282.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.9282.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.9282.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP10.2986.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP14.1749.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.1749.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.1749.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP13.7465.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP13.7465.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP13.7465.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.6691.T1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.6691.T1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.6691.T1.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.7813.A8.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.7813.A8.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.7813.A8.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.11034.A.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.11034.A.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.11034.A.ccRCC.scn"
+      },
+      {
+        "filename": "HP11.12318.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP11.12318.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP11.12318.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP10.2695.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP10.2695.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP10.2695.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.7225.A.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.7225.A.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.7225.A.ccRCC.scn"
+      },
+      {
+        "filename": "HP16.819.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP16.819.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP16.819.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.390.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.390.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.390.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP10.2986_A4_ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP10.2986_A4_ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP10.2986_A4_ccRCC.scn"
+      },
+      {
+        "filename": "HP15.12550.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.12550.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.12550.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP13.1799.B2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP13.1799.B2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP13.1799.B2.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.6073.A5-1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP15.12550.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.12550.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.12550.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP02.10180.1A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP02.10180.1A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP02.10180.1A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP15.11259.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.11259.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.11259.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.3187.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.3187.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.3187.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.9282.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.9282.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.9282.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.5347.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.5347.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.5347.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP15.2902.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.2902.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.2902.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP16.6209.2B4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP16.6209.2B4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP16.6209.2B4.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.1993.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.1993.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.1993.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.1749.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.1749.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.1749.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.6073.1A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.6073.1A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.6073.1A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.390.A10.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.390.A10.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.390.A10.ccRCC.scn"
+      },
+      {
+        "filename": "HP16.6209.2B1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP16.6209.2B1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP16.6209.2B1.ccRCC.scn"
+      },
+      {
+        "filename": "HP15.2902.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.2902.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.2902.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.4271.A8.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.4271.A8.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.4271.A8.ccRCC.scn"
+      },
+      {
+        "filename": "HP15.1480.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.1480.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.1480.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.9282.A7.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.9282.A7.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.9282.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.9097.2F.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.9097.2F.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.9097.2F.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.8793.B1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.8793.B1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.8793.B1.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.13358.1A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.13358.1A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.13358.1A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP10.5813.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP10.5813.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP10.5813.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP13.6992.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP13.6992.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP13.6992.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.13358.1A8.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.13358.1A8.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.13358.1A8.ccRCC.scn"
+      },
+      {
+        "filename": "HP11.12277.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP11.12277.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP11.12277.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.13358.1A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.13358.1A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.13358.1A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.13588.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.13588.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.13588.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP15.11259.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.11259.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.11259.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.9685.A7.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.9685.A7.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.9685.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.4271.A11.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.4271.A11.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.4271.A11.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.6073.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.6073.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.6073.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.1749.A8.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.1749.A8.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.1749.A8.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.69.2A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.69.2A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.69.2A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP16.6211.E.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP16.6211.E.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP16.6211.E.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.5998.B.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.5998.B.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.5998.B.ccRCC.scn"
+      },
+      {
+        "filename": "HP15.11259.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.11259.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.11259.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.13588.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.13588.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.13588.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.9282.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.9282.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.9282.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.13101.E.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.13101.E.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.13101.E.ccRCC.scn"
+      },
+      {
+        "filename": "HP16.6211.C.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP16.6211.C.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP16.6211.C.ccRCC.scn"
+      },
+      {
+        "filename": "HP16.819.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP16.819.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP16.819.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.6073_A5_ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.6073_A5_ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.6073_A5_ccRCC.scn"
+      },
+      {
+        "filename": "HP14.5590.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.5590.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.5590.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.5998.I.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.5998.I.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.5998.I.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.69.2A9.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.69.2A9.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.69.2A9.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.13101.C.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.13101.C.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.13101.C.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.13358.1A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.13358.1A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.13358.1A4.ccRCC.scn"
+      }
+    ]
+  },
+  "pRCC": {
+    "summary": {
+      "n_wsis": 48,
+      "n_annotated_wsis": 47,
+      "n_unannotated_wsis": 1,
+      "n_roi_files": 47,
+      "mean_rois_per_wsi": 0.98
+    },
+    "files": [
+      {
+        "filename": "HP17.11714.A6.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP17.11714.A6.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP17.11714.A6.pRCC.scn"
+      },
+      {
+        "filename": "HP18.5818.A5.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.5818.A5.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.5818.A5.pRCC.scn"
+      },
+      {
+        "filename": "HP19.1773.A10.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.1773.A10.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP19.1773.A10.pRCC.scn"
+      },
+      {
+        "filename": "HP17.7980.B2.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP17.7980.B2.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP17.7980.B2.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A5.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A5.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A5.pRCC.scn"
+      },
+      {
+        "filename": "HP19.1277.A4.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.1277.A4.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP19.1277.A4.pRCC.scn"
+      },
+      {
+        "filename": "HP18.5818.A3.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.5818.A3.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.5818.A3.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A9.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A9.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A9.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A8.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A8.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A8.pRCC.scn"
+      },
+      {
+        "filename": "HP18.13618.A1.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.13618.A1.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.13618.A1.pRCC.scn"
+      },
+      {
+        "filename": "HP17.7980.B.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP17.7980.B.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP17.7980.B.pRCC.scn"
+      },
+      {
+        "filename": "HP19.1277.A3.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.1277.A3.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP19.1277.A3.pRCC.scn"
+      },
+      {
+        "filename": "HP19.1277.A2.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.1277.A2.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP19.1277.A2.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A11.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A11.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A11.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A10.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A10.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A10.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A7.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A7.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A7.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A6.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A6.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A6.pRCC.scn"
+      },
+      {
+        "filename": "HP17.11714.A6-1.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP18.13618.A5.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.13618.A5.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.13618.A5.pRCC.scn"
+      },
+      {
+        "filename": "HP18.13618.A4.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.13618.A4.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.13618.A4.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A14.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A14.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A14.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A13.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A13.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A13.pRCC.scn"
+      },
+      {
+        "filename": "HP17.11714.A8.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP17.11714.A8.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP17.11714.A8.pRCC.scn"
+      },
+      {
+        "filename": "HP17.7980.A2.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP17.7980.A2.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP17.7980.A2.pRCC.scn"
+      },
+      {
+        "filename": "HP19.1277.A1.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.1277.A1.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP19.1277.A1.pRCC.scn"
+      },
+      {
+        "filename": "HP18.13618.A2.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.13618.A2.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.13618.A2.pRCC.scn"
+      },
+      {
+        "filename": "HP12.6710.A5.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.6710.A5.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP12.6710.A5.pRCC.scn"
+      },
+      {
+        "filename": "HP14.10122.B2.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.10122.B2.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP14.10122.B2.pRCC.scn"
+      },
+      {
+        "filename": "HP12.7726.A.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.7726.A.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP12.7726.A.pRCC.scn"
+      },
+      {
+        "filename": "HP14.5971.A5.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.5971.A5.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP14.5971.A5.pRCC.scn"
+      },
+      {
+        "filename": "HP10.9650.A7.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP10.9650.A7.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP10.9650.A7.pRCC.scn"
+      },
+      {
+        "filename": "HP14.2377.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.2377.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP14.2377.pRCC.scn"
+      },
+      {
+        "filename": "HP12.5904.A10.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.5904.A10.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP12.5904.A10.pRCC.scn"
+      },
+      {
+        "filename": "HP12.7601.A9.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.7601.A9.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP12.7601.A9.pRCC.scn"
+      },
+      {
+        "filename": "HP09.5392.A2.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP09.5392.A2.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP09.5392.A2.pRCC.scn"
+      },
+      {
+        "filename": "HP13.3201.A5.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP13.3201.A5.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP13.3201.A5.pRCC.scn"
+      },
+      {
+        "filename": "HP13.3201.D1.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP13.3201.D1.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP13.3201.D1.pRCC.scn"
+      },
+      {
+        "filename": "HP14.5971.A3.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.5971.A3.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP14.5971.A3.pRCC.scn"
+      },
+      {
+        "filename": "HP12.7726.F.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.7726.F.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP12.7726.F.pRCC.scn"
+      },
+      {
+        "filename": "HP13.3311.1B.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP13.3311.1B.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP13.3311.1B.pRCC.scn"
+      },
+      {
+        "filename": "HP14.8231.A6.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.8231.A6.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP14.8231.A6.pRCC.scn"
+      },
+      {
+        "filename": "HP11.6090.E.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP11.6090.E.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP11.6090.E.pRCC.scn"
+      },
+      {
+        "filename": "HP15.9102.H.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.9102.H.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP15.9102.H.pRCC.scn"
+      },
+      {
+        "filename": "HP12.7726.C.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.7726.C.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP12.7726.C.pRCC.scn"
+      },
+      {
+        "filename": "HP14.10122.B1.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.10122.B1.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP14.10122.B1.pRCC.scn"
+      },
+      {
+        "filename": "HP10.9650.A8.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP10.9650.A8.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP10.9650.A8.pRCC.scn"
+      },
+      {
+        "filename": "HP12.7726.E.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.7726.E.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP12.7726.E.pRCC.scn"
+      },
+      {
+        "filename": "HP14.4279.R1.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.4279.R1.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP14.4279.R1.pRCC.scn"
+      }
+    ]
+  },
+  "ONCO": {
+    "summary": {
+      "n_patients": 5,
+      "n_roi_files": 25,
+      "n_wsi_files": 13,
+      "mean_rois_per_patient": 5.0,
+      "mean_rois_per_wsi": 1.92
+    },
+    "files": [
+      {
+        "filename": "HP18005453-0-A3-HE_1970.svs",
+        "type": "wsi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP18005453-0-A1-HE_1968.svs",
+        "type": "wsi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP18005453-0-A2-HE_1969.svs",
+        "type": "wsi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "13.tif",
+        "type": "roi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "12.tif",
+        "type": "roi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "10.tif",
+        "type": "roi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "11.tif",
+        "type": "roi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "9.tif",
+        "type": "roi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "8.tif",
+        "type": "roi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20.5602_1351.svs",
+        "type": "wsi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20.5602_1355.svs",
+        "type": "wsi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20.5602_1349.svs",
+        "type": "wsi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "15.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "14.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "16.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "17.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "19.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "18.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "20.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "21.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20002450-0-B-HE3,4_2174.svs",
+        "type": "wsi",
+        "patient": "HP20002450",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20002450-0-D-3,4_2175.svs",
+        "type": "wsi",
+        "patient": "HP20002450",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "2.svs",
+        "type": "roi",
+        "patient": "HP20002450",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "3.svs",
+        "type": "roi",
+        "patient": "HP20002450",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "1.svs",
+        "type": "roi",
+        "patient": "HP20002450",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20001530-0-F-HE_2213.svs",
+        "type": "wsi",
+        "patient": "HP20001530",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20001530-0-A-HE_2211.svs",
+        "type": "wsi",
+        "patient": "HP20001530",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20001530-0-B-HE_2212.svs",
+        "type": "wsi",
+        "patient": "HP20001530",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "4.svs",
+        "type": "roi",
+        "patient": "HP20001530",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "5.svs",
+        "type": "roi",
+        "patient": "HP20001530",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "7.svs",
+        "type": "roi",
+        "patient": "HP20001530",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "6.svs",
+        "type": "roi",
+        "patient": "HP20001530",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP18009209-0-A3-HE_2176.svs",
+        "type": "wsi",
+        "patient": "HP18009209",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP18009209-0-A9-HE_2177.svs",
+        "type": "wsi",
+        "patient": "HP18009209",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "25.tif",
+        "type": "roi",
+        "patient": "HP18009209",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "24.tif",
+        "type": "roi",
+        "patient": "HP18009209",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "23.tif",
+        "type": "roi",
+        "patient": "HP18009209",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "22.tif",
+        "type": "roi",
+        "patient": "HP18009209",
+        "subtype": "ONCO"
+      }
+    ]
+  },
+  "CHROMO": {
+    "summary": {
+      "n_patients": 5,
+      "n_roi_files": 13,
+      "n_wsi_files": 11,
+      "mean_rois_per_patient": 2.6,
+      "mean_rois_per_wsi": 1.18
+    },
+    "files": [
+      {
+        "filename": "HP20.2506_1339.svs",
+        "type": "wsi",
+        "patient": "HP20.2506",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP20.2506_1338 .svs",
+        "type": "wsi",
+        "patient": "HP20.2506",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP20.2506_1342.svs",
+        "type": "wsi",
+        "patient": "HP20.2506",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "13.tif",
+        "type": "roi",
+        "patient": "HP20.2506",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "12.svs",
+        "type": "roi",
+        "patient": "HP20.2506",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP19012316-0-C-HE_2195.svs",
+        "type": "wsi",
+        "patient": "HP19012316",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "11.svs",
+        "type": "roi",
+        "patient": "HP19012316",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "10.svs",
+        "type": "roi",
+        "patient": "HP19012316",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "9.svs",
+        "type": "roi",
+        "patient": "HP19012316",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP18014084-0-A1-HE3,4_2198.svs",
+        "type": "wsi",
+        "patient": "HP18014084",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP18014084-0-A3-HE_2199.svs",
+        "type": "wsi",
+        "patient": "HP18014084",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "8.svs",
+        "type": "roi",
+        "patient": "HP18014084",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP17008718-0-C2-HE_2180.svs",
+        "type": "wsi",
+        "patient": "HP17008718",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP17008718-0-BM-HE_2181.svs",
+        "type": "wsi",
+        "patient": "HP17008718",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "2.svs",
+        "type": "roi",
+        "patient": "HP17008718",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "1.svs",
+        "type": "roi",
+        "patient": "HP17008718",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP20002300-0-A10-HE_2210.svs",
+        "type": "wsi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP20002300-0-A8-HE_2209.svs",
+        "type": "wsi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP20002300-0-A4-HE_2208.svs",
+        "type": "wsi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "3.svs",
+        "type": "roi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "4.svs",
+        "type": "roi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "5.svs",
+        "type": "roi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "7.svs",
+        "type": "roi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "6.svs",
+        "type": "roi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      }
+    ]
+  },
+  "ALL": {
+    "summary": {
+      "n_total_files": 404,
+      "n_wsis": 197,
+      "n_rois": 207,
+      "n_annotated_wsis": 165,
+      "n_unannotated_wsis": 8
+    },
+    "files": [
+      {
+        "filename": "HP19.754.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.754.A8.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A8.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A8.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.10064.A13.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.10064.A13.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.10064.A13.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4372.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4372.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4372.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.8394.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.8394.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.8394.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.5524.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.5524.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.5524.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7949.2A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7949.2A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7949.2A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.754.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.9347.2A.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.9347.2A.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.9347.2A.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.5524.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.5524.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.5524.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4075.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4075.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4075.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.754.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 2,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A1.ccRCC-1.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.3695.2A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.3695.2A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.3695.2A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.754.A9.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A9.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A9.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4372.A7.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4372.A7.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4372.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.9421.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.9421.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.9421.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A7.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 3,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A7.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A7.ccRCC-2.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A7.ccRCC-1.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.999.A.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.999.A.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.999.A.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.5524.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.5524.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.5524.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7715.2A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7715.2A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7715.2A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.10064.A14.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.10064.A14.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.10064.A14.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.2434.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.2434.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.2434.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A9.ccRCC-1.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP19.7421.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7421.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7421.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.10064.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.10064.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.10064.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.754.A7.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A7.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A7.ccRCC-2.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP19.4075.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4075.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4075.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.8394.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.8394.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.8394.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.2434.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.2434.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.2434.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4372.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4372.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4372.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A7.ccRCC-1.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP19.7840.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.754.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.10064.A7.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.10064.A7.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.10064.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.2434.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.2434.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.2434.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A9.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 2,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A9.ccRCC-1.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A9.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A9.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A9.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4075.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4075.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4075.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4075.A9.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4075.A9.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4075.A9.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.3695.2A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.3695.2A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.3695.2A1.ccRCC.scn"
+      },
+      {
+        "filename": "H19.754.IHC.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "H19.754.IHC.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "H19.754.IHC.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.754.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.754.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.754.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4372.A8.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4372.A8.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4372.A8.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A1.ccRCC-1.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP19.10064.A10.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.10064.A10.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.10064.A10.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.2434.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.2434.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.2434.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7840.A12.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7840.A12.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7840.A12.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.10064.A1-1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP19.7949.2A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7949.2A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7949.2A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.10064.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.10064.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.10064.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.5254.A.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.5254.A.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.5254.A.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4372.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4372.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4372.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.10064.A16.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.10064.A16.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.10064.A16.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.2434.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.2434.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.2434.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.7864.1A.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.7864.1A.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.7864.1A.ccRCC.scn"
+      },
+      {
+        "filename": "HP19.4075.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.4075.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP19.4075.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP15.12550.A7.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.12550.A7.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.12550.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.8355.A8.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.8355.A8.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.8355.A8.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.9282.A10.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.9282.A10.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.9282.A10.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.9282.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.9282.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.9282.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP10.2986.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP14.1749.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.1749.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.1749.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP13.7465.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP13.7465.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP13.7465.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.6691.T1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.6691.T1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.6691.T1.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.7813.A8.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.7813.A8.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.7813.A8.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.11034.A.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.11034.A.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.11034.A.ccRCC.scn"
+      },
+      {
+        "filename": "HP11.12318.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP11.12318.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP11.12318.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP10.2695.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP10.2695.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP10.2695.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.7225.A.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.7225.A.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.7225.A.ccRCC.scn"
+      },
+      {
+        "filename": "HP16.819.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP16.819.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP16.819.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.390.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.390.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.390.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP10.2986_A4_ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP10.2986_A4_ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP10.2986_A4_ccRCC.scn"
+      },
+      {
+        "filename": "HP15.12550.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.12550.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.12550.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP13.1799.B2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP13.1799.B2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP13.1799.B2.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.6073.A5-1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP15.12550.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.12550.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.12550.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP02.10180.1A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP02.10180.1A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP02.10180.1A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP15.11259.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.11259.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.11259.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.3187.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.3187.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.3187.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.9282.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.9282.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.9282.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.5347.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.5347.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.5347.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP15.2902.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.2902.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.2902.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP16.6209.2B4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP16.6209.2B4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP16.6209.2B4.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.1993.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.1993.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.1993.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.1749.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.1749.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.1749.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.6073.1A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.6073.1A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.6073.1A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.390.A10.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.390.A10.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.390.A10.ccRCC.scn"
+      },
+      {
+        "filename": "HP16.6209.2B1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP16.6209.2B1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP16.6209.2B1.ccRCC.scn"
+      },
+      {
+        "filename": "HP15.2902.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.2902.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.2902.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.4271.A8.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.4271.A8.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.4271.A8.ccRCC.scn"
+      },
+      {
+        "filename": "HP15.1480.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.1480.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.1480.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.9282.A7.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.9282.A7.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.9282.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.9097.2F.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.9097.2F.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.9097.2F.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.8793.B1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.8793.B1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.8793.B1.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.13358.1A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.13358.1A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.13358.1A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP10.5813.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP10.5813.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP10.5813.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP13.6992.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP13.6992.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP13.6992.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.13358.1A8.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.13358.1A8.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.13358.1A8.ccRCC.scn"
+      },
+      {
+        "filename": "HP11.12277.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP11.12277.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP11.12277.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.13358.1A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.13358.1A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.13358.1A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.13588.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.13588.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.13588.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP15.11259.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.11259.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.11259.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.9685.A7.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.9685.A7.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.9685.A7.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.4271.A11.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.4271.A11.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.4271.A11.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.6073.A5.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.6073.A5.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.6073.A5.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.1749.A8.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.1749.A8.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.1749.A8.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.69.2A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.69.2A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.69.2A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP16.6211.E.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP16.6211.E.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP16.6211.E.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.5998.B.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.5998.B.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.5998.B.ccRCC.scn"
+      },
+      {
+        "filename": "HP15.11259.A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.11259.A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP15.11259.A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.13588.A2.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.13588.A2.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.13588.A2.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.9282.A6.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.9282.A6.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.9282.A6.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.13101.E.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.13101.E.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.13101.E.ccRCC.scn"
+      },
+      {
+        "filename": "HP16.6211.C.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP16.6211.C.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP16.6211.C.ccRCC.scn"
+      },
+      {
+        "filename": "HP16.819.A1.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP16.819.A1.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP16.819.A1.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.6073_A5_ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.6073_A5_ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.6073_A5_ccRCC.scn"
+      },
+      {
+        "filename": "HP14.5590.A3.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.5590.A3.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.5590.A3.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.5998.I.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.5998.I.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.5998.I.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.69.2A9.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.69.2A9.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.69.2A9.ccRCC.scn"
+      },
+      {
+        "filename": "HP14.13101.C.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.13101.C.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP14.13101.C.ccRCC.scn"
+      },
+      {
+        "filename": "HP12.13358.1A4.ccRCC.scn",
+        "type": "wsi",
+        "subtype": "ccRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.13358.1A4.ccRCC.xml",
+        "type": "roi",
+        "subtype": "ccRCC",
+        "parent_wsi": "HP12.13358.1A4.ccRCC.scn"
+      },
+      {
+        "filename": "HP17.11714.A6.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP17.11714.A6.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP17.11714.A6.pRCC.scn"
+      },
+      {
+        "filename": "HP18.5818.A5.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.5818.A5.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.5818.A5.pRCC.scn"
+      },
+      {
+        "filename": "HP19.1773.A10.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.1773.A10.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP19.1773.A10.pRCC.scn"
+      },
+      {
+        "filename": "HP17.7980.B2.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP17.7980.B2.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP17.7980.B2.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A5.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A5.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A5.pRCC.scn"
+      },
+      {
+        "filename": "HP19.1277.A4.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.1277.A4.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP19.1277.A4.pRCC.scn"
+      },
+      {
+        "filename": "HP18.5818.A3.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.5818.A3.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.5818.A3.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A9.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A9.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A9.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A8.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A8.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A8.pRCC.scn"
+      },
+      {
+        "filename": "HP18.13618.A1.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.13618.A1.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.13618.A1.pRCC.scn"
+      },
+      {
+        "filename": "HP17.7980.B.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP17.7980.B.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP17.7980.B.pRCC.scn"
+      },
+      {
+        "filename": "HP19.1277.A3.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.1277.A3.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP19.1277.A3.pRCC.scn"
+      },
+      {
+        "filename": "HP19.1277.A2.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.1277.A2.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP19.1277.A2.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A11.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A11.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A11.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A10.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A10.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A10.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A7.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A7.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A7.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A6.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A6.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A6.pRCC.scn"
+      },
+      {
+        "filename": "HP17.11714.A6-1.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 0,
+        "annotated": false
+      },
+      {
+        "filename": "HP18.13618.A5.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.13618.A5.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.13618.A5.pRCC.scn"
+      },
+      {
+        "filename": "HP18.13618.A4.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.13618.A4.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.13618.A4.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A14.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A14.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A14.pRCC.scn"
+      },
+      {
+        "filename": "HP18.11474.A13.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.11474.A13.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.11474.A13.pRCC.scn"
+      },
+      {
+        "filename": "HP17.11714.A8.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP17.11714.A8.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP17.11714.A8.pRCC.scn"
+      },
+      {
+        "filename": "HP17.7980.A2.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP17.7980.A2.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP17.7980.A2.pRCC.scn"
+      },
+      {
+        "filename": "HP19.1277.A1.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP19.1277.A1.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP19.1277.A1.pRCC.scn"
+      },
+      {
+        "filename": "HP18.13618.A2.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP18.13618.A2.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP18.13618.A2.pRCC.scn"
+      },
+      {
+        "filename": "HP12.6710.A5.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.6710.A5.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP12.6710.A5.pRCC.scn"
+      },
+      {
+        "filename": "HP14.10122.B2.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.10122.B2.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP14.10122.B2.pRCC.scn"
+      },
+      {
+        "filename": "HP12.7726.A.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.7726.A.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP12.7726.A.pRCC.scn"
+      },
+      {
+        "filename": "HP14.5971.A5.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.5971.A5.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP14.5971.A5.pRCC.scn"
+      },
+      {
+        "filename": "HP10.9650.A7.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP10.9650.A7.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP10.9650.A7.pRCC.scn"
+      },
+      {
+        "filename": "HP14.2377.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.2377.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP14.2377.pRCC.scn"
+      },
+      {
+        "filename": "HP12.5904.A10.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.5904.A10.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP12.5904.A10.pRCC.scn"
+      },
+      {
+        "filename": "HP12.7601.A9.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.7601.A9.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP12.7601.A9.pRCC.scn"
+      },
+      {
+        "filename": "HP09.5392.A2.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP09.5392.A2.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP09.5392.A2.pRCC.scn"
+      },
+      {
+        "filename": "HP13.3201.A5.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP13.3201.A5.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP13.3201.A5.pRCC.scn"
+      },
+      {
+        "filename": "HP13.3201.D1.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP13.3201.D1.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP13.3201.D1.pRCC.scn"
+      },
+      {
+        "filename": "HP14.5971.A3.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.5971.A3.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP14.5971.A3.pRCC.scn"
+      },
+      {
+        "filename": "HP12.7726.F.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.7726.F.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP12.7726.F.pRCC.scn"
+      },
+      {
+        "filename": "HP13.3311.1B.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP13.3311.1B.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP13.3311.1B.pRCC.scn"
+      },
+      {
+        "filename": "HP14.8231.A6.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.8231.A6.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP14.8231.A6.pRCC.scn"
+      },
+      {
+        "filename": "HP11.6090.E.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP11.6090.E.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP11.6090.E.pRCC.scn"
+      },
+      {
+        "filename": "HP15.9102.H.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP15.9102.H.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP15.9102.H.pRCC.scn"
+      },
+      {
+        "filename": "HP12.7726.C.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.7726.C.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP12.7726.C.pRCC.scn"
+      },
+      {
+        "filename": "HP14.10122.B1.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.10122.B1.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP14.10122.B1.pRCC.scn"
+      },
+      {
+        "filename": "HP10.9650.A8.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP10.9650.A8.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP10.9650.A8.pRCC.scn"
+      },
+      {
+        "filename": "HP12.7726.E.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP12.7726.E.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP12.7726.E.pRCC.scn"
+      },
+      {
+        "filename": "HP14.4279.R1.pRCC.scn",
+        "type": "wsi",
+        "subtype": "pRCC",
+        "n_annotations": 1,
+        "annotated": true
+      },
+      {
+        "filename": "HP14.4279.R1.pRCC.xml",
+        "type": "roi",
+        "subtype": "pRCC",
+        "parent_wsi": "HP14.4279.R1.pRCC.scn"
+      },
+      {
+        "filename": "HP18005453-0-A3-HE_1970.svs",
+        "type": "wsi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP18005453-0-A1-HE_1968.svs",
+        "type": "wsi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP18005453-0-A2-HE_1969.svs",
+        "type": "wsi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "13.tif",
+        "type": "roi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "12.tif",
+        "type": "roi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "10.tif",
+        "type": "roi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "11.tif",
+        "type": "roi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "9.tif",
+        "type": "roi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "8.tif",
+        "type": "roi",
+        "patient": "HP18005453",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20.5602_1351.svs",
+        "type": "wsi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20.5602_1355.svs",
+        "type": "wsi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20.5602_1349.svs",
+        "type": "wsi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "15.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "14.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "16.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "17.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "19.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "18.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "20.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "21.tif",
+        "type": "roi",
+        "patient": "HP20.5602",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20002450-0-B-HE3,4_2174.svs",
+        "type": "wsi",
+        "patient": "HP20002450",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20002450-0-D-3,4_2175.svs",
+        "type": "wsi",
+        "patient": "HP20002450",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "2.svs",
+        "type": "roi",
+        "patient": "HP20002450",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "3.svs",
+        "type": "roi",
+        "patient": "HP20002450",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "1.svs",
+        "type": "roi",
+        "patient": "HP20002450",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20001530-0-F-HE_2213.svs",
+        "type": "wsi",
+        "patient": "HP20001530",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20001530-0-A-HE_2211.svs",
+        "type": "wsi",
+        "patient": "HP20001530",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20001530-0-B-HE_2212.svs",
+        "type": "wsi",
+        "patient": "HP20001530",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "4.svs",
+        "type": "roi",
+        "patient": "HP20001530",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "5.svs",
+        "type": "roi",
+        "patient": "HP20001530",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "7.svs",
+        "type": "roi",
+        "patient": "HP20001530",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "6.svs",
+        "type": "roi",
+        "patient": "HP20001530",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP18009209-0-A3-HE_2176.svs",
+        "type": "wsi",
+        "patient": "HP18009209",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP18009209-0-A9-HE_2177.svs",
+        "type": "wsi",
+        "patient": "HP18009209",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "25.tif",
+        "type": "roi",
+        "patient": "HP18009209",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "24.tif",
+        "type": "roi",
+        "patient": "HP18009209",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "23.tif",
+        "type": "roi",
+        "patient": "HP18009209",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "22.tif",
+        "type": "roi",
+        "patient": "HP18009209",
+        "subtype": "ONCO"
+      },
+      {
+        "filename": "HP20.2506_1339.svs",
+        "type": "wsi",
+        "patient": "HP20.2506",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP20.2506_1338 .svs",
+        "type": "wsi",
+        "patient": "HP20.2506",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP20.2506_1342.svs",
+        "type": "wsi",
+        "patient": "HP20.2506",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "13.tif",
+        "type": "roi",
+        "patient": "HP20.2506",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "12.svs",
+        "type": "roi",
+        "patient": "HP20.2506",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP19012316-0-C-HE_2195.svs",
+        "type": "wsi",
+        "patient": "HP19012316",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "11.svs",
+        "type": "roi",
+        "patient": "HP19012316",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "10.svs",
+        "type": "roi",
+        "patient": "HP19012316",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "9.svs",
+        "type": "roi",
+        "patient": "HP19012316",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP18014084-0-A1-HE3,4_2198.svs",
+        "type": "wsi",
+        "patient": "HP18014084",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP18014084-0-A3-HE_2199.svs",
+        "type": "wsi",
+        "patient": "HP18014084",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "8.svs",
+        "type": "roi",
+        "patient": "HP18014084",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP17008718-0-C2-HE_2180.svs",
+        "type": "wsi",
+        "patient": "HP17008718",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP17008718-0-BM-HE_2181.svs",
+        "type": "wsi",
+        "patient": "HP17008718",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "2.svs",
+        "type": "roi",
+        "patient": "HP17008718",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "1.svs",
+        "type": "roi",
+        "patient": "HP17008718",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP20002300-0-A10-HE_2210.svs",
+        "type": "wsi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP20002300-0-A8-HE_2209.svs",
+        "type": "wsi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "HP20002300-0-A4-HE_2208.svs",
+        "type": "wsi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "3.svs",
+        "type": "roi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "4.svs",
+        "type": "roi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "5.svs",
+        "type": "roi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "7.svs",
+        "type": "roi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      },
+      {
+        "filename": "6.svs",
+        "type": "roi",
+        "patient": "HP20002300",
+        "subtype": "CHROMO"
+      }
+    ]
+  }
+}
