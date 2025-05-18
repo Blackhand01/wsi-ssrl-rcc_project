@@ -15,6 +15,7 @@ import json
 import argparse
 from pathlib import Path
 from collections import defaultdict
+import subprocess
 
 import yaml
 import pandas as pd
@@ -39,6 +40,14 @@ def rel(path: Path, base: Path):
 
 def main(cfg_file, mapdir, out_csv):
     base_dir, paths = resolve_config(Path(cfg_file))
+
+    # Richiama build_mapping.py per aggiornare i mapping JSON e le statistiche
+    subprocess.run([
+        "python3",
+        "scripts/build_mapping.py",
+        "--cfg", str(cfg_file),
+        "--out", str(mapdir)
+    ], check=True)
 
     # load mappings and stats
     cc_map     = load_json(Path(mapdir)/"ccRCC_mapping.json")

@@ -62,3 +62,7 @@ conda activate wsi-ssrl
   conda env remove -n wsi-ssrl
   ```
 
+* Convert python to notebook Jupyter: 
+```bash
+jupytext /Users/stefanoroybisignano/Desktop/MLA/project/wsi-ssrl-rcc_project/notebooks/1_prepare_metadata.py --to notebook
+  ```
