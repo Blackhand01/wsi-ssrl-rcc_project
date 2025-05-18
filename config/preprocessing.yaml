@@ -1,0 +1,46 @@
+# =============================================================================
+# RCC_WSIs preprocessing configuration
+# =============================================================================
+
+# -----------------------------------------------------------------------------#
+# Raw data paths                                                               #
+# -----------------------------------------------------------------------------#
+# WARNING: include spaces in the path exactly as they appear on disk.
+# If using Linux you may need to replace "Il mio Drive" with "My Drive".
+# -----------------------------------------------------------------------------#
+base_dir: "~/Library/CloudStorage/GoogleDrive-stefano2001roy@gmail.com/Il mio Drive/Colab_Notebooks/RCC_WSIs"
+
+paths:
+  # ------------ ccRCC / pRCC (WSI .scn + annotations .xml) -------------------
+  ccrcc_wsi:       "${base_dir}/ccRCC"
+  ccrcc_xml:       "${base_dir}/ccRCC/ccRCC_xml"
+  prcc_wsi:        "${base_dir}/pRCC"
+  prcc_xml:        "${base_dir}/pRCC/pRCC_xml"
+  pre_ccrcc_wsi:   "${base_dir}/pre/ccRCC"
+  pre_ccrcc_xml:   "${base_dir}/pre/ccRCC/pre_ccRCC_xml"
+  pre_prcc_wsi:    "${base_dir}/pre/pRCC"
+  pre_prcc_xml:    "${base_dir}/pre/pRCC/pre_pRCC_xml"
+
+  # ------------ CHROMO / ONCO (WSI .svs + ROI .svs/.tif) ---------------------
+  chromo_wsi:      "${base_dir}/CHROMO"
+  onco_wsi:        "${base_dir}/ONCOCYTOMA"
+  chromo_ann:      "${base_dir}/Annotations_chromo"
+  onco_ann:        "${base_dir}/Annotations_onco"
+
+# -----------------------------------------------------------------------------#
+# General parameters                                                           #
+# -----------------------------------------------------------------------------#
+random_seed: 42
+tile_size: 512              # pixels
+overlap: 0.50               # 50% overlap between adjacent tiles
+magnifications: [20]        # zoom levels to extract
+background:
+  method: "otsu_rgb"        # white-background thresholding method
+  white_thr: 0.80           # >80% white → patch discarded
+
+# -----------------------------------------------------------------------------#
+# Quick reduction for debugging (true ⇒ 5 patients per class)                  #
+# -----------------------------------------------------------------------------#
+downsample_patients:
+  enabled: true 
+  per_class: 1

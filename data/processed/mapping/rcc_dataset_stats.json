@@ -1,0 +1,28 @@
+{
+  "ccRCC": {
+    "n_wsis": 125,
+    "n_xml_annotations": 124,
+    "n_patients": 10
+  },
+  "pRCC": {
+    "n_wsis": 48,
+    "n_xml_annotations": 48,
+    "n_patients": 10
+  },
+  "CHROMO": {
+    "n_patients": 5,
+    "n_wsis": 11,
+    "n_roi_files": 13
+  },
+  "ONCO": {
+    "n_patients": 5,
+    "n_wsis": 13,
+    "n_roi_files": 25
+  },
+  "ALL": {
+    "total_wsis": 197,
+    "total_xmls": 172,
+    "total_roi_files": 38,
+    "total_patients": 30
+  }
+}

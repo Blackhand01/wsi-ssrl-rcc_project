@@ -39,8 +39,7 @@
     "HP19.754.A4.ccRCC.xml"
   ],
   "HP19.7840.A1.ccRCC.scn": [
-    "HP19.7840.A1.ccRCC.xml",
-    "HP19.7840.A1.ccRCC-1.xml"
+    "HP19.7840.A1.ccRCC.xml"
   ],
   "HP19.3695.2A3.ccRCC.scn": [
     "HP19.3695.2A3.ccRCC.xml"
@@ -55,9 +54,7 @@
     "HP19.9421.A2.ccRCC.xml"
   ],
   "HP19.7840.A7.ccRCC.scn": [
-    "HP19.7840.A7.ccRCC.xml",
-    "HP19.7840.A7.ccRCC-2.xml",
-    "HP19.7840.A7.ccRCC-1.xml"
+    "HP19.7840.A7.ccRCC.xml"
   ],
   "HP19.999.A.ccRCC.scn": [
     "HP19.999.A.ccRCC.xml"
@@ -74,7 +71,9 @@
   "HP19.2434.A6.ccRCC.scn": [
     "HP19.2434.A6.ccRCC.xml"
   ],
-  "HP19.7840.A9.ccRCC-1.scn": [],
+  "HP19.7840.A9.ccRCC-1.scn": [
+    "HP19.7840.A9.ccRCC-1.xml"
+  ],
   "HP19.7421.A6.ccRCC.scn": [
     "HP19.7421.A6.ccRCC.xml"
   ],
@@ -87,7 +86,9 @@
   "HP19.7840.A2.ccRCC.scn": [
     "HP19.7840.A2.ccRCC.xml"
   ],
-  "HP19.7840.A7.ccRCC-2.scn": [],
+  "HP19.7840.A7.ccRCC-2.scn": [
+    "HP19.7840.A7.ccRCC-2.xml"
+  ],
   "HP19.4075.A5.ccRCC.scn": [
     "HP19.4075.A5.ccRCC.xml"
   ],
@@ -100,7 +101,9 @@
   "HP19.4372.A4.ccRCC.scn": [
     "HP19.4372.A4.ccRCC.xml"
   ],
-  "HP19.7840.A7.ccRCC-1.scn": [],
+  "HP19.7840.A7.ccRCC-1.scn": [
+    "HP19.7840.A7.ccRCC-1.xml"
+  ],
   "HP19.7840.A4.ccRCC.scn": [
     "HP19.7840.A4.ccRCC.xml"
   ],
@@ -114,7 +117,6 @@
     "HP19.2434.A5.ccRCC.xml"
   ],
   "HP19.7840.A9.ccRCC.scn": [
-    "HP19.7840.A9.ccRCC-1.xml",
     "HP19.7840.A9.ccRCC.xml"
   ],
   "HP19.4075.A3.ccRCC.scn": [
@@ -135,7 +137,9 @@
   "HP19.4372.A8.ccRCC.scn": [
     "HP19.4372.A8.ccRCC.xml"
   ],
-  "HP19.7840.A1.ccRCC-1.scn": [],
+  "HP19.7840.A1.ccRCC-1.scn": [
+    "HP19.7840.A1.ccRCC-1.xml"
+  ],
   "HP19.10064.A10.ccRCC.scn": [
     "HP19.10064.A10.ccRCC.xml"
   ],
@@ -148,7 +152,9 @@
   "HP19.7840.A12.ccRCC.scn": [
     "HP19.7840.A12.ccRCC.xml"
   ],
-  "HP19.10064.A1-1.ccRCC.scn": [],
+  "HP19.10064.A1-1.ccRCC.scn": [
+    "HP19.10064.A1-1.ccRCC.xml"
+  ],
   "HP19.7949.2A2.ccRCC.scn": [
     "HP19.7949.2A2.ccRCC.xml"
   ],
@@ -225,7 +231,9 @@
   "HP13.1799.B2.ccRCC.scn": [
     "HP13.1799.B2.ccRCC.xml"
   ],
-  "HP12.6073.A5-1.ccRCC.scn": [],
+  "HP12.6073.A5-1.ccRCC.scn": [
+    "HP12.6073.A5-1.ccRCC.xml"
+  ],
   "HP15.12550.A6.ccRCC.scn": [
     "HP15.12550.A6.ccRCC.xml"
   ],

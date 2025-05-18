@@ -175,3 +175,6 @@ cython_debug/
 
 data/raw/RCC_WSIs
 .env
+docs/.DS_Store
+.gitignore
+.DS_Store
