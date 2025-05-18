@@ -1,4 +1,4 @@
-subtype,patient,wsi_filename,annotation_xml,num_annotations,roi_files,num_rois,source_dir
+subtype,patient_id,wsi_filename,annotation_xml,num_annotations,roi_files,num_rois,source_dir
 ccRCC,HP19,HP19.754.A5.ccRCC.scn,HP19.754.A5.ccRCC.xml,1,,0,ccRCC
 ccRCC,HP19,HP19.754.A8.ccRCC.scn,HP19.754.A8.ccRCC.xml,1,,0,ccRCC
 ccRCC,HP19,HP19.10064.A13.ccRCC.scn,HP19.10064.A13.ccRCC.xml,1,,0,ccRCC
