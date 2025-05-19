@@ -8,8 +8,7 @@
 # WARNING: include spaces in the path exactly as they appear on disk.
 # If using Linux you may need to replace "Il mio Drive" with "My Drive".
 # -----------------------------------------------------------------------------#
-base_dir: "~/Library/CloudStorage/GoogleDrive-stefano2001roy@gmail.com/Il mio Drive/Colab_Notebooks/RCC_WSIs"
-
+base_dir: "~/Library/CloudStorage/GoogleDrive-stefano2001roy@gmail.com/Il mio Drive/Colab_Notebooks/wsi-ssrl-rcc_project/data/RCC_WSIs"
 paths:
   # ------------ ccRCC / pRCC (WSI .scn + annotations .xml) -------------------
   ccrcc_wsi:       "${base_dir}/ccRCC"
@@ -28,19 +27,19 @@ paths:
   onco_ann:        "${base_dir}/Annotations_onco"
 
 # -----------------------------------------------------------------------------#
-# General parameters                                                           #
+# Train/val/test splits by patient                                            #
 # -----------------------------------------------------------------------------#
-random_seed: 42
-tile_size: 512              # pixels
-overlap: 0.50               # 50% overlap between adjacent tiles
-magnifications: [20]        # zoom levels to extract
-background:
-  method: "otsu_rgb"        # white-background thresholding method
-  white_thr: 0.80           # >80% white → patch discarded
+split_json: "data/processed/splits_by_patient.json"
 
 # -----------------------------------------------------------------------------#
-# Quick reduction for debugging (true ⇒ 5 patients per class)                  #
+# Quick reduction for debugging (true ⇒ n patients per class)                  #
 # -----------------------------------------------------------------------------#
 downsample_patients:
-  enabled: true 
-  per_class: 1
+  enabled: true
+  per_class: 5
+
+# =============================================================================
+# Patching configuration
+# =============================================================================
+
+patching:
