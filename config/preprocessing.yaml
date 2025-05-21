@@ -3,14 +3,22 @@
 # =============================================================================
 
 # -----------------------------------------------------------------------------#
+# Environment detection                                                         
+# -----------------------------------------------------------------------------#
+env_paths:
+  colab: "/content/drive/MyDrive/ColabNotebooks/wsi-ssrl-rcc_project"
+  local: "/Users/stefanoroybisignano/Desktop/MLA/project/wsi-ssrl-rcc_project"
+
+# -----------------------------------------------------------------------------#
+# Base directories (non modificare)                                            
+# -----------------------------------------------------------------------------#
+base_dir: "${RESOLVED_BASE_DIR}/data/RCC_WSIs"
+project_root: "${RESOLVED_BASE_DIR}"
+
+# -----------------------------------------------------------------------------#
 # Raw data paths                                                               #
 # -----------------------------------------------------------------------------#
-# WARNING: include spaces in the path exactly as they appear on disk.
-# If using Linux you may need to replace "Il mio Drive" with "My Drive".
-# -----------------------------------------------------------------------------#
-base_dir: "~/Library/CloudStorage/GoogleDrive-stefano2001roy@gmail.com/Il mio Drive/Colab_Notebooks/wsi-ssrl-rcc_project/data/RCC_WSIs"
 paths:
-  # ------------ ccRCC / pRCC (WSI .scn + annotations .xml) -------------------
   ccrcc_wsi:       "${base_dir}/ccRCC"
   ccrcc_xml:       "${base_dir}/ccRCC/ccRCC_xml"
   prcc_wsi:        "${base_dir}/pRCC"
@@ -19,27 +27,46 @@ paths:
   pre_ccrcc_xml:   "${base_dir}/pre/ccRCC/pre_ccRCC_xml"
   pre_prcc_wsi:    "${base_dir}/pre/pRCC"
   pre_prcc_xml:    "${base_dir}/pre/pRCC/pre_pRCC_xml"
-
-  # ------------ CHROMO / ONCO (WSI .svs + ROI .svs/.tif) ---------------------
   chromo_wsi:      "${base_dir}/CHROMO"
   onco_wsi:        "${base_dir}/ONCOCYTOMA"
   chromo_ann:      "${base_dir}/Annotations_chromo"
   onco_ann:        "${base_dir}/Annotations_onco"
 
 # -----------------------------------------------------------------------------#
-# Train/val/test splits by patient                                            #
+# Train/val/test splits by patient                                            
 # -----------------------------------------------------------------------------#
-split_json: "data/processed/splits_by_patient.json"
+split_json: "${project_root}/data/processed/splits_by_patient.json"
 
 # -----------------------------------------------------------------------------#
-# Quick reduction for debugging (true ⇒ n patients per class)                  #
+# Stage-specific overrides                                                    
 # -----------------------------------------------------------------------------#
-downsample_patients:
-  enabled: true
-  per_class: 5
+stages:
+  debug:
+    downsample_patients:
+      enabled: false
+      per_class: 5
+    patching:
+      patch_size:               224
+      stride:                   112
+      patches_per_class:        3
+      random_seed:              42
 
-# =============================================================================
-# Patching configuration
-# =============================================================================
+  training:
+    downsample_patients:
+      enabled: true
+      per_class: 5
+    patching:
+      patch_size:               224
+      stride:                   112
+      patches_per_class:        500
+      random_seed:              123
 
-patching:
+# -----------------------------------------------------------------------------#
+# Dataset splitting (patient-level)                                            #
+# -----------------------------------------------------------------------------#
+split:
+  ratios:
+    train: 0.60      # 60% dei pazienti per train
+    val:   0.20      # 20% dei pazienti per validation
+    test:  0.20      # 20% dei pazienti per test
+  random_seed: 42   # seed per rendere riproducibile lo split
