@@ -14,7 +14,7 @@ from PIL import Image
 from tqdm import tqdm
 
 from launch_training import BaseTrainer, register_trainer  # noqa: E402
-
+#KMP_DUPLICATE_LIB_OK=TRUE python src/launch_training.py -c config/training.yaml -m simclr 
 LOGGER = logging.getLogger(__name__)
 
 def _default_transforms(patch_size: int) -> T.Compose:
