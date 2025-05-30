@@ -1,19 +1,7 @@
-'''  
-src/trainers/simclr.py
-------------------------
-SimCLR trainer for self-supervised contrastive learning on RCC patches.
-
-Implements the SimCLR training loop with NT-Xent loss, checkpointing, and logging,
-using shared utilities from training_utils.
-
-Author: Stefano Roy Bisignano – 2025-05
-'''
-
 from __future__ import annotations
-import logging
 import math
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
+from typing import Any, Dict, Tuple
 
 import torch
 import torch.nn as nn
@@ -22,7 +10,6 @@ import torch.optim as optim
 import torchvision.transforms as T
 import webdataset as wds
 from torch.utils.data import DataLoader
-from tqdm.auto import tqdm
 
 from utils.training_utils import (
     BaseTrainer,
@@ -33,43 +20,6 @@ from utils.training_utils import (
     create_backbone,
 )
 
-LOGGER = logging.getLogger(__name__)
-
-
-class SimCLRPreprocSample:
-    """
-    Callable to generate two augmented views for SimCLR from a WebDataset sample.
-    """
-    def __init__(self,
-                 patch_size: int,
-                 aug_cfg: Dict[str, Any]):
-        self.patch_size = patch_size
-        self.aug_cfg = aug_cfg
-        self.transform1 = self._build_transform()
-        self.transform2 = self._build_transform()
-
-    def _build_transform(self) -> T.Compose:
-        transforms: List[Any] = [
-            T.RandomResizedCrop(self.patch_size),
-            T.RandomHorizontalFlip(),
-        ]
-        cj = self.aug_cfg.get("color_jitter", {})
-        if cj:
-            transforms.append(T.ColorJitter(**cj))
-        if self.aug_cfg.get("gaussian_blur", False):
-            transforms.append(T.GaussianBlur(kernel_size=3))
-        if self.aug_cfg.get("grayscale", False):
-            transforms.append(T.RandomGrayscale(p=0.2))
-        transforms.append(T.ToTensor())
-        return T.Compose(transforms)
-
-    def __call__(self, sample: Dict[str, Any]) -> Tuple[torch.Tensor, torch.Tensor]:
-        img = sample.get("jpg") or next(
-            (v for v in sample.values() if hasattr(v, 'convert')), None)
-        if not hasattr(img, 'convert'):
-            raise RuntimeError("No image found in sample for SimCLR")
-        return self.transform1(img), self.transform2(img)
-
 
 def build_simclr_loader(
     shards_pattern: str,
@@ -78,6 +28,9 @@ def build_simclr_loader(
     device: torch.device,
     aug_cfg: Dict[str, Any],
 ) -> DataLoader:
+    """
+    WebDataset loader per SimCLR: decodifica PIL, due viste augmentate.
+    """
     ds = (
         wds.WebDataset(
             shards_pattern,
@@ -99,60 +52,91 @@ def build_simclr_loader(
     )
 
 
+class SimCLRPreprocSample:
+    """
+    Genera due viste augmentate per SimCLR.
+    """
+    def __init__(self, patch_size: int, aug_cfg: Dict[str, Any]) -> None:
+        self.patch_size = patch_size
+        self.aug_cfg = aug_cfg
+        self.transform = self._build_transform()
+
+    def _build_transform(self) -> T.Compose:
+        aug = [T.RandomResizedCrop(self.patch_size)]
+        if self.aug_cfg.get('horizontal_flip', False):
+            aug.append(T.RandomHorizontalFlip())
+        if self.aug_cfg.get('rotation'):
+            angles = self.aug_cfg['rotation']
+            aug.append(T.RandomChoice([T.RandomRotation((a, a)) for a in angles]))
+        if cj := self.aug_cfg.get('color_jitter', {}):
+            aug.append(T.ColorJitter(**cj))
+        if self.aug_cfg.get('grayscale', False):
+            aug.append(T.RandomGrayscale(p=0.2))
+        if self.aug_cfg.get('gaussian_blur', False):
+            aug.append(T.GaussianBlur(kernel_size=3))
+        aug.append(T.ToTensor())
+        return T.Compose(aug)
+
+    def __call__(self, sample: dict) -> Tuple[torch.Tensor, torch.Tensor]:
+        img = sample.get('jpg') or next((v for v in sample.values() if hasattr(v, 'convert')), None)
+        if not hasattr(img, 'convert'):
+            raise RuntimeError("No image found in SimCLR sample")
+        return self.transform(img), self.transform(img)
+
+
 class NTXentLoss(nn.Module):
     """
-    NT-Xent loss for contrastive self-supervised learning.
+    NT-Xent loss stabile, basata su log-sum-exp.
     """
-    def __init__(self, temperature: float = 0.5):
+    def __init__(self, temperature: float = 0.5) -> None:
         super().__init__()
         self.temperature = temperature
 
     def forward(self, z1: torch.Tensor, z2: torch.Tensor) -> torch.Tensor:
-        batch_size = z1.size(0)
-        z = torch.cat([z1, z2], dim=0)
+        N = z1.size(0)
+        z = torch.cat([z1, z2], dim=0)  # 2N x D
         z = F.normalize(z, dim=1)
-        sim = torch.matmul(z, z.T) / self.temperature
-        mask = (~torch.eye(2 * batch_size, device=z.device).bool()).float()
-        exp_sim = torch.exp(sim) * mask
-        pos = torch.exp((z1 * z2).sum(dim=1) / self.temperature)
-        pos = torch.cat([pos, pos], dim=0)
-        loss = -torch.log(pos / exp_sim.sum(dim=1)).mean()
+        sim = torch.matmul(z, z.T) / self.temperature  # 2N x 2N
+
+        # Positive similarities
+        pos = torch.cat([
+            torch.diag(sim, N),
+            torch.diag(sim, -N)
+        ], dim=0)  # 2N
+
+        # Mask out self
+        mask = ~torch.eye(2 * N, device=sim.device).bool()
+        neg = sim.masked_select(mask).view(2 * N, 2 * N - 1)
+
+        # log-sum-exp for denominator
+        neg_logsumexp = torch.logsumexp(neg, dim=1)
+
+        # Final loss
+        loss = -(pos - neg_logsumexp).mean()
         return loss
 
 
-@register_trainer("simclr")
+@register_trainer('simclr')
 class SimCLRTrainer(BaseTrainer):
     """
-    Trainer for SimCLR self-supervised learning on RCC patch dataset.
+    Trainer SimCLR con batch-wise training e NT-Xent loss stabile.
     """
-    def __init__(self,
-                 model_cfg: Dict[str, Any],
-                 data_cfg: Dict[str, Any]):
+    def __init__(self, model_cfg: Dict[str, Any], data_cfg: Dict[str, Any]) -> None:
         super().__init__(model_cfg, data_cfg)
-        tcfg = model_cfg["training"]
-        self.epochs = int(tcfg["epochs"])
-        self.batch_size = int(tcfg["batch_size"])
-        self.lr = float(tcfg["learning_rate"])
-        self.weight_decay = float(tcfg["weight_decay"])
-        self.optimizer_name = tcfg.get("optimizer", "adam").lower()
-        self.temperature = float(tcfg.get("temperature", 0.5))
-        self.patch_size = int(model_cfg.get("patch_size", 224))
-        self.aug_cfg = model_cfg.get("augmentation", {})
+        t = model_cfg['training']
+        self.epochs = int(t['epochs'])
+        self.batch_size = int(t['batch_size'])
+        self.lr = float(t['learning_rate'])
+        self.weight_decay = float(t['weight_decay'])
+        self.temperature = float(t.get('temperature', 0.5))
+        self.patch_size = int(model_cfg.get('patch_size', 224))
+        self.aug_cfg = model_cfg.get('augmentation', {})
 
-        # Device selection
         self.device = choose_device()
-        LOGGER.info("Selected device: %s", self.device)
-
-        # Dataset stats
-        self.train_pattern = str(Path(data_cfg["train"]))
+        self.train_pattern = str(Path(data_cfg['train']))
         self.num_train = count_samples(Path(self.train_pattern))
         self.batches_train = math.ceil(self.num_train / self.batch_size)
-        LOGGER.info(
-            "Dataset sizes → train: %d (%d batches)",
-            self.num_train, self.batches_train,
-        )
 
-        # DataLoader
         self.train_loader = build_simclr_loader(
             shards_pattern=self.train_pattern,
             patch_size=self.patch_size,
@@ -161,83 +145,50 @@ class SimCLRTrainer(BaseTrainer):
             aug_cfg=self.aug_cfg,
         )
 
-        # Model: encoder + projection head
-        backbone_name = model_cfg.get("backbone", "resnet18").lower()
+        backbone_name = model_cfg.get('backbone', 'resnet18').lower()
         base = create_backbone(backbone_name, num_classes=0, pretrained=False)
-        num_ftrs = base.fc.in_features
+        D = base.fc.in_features
         base.fc = nn.Identity()
         self.encoder = base.to(self.device)
-        self.projection_head = nn.Sequential(
-            nn.Linear(num_ftrs, model_cfg.get("proj_dim", 128)),
+        self.projector = nn.Sequential(
+            nn.Linear(D, model_cfg.get('proj_dim', 128)),
             nn.ReLU(),
-            nn.Linear(model_cfg.get("proj_dim", 128), model_cfg.get("proj_dim", 128)),
+            nn.Linear(model_cfg.get('proj_dim', 128), model_cfg.get('proj_dim', 128)),
         ).to(self.device)
 
-        # Optimizer & Loss
         self.optimizer = optim.Adam(
-            list(self.encoder.parameters()) + list(self.projection_head.parameters()),
-            lr=self.lr,
-            weight_decay=self.weight_decay,
+            list(self.encoder.parameters()) + list(self.projector.parameters()),
+            lr=self.lr, weight_decay=self.weight_decay
         )
         self.criterion = NTXentLoss(self.temperature)
+
         self.best_epoch = 0
+        self.best_loss = float('inf')
 
-    def train(self) -> None:
-        """
-        Runs SimCLR training loop with NT-Xent loss and checkpointing.
-        """
-        LOGGER.info(
-            "Starting training: epochs=%d | bs=%d | lr=%.2e | wd=%.2e | opt=%s",
-            self.epochs, self.batch_size, self.lr,
-            self.weight_decay, self.optimizer_name,
-        )
-        best_loss = float('inf')
+    def train_step(self, batch: Tuple[torch.Tensor, torch.Tensor]) -> Tuple[float, int]:
+        x1, x2 = batch
+        x1, x2 = x1.to(self.device), x2.to(self.device)
+        self.encoder.train()
+        self.projector.train()
+        self.optimizer.zero_grad()
+        h1, h2 = self.encoder(x1), self.encoder(x2)
+        z1, z2 = self.projector(h1), self.projector(h2)
+        loss = self.criterion(z1, z2)
+        loss.backward()
+        self.optimizer.step()
+        return float(loss.item()), x1.size(0)
 
-        for epoch in range(1, self.epochs + 1):
-            # Progress bar per epoch
-            bar = tqdm(
-                self.train_loader,
-                desc=f"Train E{epoch}",
-                total=self.batches_train,
-                unit="batch",
-                leave=True,
-                dynamic_ncols=True,
+    def post_epoch(self, epoch: int, epoch_loss: float) -> None:
+        if epoch_loss < self.best_loss:
+            self.best_loss = epoch_loss
+            self.best_epoch = epoch
+            save_checkpoint(
+                ckpt_dir=Path(self.train_pattern).parent / 'checkpoints',
+                prefix=self.__class__.__name__, epoch=epoch, best=True,
+                model=torch.nn.Sequential(self.encoder, self.projector),
+                optimizer=self.optimizer,
+                class_to_idx={}, model_cfg=self.model_cfg, data_cfg=self.data_cfg,
             )
-            running_loss = 0.0
-            processed = 0
-            for x1, x2 in bar:
-                x1, x2 = x1.to(self.device), x2.to(self.device)
-                self.optimizer.zero_grad()
-                h1, h2 = self.encoder(x1), self.encoder(x2)
-                z1, z2 = self.projection_head(h1), self.projection_head(h2)
-                loss = self.criterion(z1, z2)
-                loss.backward()
-                self.optimizer.step()
 
-                batch_size = x1.size(0)
-                running_loss += loss.item() * batch_size
-                processed += batch_size
-                bar.set_postfix(
-                    loss=f"{running_loss/processed:.4f}"
-                )
-
-            epoch_loss = running_loss / (self.batches_train * self.batch_size)
-            LOGGER.info("Epoch %d completed: loss=%.4f", epoch, epoch_loss)
-
-            if epoch_loss < best_loss:
-                best_loss = epoch_loss
-                self.best_epoch = epoch
-                save_checkpoint(
-                    ckpt_dir=Path(self.train_pattern).parent / "checkpoints",
-                    prefix=self.__class__.__name__,
-                    epoch=epoch,
-                    best=True,
-                    model=torch.nn.Sequential(self.encoder, self.projection_head),
-                    optimizer=self.optimizer,
-                    class_to_idx={}, model_cfg=self.model_cfg, data_cfg=self.data_cfg,
-                )
-
-        LOGGER.info(
-            "Training complete. Best loss=%.4f at epoch %d",
-            best_loss, self.best_epoch,
-        )
+    def summary(self) -> Tuple[int, float]:
+        return self.best_epoch, self.best_loss

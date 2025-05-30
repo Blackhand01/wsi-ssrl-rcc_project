@@ -1,121 +1,34 @@
 from __future__ import annotations
 import math
 from pathlib import Path
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, Tuple, List
 
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import torchvision.transforms as T
-import webdataset as wds
 from torch.utils.data import DataLoader
 
 from utils.training_utils import (
     BaseTrainer,
     choose_device,
+    discover_classes,
     count_samples,
+    build_loader,
     save_checkpoint,
     register_trainer,
-    create_backbone,
 )
 
-
-def build_simclr_loader(
-    shards_pattern: str,
-    patch_size: int,
-    batch_size: int,
-    device: torch.device,
-    aug_cfg: Dict[str, Any],
-) -> DataLoader:
+@register_trainer("supervised")
+class SupervisedTrainer(BaseTrainer):
     """
-    Crea un DataLoader per SimCLR
-    """
-    ds = (
-        wds.WebDataset(
-            shards_pattern,
-            handler=wds.warn_and_continue,
-            shardshuffle=1000,
-            empty_check=False,
-        )
-        .decode("pil")
-        .map(lambda sample: SimCLRPreprocSample(patch_size, aug_cfg)(sample))
-    )
-    use_cuda = (device.type == "cuda")
-    return DataLoader(
-        ds,
-        batch_size=batch_size,
-        shuffle=False,
-        num_workers=4 if use_cuda else 0,
-        pin_memory=use_cuda,
-        drop_last=True,
-    )
-
-
-class SimCLRPreprocSample:
-    """
-    Genera due viste augmentate per SimCLR
-    """
-    def __init__(self, patch_size: int, aug_cfg: Dict[str, Any]):
-        self.patch_size = patch_size
-        self.aug_cfg = aug_cfg
-        self.transform1 = self._build_transform()
-        self.transform2 = self._build_transform()
-
-    def _build_transform(self) -> T.Compose:
-        transforms: list[Any] = [
-            T.RandomResizedCrop(self.patch_size),
-            T.RandomHorizontalFlip(),
-        ]
-        cj = self.aug_cfg.get("color_jitter", {})
-        if cj:
-            transforms.append(T.ColorJitter(**cj))
-        if self.aug_cfg.get("gaussian_blur", False):
-            transforms.append(T.GaussianBlur(kernel_size=3))
-        if self.aug_cfg.get("grayscale", False):
-            transforms.append(T.RandomGrayscale(p=0.2))
-        transforms.append(T.ToTensor())
-        return T.Compose(transforms)
-
-    def __call__(self, sample: dict) -> Tuple[torch.Tensor, torch.Tensor]:
-        img = sample.get("jpg") or next(
-            (v for v in sample.values() if hasattr(v, 'convert')), None
-        )
-        if not hasattr(img, 'convert'):
-            raise RuntimeError("No image found in sample for SimCLR")
-        return self.transform1(img), self.transform2(img)
-
-
-class NTXentLoss(nn.Module):
-    """
-    NT-Xent loss
-    """
-    def __init__(self, temperature: float = 0.5):
-        super().__init__()
-        self.temperature = temperature
-
-    def forward(self, z1: torch.Tensor, z2: torch.Tensor) -> torch.Tensor:
-        batch_size = z1.size(0)
-        z = torch.cat([z1, z2], dim=0)
-        z = nn.functional.normalize(z, dim=1)
-        sim = torch.matmul(z, z.T) / self.temperature
-        mask = (~torch.eye(2 * batch_size, device=z.device).bool()).float()
-        exp_sim = torch.exp(sim) * mask
-        pos = torch.exp((z1 * z2).sum(dim=1) / self.temperature)
-        pos = torch.cat([pos, pos], dim=0)
-        loss = -torch.log(pos / exp_sim.sum(dim=1)).mean()
-        return loss
-
-
-@register_trainer("simclr")
-class SimCLRTrainer(BaseTrainer):
-    """
-    Trainer per SimCLR, senza stampe interne.
+    Trainer for supervised RCC subtype classification using WebDataset.
+    Provides batch-wise training, validation, and checkpointing.
     """
     def __init__(
         self,
         model_cfg: Dict[str, Any],
         data_cfg: Dict[str, Any]
-    ):
+    ) -> None:
         super().__init__(model_cfg, data_cfg)
         tcfg = model_cfg["training"]
         self.epochs = int(tcfg["epochs"])
@@ -123,84 +36,125 @@ class SimCLRTrainer(BaseTrainer):
         self.lr = float(tcfg["learning_rate"])
         self.weight_decay = float(tcfg["weight_decay"])
         self.optimizer_name = tcfg.get("optimizer", "adam").lower()
-        self.temperature = float(tcfg.get("temperature", 0.5))
         self.patch_size = int(model_cfg.get("patch_size", 224))
-        self.aug_cfg = model_cfg.get("augmentation", {})
 
         # Device
         self.device = choose_device()
 
-        # Dataset
-        self.train_pattern = str(Path(data_cfg["train"]))
-        self.num_train = count_samples(Path(self.train_pattern))
-        self.batches_train = math.ceil(self.num_train / self.batch_size)
+        # Paths
+        train_pattern = Path(data_cfg["train"])
+        val_pattern = Path(data_cfg["val"])
+        self.train_pattern = train_pattern
+        self.val_pattern = val_pattern
+        data_root = train_pattern.parent
+        self.output_root = data_root.parent
 
-        # DataLoader
-        self.train_loader = build_simclr_loader(
-            shards_pattern=self.train_pattern,
+        # Classes & DataLoader
+        self.class_to_idx = discover_classes(data_root)
+        self.num_train = count_samples(train_pattern)
+        self.num_val = count_samples(val_pattern)
+        self.batches_train = math.ceil(self.num_train / self.batch_size)
+        self.batches_val = math.ceil(self.num_val / self.batch_size)
+
+        self.train_loader = build_loader(
+            shards_pattern=str(train_pattern),
+            class_to_idx=self.class_to_idx,
             patch_size=self.patch_size,
             batch_size=self.batch_size,
             device=self.device,
-            aug_cfg=self.aug_cfg,
+            augment=True,
+        )
+        self.val_loader = build_loader(
+            shards_pattern=str(val_pattern),
+            class_to_idx=self.class_to_idx,
+            patch_size=self.patch_size,
+            batch_size=self.batch_size,
+            device=self.device,
+            augment=False,
         )
 
-        # Model e proiezione
-        backbone_name = model_cfg.get("backbone", "resnet18").lower()
-        base = create_backbone(backbone_name, num_classes=0, pretrained=False)
-        num_ftrs = base.fc.in_features
-        base.fc = nn.Identity()
-        self.encoder = base.to(self.device)
-        self.projection_head = nn.Sequential(
-            nn.Linear(num_ftrs, model_cfg.get("proj_dim", 128)),
-            nn.ReLU(),
-            nn.Linear(model_cfg.get("proj_dim", 128), model_cfg.get("proj_dim", 128)),
+        # Model & optimizer
+        self.model = create_backbone(
+            model_cfg["backbone"].lower(),
+            num_classes=len(self.class_to_idx),
+            pretrained=model_cfg.get("pretrained", False),
         ).to(self.device)
-
-        # Ottimizzatore e loss
-        self.optimizer = optim.Adam(
-            list(self.encoder.parameters()) + list(self.projection_head.parameters()),
-            lr=self.lr,
-            weight_decay=self.weight_decay,
-        )
-        self.criterion = NTXentLoss(self.temperature)
+        if self.optimizer_name == "adam":
+            self.optimizer = optim.Adam(
+                self.model.parameters(), lr=self.lr, weight_decay=self.weight_decay
+            )
+        else:
+            self.optimizer = optim.SGD(
+                self.model.parameters(), lr=self.lr,
+                momentum=0.9, weight_decay=self.weight_decay
+            )
+        self.criterion = nn.CrossEntropyLoss()
 
         # Tracking
+        self.history: List[Dict[str, float]] = []
         self.best_epoch = 0
+        self.best_val_acc = 0.0
 
-    def train_step(self, batch: Tuple[torch.Tensor, torch.Tensor]) -> Tuple[float, int]:
+    def train_step(
+        self,
+        imgs: torch.Tensor,
+        labels: torch.Tensor
+    ) -> Tuple[torch.Tensor, float, int, int]:
         """
-        Esegue un passo di training per un batch SimCLR.
-        Returns: (batch_loss, batch_size)
+        Single training step: forward, backward, update.
+        Returns: outputs, loss_value, correct_count, batch_size
         """
-        x1, x2 = batch
-        x1, x2 = x1.to(self.device), x2.to(self.device)
-        self.encoder.train()
-        self.projection_head.train()
+        imgs, labels = imgs.to(self.device), labels.to(self.device)
+        self.model.train()
         self.optimizer.zero_grad()
-        h1, h2 = self.encoder(x1), self.encoder(x2)
-        z1, z2 = self.projection_head(h1), self.projection_head(h2)
-        loss = self.criterion(z1, z2)
+        outputs = self.model(imgs)
+        loss = self.criterion(outputs, labels)
         loss.backward()
         self.optimizer.step()
-        return float(loss.item()), x1.size(0)
 
-    def post_epoch(self, epoch: int, epoch_loss: float) -> None:
+        preds = outputs.argmax(dim=1)
+        correct = int((preds == labels).sum().item())
+        bs = labels.size(0)
+        return outputs, float(loss.item()), correct, bs
+
+    def validate_epoch(self) -> Tuple[float, float]:
         """
-        Salva checkpoint se epoch_loss migliora.
+        Runs validation over entire val set.
+        Returns: avg_loss, avg_accuracy
         """
-        if epoch_loss < getattr(self, 'best_loss', float('inf')):
-            self.best_loss = epoch_loss
+        self.model.eval()
+        running_loss = 0.0
+        correct = 0
+        total = 0
+        with torch.no_grad():
+            for imgs, labels in self.val_loader:
+                imgs, labels = imgs.to(self.device), labels.to(self.device)
+                outputs = self.model(imgs)
+                loss = self.criterion(outputs, labels)
+                bs = labels.size(0)
+                running_loss += float(loss.item()) * bs
+                correct += int((outputs.argmax(1) == labels).sum().item())
+                total += bs
+        return running_loss / total, correct / total
+
+    def post_epoch(self, epoch: int, val_metric: float) -> None:
+        """
+        Post-epoch: save checkpoint if val accuracy improved, update history.
+        """
+        self.history.append({"epoch": epoch, "val_acc": val_metric})
+        if val_metric > self.best_val_acc:
+            self.best_val_acc = val_metric
             self.best_epoch = epoch
             save_checkpoint(
-                ckpt_dir=Path(self.train_pattern).parent / "checkpoints",
+                ckpt_dir=self.output_root / "checkpoints",
                 prefix=self.__class__.__name__, epoch=epoch, best=True,
-                model=torch.nn.Sequential(self.encoder, self.projection_head),
-                optimizer=self.optimizer,
-                class_to_idx={}, model_cfg=self.model_cfg, data_cfg=self.data_cfg,
+                model=self.model, optimizer=self.optimizer,
+                class_to_idx=self.class_to_idx,
+                model_cfg=self.model_cfg, data_cfg=self.data_cfg
             )
 
     def summary(self) -> Tuple[int, float]:
         """
-        Restituisce (best_epoch, best_loss).
+        Returns: best_epoch, best_val_acc
         """
-        return getattr(self, 'best_epoch', 0), getattr(self, 'best_loss', 0.0)
+        return self.best_epoch, self.best_val_acc
