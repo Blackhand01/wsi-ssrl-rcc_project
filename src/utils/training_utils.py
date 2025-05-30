@@ -1,57 +1,91 @@
-# src/utils/training_utils.py
-# -*- coding: utf-8 -*-
-"""
-training_utils
---------------
-Funzioni riutilizzabili per tutti i Trainer:
-- gestione device
-- trasformazioni e preprocessing
-- WebDataset loader
-- checkpointing e report markdown
-"""
-
 from __future__ import annotations
 import logging
-import tarfile
-import math
 from pathlib import Path
-from typing import Any, Dict, List, Tuple
 from datetime import datetime
-
+from typing import Any, Dict, List, Optional, Tuple
 import torch
+import torch.nn as nn
+import torch.optim as optim
 import torchvision.transforms as T
 import webdataset as wds
 from torch.utils.data import DataLoader
 from PIL import Image
-
 import torchvision.models as models
+import tarfile
+import math
 
 LOGGER = logging.getLogger(__name__)
 
-# ---------------------------------------------------------------------------
-# Costanti
-# ---------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Constants
+# -----------------------------------------------------------------------------
+# Set of all known class labels for the RCC dataset.
 KNOWN_LABELS = {"ccRCC", "pRCC", "CHROMO", "ONCO", "not_tumor"}
 
-# ---------------------------------------------------------------------------
-# Device selection
-# ---------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Trainer Registry System
+# -----------------------------------------------------------------------------
+"""
+trainer_registry
+----------------
+Implements a registry for trainer classes and a base trainer interface.
+"""
+
+import logging
+from typing import Any, Dict, Type
+
+TRAINER_REGISTRY: Dict[str, Type] = {}
+
+def register_trainer(name: str):
+    """
+    Decorator to register a trainer class under a given name.
+    """
+    def decorator(cls):
+        TRAINER_REGISTRY[name] = cls
+        return cls
+    return decorator
+
+class BaseTrainer:
+    """
+    Abstract base class for all trainers.
+    """
+    def __init__(self, model_cfg: Dict[str, Any], data_cfg: Dict[str, Any]):
+        self.model_cfg = model_cfg
+        self.data_cfg = data_cfg
+        self.logger = logging.getLogger(self.__class__.__name__)
+
+    def train(self):
+        raise NotImplementedError("Trainer must implement train()")
+
+
+# -----------------------------------------------------------------------------
+# Device Selection
+# -----------------------------------------------------------------------------
 def choose_device() -> torch.device:
-    """Sceglie tra CUDA, MPS (Apple) o CPU."""
+    """
+    Selects the best available device for training:
+    - CUDA if available
+    - Apple MPS if available
+    - Otherwise, CPU
+    """
     if torch.cuda.is_available():
         return torch.device("cuda")
     if torch.backends.mps.is_available():
         return torch.device("mps")
     return torch.device("cpu")
 
-# ---------------------------------------------------------------------------
-# Trasformazioni e parsing etichette
-# ---------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Data Transforms and Label Parsing
+# -----------------------------------------------------------------------------
 def default_transforms(patch_size: int, augment: bool) -> T.Compose:
-    """Costruisce la pipeline di trasformazioni: resize, crop, tensor, + augment."""
-    tfms: List[Any] = []
+    """
+    Builds a torchvision transformation pipeline for image preprocessing.
+    Includes resizing, cropping, tensor conversion, and optional augmentation.
+    """
+    transforms: List[Any] = []
     if augment:
-        tfms += [
+        transforms += [
             T.RandomHorizontalFlip(),
             T.RandomVerticalFlip(),
             T.RandomChoice([
@@ -61,15 +95,18 @@ def default_transforms(patch_size: int, augment: bool) -> T.Compose:
                 T.RandomRotation((270, 270)),
             ]),
         ]
-    tfms += [
+    transforms += [
         T.Resize(patch_size),
         T.CenterCrop(patch_size),
         T.ToTensor(),
     ]
-    return T.Compose(tfms)
+    return T.Compose(transforms)
 
 def parse_label_from_key(key: str) -> str:
-    """Estrae l’etichetta dal nome del file (__key__ di WebDataset)."""
+    """
+    Extracts the class label from a WebDataset sample key.
+    Handles the special case for 'not_tumor'.
+    """
     stem = Path(key).stem
     parts = stem.split("_")
     if parts[:2] == ["not", "tumor"]:
@@ -77,7 +114,10 @@ def parse_label_from_key(key: str) -> str:
     return parts[0]
 
 class PreprocSample:
-    """Transform callable per WebDataset.map: da sample dict a (tensor, label_idx)."""
+    """
+    Callable class to preprocess a WebDataset sample.
+    Converts an image to a tensor and maps its label to an integer index.
+    """
     def __init__(self,
                  class_to_idx: Dict[str,int],
                  patch_size: int,
@@ -87,7 +127,7 @@ class PreprocSample:
 
     def __call__(self, sample: Dict[str,Any]) -> Tuple[torch.Tensor,int]:
         key = sample.get("__key__", "<unknown>")
-        # cerco il campo 'jpg' oppure la prima PIL.Image
+        # Find PIL.Image in sample dict
         img = sample.get("jpg") or next(
             (v for v in sample.values() if isinstance(v, Image.Image)),
             None
@@ -95,19 +135,18 @@ class PreprocSample:
         if not isinstance(img, Image.Image):
             raise RuntimeError(f"No image found in sample '{key}'")
 
-        lbl_str = parse_label_from_key(key)
-        if lbl_str not in self.class_to_idx:
-            raise RuntimeError(f"Unknown label '{lbl_str}' in sample '{key}'")
+        label_str = parse_label_from_key(key)
+        if label_str not in self.class_to_idx:
+            raise RuntimeError(f"Unknown label '{label_str}' in sample '{key}'")
+        return self.tfms(img), self.class_to_idx[label_str]
 
-        return self.tfms(img), self.class_to_idx[lbl_str]
-
-# ---------------------------------------------------------------------------
-# Classes discovery & sample counting
-# ---------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Class Discovery & Sample Counting
+# -----------------------------------------------------------------------------
 def discover_classes(train_dir: Path) -> Dict[str,int]:
     """
-    Scansiona tutti i .tar in train_dir e raccoglie le etichette valide.
-    Ritorna dict label->indice.
+    Scans training .tar shards to find all known labels.
+    Returns a mapping from label string to integer index.
     """
     shards = list(train_dir.glob("*.tar"))
     if not shards:
@@ -115,9 +154,9 @@ def discover_classes(train_dir: Path) -> Dict[str,int]:
     found: set[str] = set()
     for tar in shards:
         with tarfile.open(tar) as tf:
-            for m in tf:
-                if m.isfile() and m.name.lower().endswith(".jpg"):
-                    lbl = parse_label_from_key(Path(m.name).stem)
+            for member in tf.getmembers():
+                if member.isfile() and member.name.lower().endswith(".jpg"):
+                    lbl = parse_label_from_key(Path(member.name).stem)
                     if lbl in KNOWN_LABELS:
                         found.add(lbl)
         if found == KNOWN_LABELS:
@@ -128,22 +167,18 @@ def discover_classes(train_dir: Path) -> Dict[str,int]:
 
 def count_samples(pattern: Path) -> int:
     """
-    Conta i file .jpg in tutti i tar dello stesso folder di 'pattern'.
+    Counts the total number of .jpg files across all .tar shards in the given folder.
     """
     folder = pattern.parent
     total = 0
     for tar in folder.glob("*.tar"):
         with tarfile.open(tar) as tf:
-            total += sum(
-                1
-                for m in tf.getmembers()
-                if m.isfile() and m.name.lower().endswith(".jpg")
-            )
+            total += sum(1 for m in tf.getmembers() if m.isfile() and m.name.lower().endswith(".jpg"))
     return total
 
-# ---------------------------------------------------------------------------
-# DataLoader factory
-# ---------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# DataLoader Factory
+# -----------------------------------------------------------------------------
 def build_loader(shards_pattern: str,
                  class_to_idx: Dict[str,int],
                  patch_size: int,
@@ -151,11 +186,8 @@ def build_loader(shards_pattern: str,
                  device: torch.device,
                  augment: bool) -> DataLoader:
     """
-    Crea un DataLoader su WebDataset:
-    - shards_pattern: es. "data/.../train/patches-*.tar"
-    - class_to_idx: mappa label->indice
-    - patch_size, batch_size, device
-    - augment: se True applica shuffle+augment
+    Creates a DataLoader for a WebDataset of image patches.
+    Applies preprocessing and optional augmentation.
     """
     ds = (
         wds.WebDataset(
@@ -169,7 +201,6 @@ def build_loader(shards_pattern: str,
     )
     if augment:
         ds = ds.shuffle(1000)
-
     use_cuda = (device.type == "cuda")
     return DataLoader(
         ds,
@@ -179,47 +210,47 @@ def build_loader(shards_pattern: str,
         pin_memory=use_cuda,
     )
 
-# ---------------------------------------------------------------------------
-# Backbone factory
-# ---------------------------------------------------------------------------
-def create_backbone(name: str, num_classes: int, pretrained: bool) -> torch.nn.Module:
+# -----------------------------------------------------------------------------
+# Backbone Factory
+# -----------------------------------------------------------------------------
+def create_backbone(name: str, num_classes: int, pretrained: bool) -> nn.Module:
     """
-    Istanzia un backbone ResNet e sostituisce l'ultimo FC con num_classes.
+    Instantiates a ResNet backbone (resnet18 or resnet50) and replaces its final FC layer.
     """
     if name == "resnet50":
-        m = models.resnet50(
+        model = models.resnet50(
             weights=models.ResNet50_Weights.IMAGENET1K_V2 if pretrained else None
         )
     elif name == "resnet18":
-        m = models.resnet18(
+        model = models.resnet18(
             weights=models.ResNet18_Weights.IMAGENET1K_V1 if pretrained else None
         )
     else:
         raise ValueError(f"Unsupported backbone '{name}'")
-    m.fc = torch.nn.Linear(m.fc.in_features, num_classes)
-    return m
+    model.fc = nn.Linear(model.fc.in_features, num_classes)
+    return model
 
-# ---------------------------------------------------------------------------
-# Checkpointing
-# ---------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Checkpointing Utilities
+# -----------------------------------------------------------------------------
 def save_checkpoint(ckpt_dir: Path,
                     prefix: str,
                     *,
                     epoch: int,
                     best: bool,
-                    model: torch.nn.Module,
-                    optimizer: torch.optim.Optimizer,
+                    model: nn.Module,
+                    optimizer: optim.Optimizer,
                     class_to_idx: Dict[str,int],
                     model_cfg: Dict[str,Any],
                     data_cfg: Dict[str,Any]) -> None:
     """
-    Salva i pesi e lo stato ottimizzatore in ckpt_dir con nome:
-    {prefix}_{best|epochXXX}.pt
+    Saves model and optimizer state to disk.
+    Uses a naming convention: <prefix>_best.pt or <prefix>_epochXXX.pt.
     """
     ckpt_dir.mkdir(parents=True, exist_ok=True)
     tag = "best" if best else f"epoch{epoch:03d}"
-    name = f"{prefix}_{tag}.pt"
-    path = ckpt_dir / name
+    filename = f"{prefix}_{tag}.pt"
+    path = ckpt_dir / filename
     torch.save({
         "epoch": epoch,
         "model_state_dict": model.state_dict(),
@@ -228,28 +259,59 @@ def save_checkpoint(ckpt_dir: Path,
         "model_cfg": model_cfg,
         "data_cfg": data_cfg,
     }, path)
-    LOGGER.info("💾 Checkpoint saved → %s", path)
+    LOGGER.info("Checkpoint saved → %s", path)
 
-# ---------------------------------------------------------------------------
-# Markdown report
-# ---------------------------------------------------------------------------
-def save_model_doc(history: List[Dict[str, float]],
+def load_checkpoint(ckpt_path: Path,
+                    model: nn.Module,
+                    optimizer: Optional[optim.Optimizer] = None) -> Dict[str, Any]:
+    """
+    Loads model (and optionally optimizer) state from a checkpoint file.
+    Returns the checkpoint dictionary.
+    """
+    if not ckpt_path.exists():
+        raise FileNotFoundError(f"Checkpoint not found: {ckpt_path}")
+    ckpt = torch.load(ckpt_path, map_location="cpu")
+    model.load_state_dict(ckpt["model_state_dict"])
+    if optimizer is not None and "optim_state_dict" in ckpt:
+        optimizer.load_state_dict(ckpt["optim_state_dict"])
+    LOGGER.info("Loaded checkpoint '%s' (epoch %d)", ckpt_path, ckpt.get("epoch", -1))
+    return ckpt
+
+def get_latest_checkpoint(ckpt_dir: Path, prefix: str) -> Path:
+    """
+    Returns the path of the most recent checkpoint file matching the given prefix.
+    """
+    files = list(ckpt_dir.glob(f"{prefix}_*.pt"))
+    if not files:
+        raise FileNotFoundError(f"No checkpoints found in {ckpt_dir}")
+    # Sort by modification time (most recent last)
+    latest = max(files, key=lambda p: p.stat().st_mtime)
+    return latest
+
+# -----------------------------------------------------------------------------
+# Training Report Generation
+# -----------------------------------------------------------------------------
+def save_report_md(history: List[Dict[str, float]],
                    best_epoch: int,
                    best_acc: float,
-                   model_cfg: Dict[str,Any],
-                   class_to_idx: Dict[str,int],
+                   model_cfg: Dict[str, Any],
+                   class_to_idx: Dict[str, int],
                    num_train: int,
                    num_val: int,
-                   out_dir: Path) -> None:
+                   out_root: Path) -> None:
     """
-    Scrive un report markdown completo in out_dir/model_report.md
-    con configurazione, cronologia e miglior epoca.
-    """
-    out_dir.mkdir(parents=True, exist_ok=True)
-    report_path = out_dir / "model_report.md"
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    Writes a detailed Markdown training report to:
+    report/training/YYYY-MM-DD_HHMMSS_<model_name>.md
 
-    # estraggo da model_cfg
+    Includes configuration, class mapping, dataset sizes, training history, and best model info.
+    """
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H%M%S")
+    model_name = model_cfg.get("name", "model")
+    out_dir = out_root / "report" / "training"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    report_path = out_dir / f"{timestamp}_{model_name}.md"
+
+    # Extract configuration details
     backbone  = model_cfg["backbone"]
     pretrained= model_cfg.get("pretrained", False)
     patch     = model_cfg.get("patch_size", model_cfg["training"]["batch_size"])
@@ -262,7 +324,7 @@ def save_model_doc(history: List[Dict[str, float]],
 
     lines: List[str] = [
         f"# Training Report",
-        f"- Date: {now}",
+        f"- Date: {timestamp}",
         "",
         "## Configuration",
         f"- Backbone: **{backbone}**  (pretrained={pretrained})",
@@ -300,4 +362,4 @@ def save_model_doc(history: List[Dict[str, float]],
     ]
 
     report_path.write_text("\n".join(lines))
-    LOGGER.info("📄 Report written → %s", report_path)
+    LOGGER.info("📄 Training report saved → %s", report_path)
