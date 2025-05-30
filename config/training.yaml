@@ -1,11 +1,16 @@
-
 # =============================================================================
 # Modelli: configurazioni specifiche per SSL e CNN                             
 # =============================================================================
-models:
+data:
+  train: "data/processed/webdataset_2500/train/patches-0000.tar"
+  val:   "data/processed/webdataset_2500/val/patches-0000.tar"
+  test:  "data/processed/webdataset_2500/test/patches-0000.tar"
 
+
+
+models:
   simclr:
-    backbone: "resnet50"
+    backbone: "resnet18"
     proj_dim: 128
     augmentation:
       enabled: true
@@ -18,7 +23,7 @@ models:
         hue:        0.2
     training:
       epochs:          100
-      batch_size:      256
+      batch_size:      16
       optimizer:       "adam"
       learning_rate:   1e-3
       weight_decay:    1e-6
@@ -70,7 +75,7 @@ models:
     backbone:   "resnet50"
     pretrained: false
     training:
-      epochs:        50
+      epochs:        1
       batch_size:    32
       optimizer:     "adam"
       learning_rate: 1e-4
