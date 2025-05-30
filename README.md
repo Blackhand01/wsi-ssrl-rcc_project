@@ -70,6 +70,6 @@ conda activate wsi-ssrl
 
 * Convert python to notebook Jupyter: 
 ```bash
-jupytext lab10_AM4_Stefano_Roy_Bisignano.py --to notebook
+jupytext file.py --to notebook
   ```
 
