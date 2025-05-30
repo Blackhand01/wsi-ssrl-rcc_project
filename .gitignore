@@ -178,3 +178,4 @@ data/raw/RCC_WSIs
 docs/.DS_Store
 .gitignore
 .DS_Store
+*.pt

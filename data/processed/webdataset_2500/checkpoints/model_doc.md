@@ -1,0 +1,12 @@
+# Model Documentation
+- Date: 2025-05-26 00:22:25
+- Backbone: resnet50
+- Pretrained: False
+- Patch size: 224
+- Epochs: 1
+- Batch size: 32
+- Learning rate: 0.0001
+- Weight decay: 1e-05
+- Optimizer: adam
+- Classes: {'CHROMO': 0, 'ONCO': 1, 'ccRCC': 2, 'not_tumor': 3, 'pRCC': 4}
+- Best validation accuracy: 0.240
