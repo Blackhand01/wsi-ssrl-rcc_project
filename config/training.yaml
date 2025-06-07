@@ -10,15 +10,17 @@ env_paths:
 # -----------------------------------------------------------------------------#
 # Quale modello lanciare                                                        
 # -----------------------------------------------------------------------------#
-run_model: simclr  # es. simclr, supervised o all
+run_model: supervised  # es. simclr, supervised o all
 
 # -----------------------------------------------------------------------------#
 # Percorsi relativi ai WebDataset                                              
 # -----------------------------------------------------------------------------#
 data:
-  train: "data/processed/webdataset_2500/train/patches-0000.tar"
-  val:   "data/processed/webdataset_2500/val/patches-0000.tar"
-  test:  "data/processed/webdataset_2500/test/patches-0000.tar"
+
+  train: "data/processed/webdataset_5000/train/patches-0000.tar"
+  val:   "data/processed/webdataset_5000/val/patches-0000.tar"
+  test:  "data/processed/webdataset_5000/test/patches-0000.tar"
+
 
 # -----------------------------------------------------------------------------#
 # Parametri di tutti i modelli                                                 

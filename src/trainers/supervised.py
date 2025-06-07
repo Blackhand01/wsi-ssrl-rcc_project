@@ -23,14 +23,35 @@ from utils.training_utils import (
 class SupervisedTrainer(BaseTrainer):
     """
     Trainer for supervised RCC subtype classification using WebDataset.
-    Provides batch-wise training, validation, and checkpointing.
+
+    Methods
+    -------
+    __init__(model_cfg, data_cfg)
+        Initializes the trainer, model, optimizer, dataloaders, etc.
+    train_step(imgs, labels)
+        Performs a single training step (forward, backward, optimizer step).
+    validate_epoch()
+        Runs validation over the entire validation set and returns loss and accuracy.
+    post_epoch(epoch, val_metric)
+        Handles post-epoch logic: checkpointing and history update.
+    summary()
+        Returns the best epoch and best validation accuracy.
     """
+
     def __init__(
         self,
         model_cfg: Dict[str, Any],
         data_cfg: Dict[str, Any]
     ) -> None:
         super().__init__(model_cfg, data_cfg)
+        self._init_training_params(model_cfg)
+        self.device = self._init_device()
+        self._init_paths(data_cfg)
+        self._init_dataloaders()
+        self._init_model_and_optimizer(model_cfg)
+        self._init_tracking()
+
+    def _init_training_params(self, model_cfg: Dict[str, Any]) -> None:
         tcfg = model_cfg["training"]
         self.epochs = int(tcfg["epochs"])
         self.batch_size = int(tcfg["batch_size"])
@@ -39,26 +60,25 @@ class SupervisedTrainer(BaseTrainer):
         self.optimizer_name = tcfg.get("optimizer", "adam").lower()
         self.patch_size = int(model_cfg.get("patch_size", 224))
 
-        # Device
-        self.device = choose_device()
+    def _init_device(self) -> torch.device:
+        return choose_device()
 
-        # Paths
+    def _init_paths(self, data_cfg: Dict[str, Any]) -> None:
         train_pattern = Path(data_cfg["train"])
         val_pattern = Path(data_cfg["val"])
         self.train_pattern = train_pattern
         self.val_pattern = val_pattern
         data_root = train_pattern.parent
         self.output_root = data_root.parent
-
-        # Classes & DataLoader
         self.class_to_idx = discover_classes(data_root)
         self.num_train = count_samples(train_pattern)
         self.num_val = count_samples(val_pattern)
         self.batches_train = math.ceil(self.num_train / self.batch_size)
         self.batches_val = math.ceil(self.num_val / self.batch_size)
 
+    def _init_dataloaders(self) -> None:
         self.train_loader = build_loader(
-            shards_pattern=str(train_pattern),
+            shards_pattern=str(self.train_pattern),
             class_to_idx=self.class_to_idx,
             patch_size=self.patch_size,
             batch_size=self.batch_size,
@@ -66,7 +86,7 @@ class SupervisedTrainer(BaseTrainer):
             augment=True,
         )
         self.val_loader = build_loader(
-            shards_pattern=str(val_pattern),
+            shards_pattern=str(self.val_pattern),
             class_to_idx=self.class_to_idx,
             patch_size=self.patch_size,
             batch_size=self.batch_size,
@@ -74,7 +94,7 @@ class SupervisedTrainer(BaseTrainer):
             augment=False,
         )
 
-        # Model & optimizer
+    def _init_model_and_optimizer(self, model_cfg: Dict[str, Any]) -> None:
         self.model = create_backbone(
             model_cfg["backbone"].lower(),
             num_classes=len(self.class_to_idx),
@@ -91,7 +111,7 @@ class SupervisedTrainer(BaseTrainer):
             )
         self.criterion = nn.CrossEntropyLoss()
 
-        # Tracking
+    def _init_tracking(self) -> None:
         self.history: List[Dict[str, float]] = []
         self.best_epoch = 0
         self.best_val_acc = 0.0
@@ -147,7 +167,7 @@ class SupervisedTrainer(BaseTrainer):
             self.best_val_acc = val_metric
             self.best_epoch = epoch
             save_checkpoint(
-                ckpt_dir=self.output_root / "checkpoints",
+                ckpt_dir=self.output_root / "supervised" / "checkpoints",
                 prefix=self.__class__.__name__, epoch=epoch, best=True,
                 model=self.model, optimizer=self.optimizer,
                 class_to_idx=self.class_to_idx,

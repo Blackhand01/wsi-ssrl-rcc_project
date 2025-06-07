@@ -1,8 +1,10 @@
 from __future__ import annotations
-import logging
+import sys
+import time
 from pathlib import Path
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -13,8 +15,6 @@ from PIL import Image
 import torchvision.models as models
 import tarfile
 import math
-
-LOGGER = logging.getLogger(__name__)
 
 # -----------------------------------------------------------------------------
 # Constants
@@ -32,8 +32,7 @@ trainer_registry
 Implements a registry for trainer classes and a base trainer interface.
 """
 
-import logging
-from typing import Any, Dict, Type
+from typing import Type
 
 TRAINER_REGISTRY: Dict[str, Type] = {}
 
@@ -53,7 +52,6 @@ class BaseTrainer:
     def __init__(self, model_cfg: Dict[str, Any], data_cfg: Dict[str, Any]):
         self.model_cfg = model_cfg
         self.data_cfg = data_cfg
-        self.logger = logging.getLogger(self.__class__.__name__)
 
     def train(self):
         raise NotImplementedError("Trainer must implement train()")
@@ -74,6 +72,7 @@ def choose_device() -> torch.device:
     if torch.backends.mps.is_available():
         return torch.device("mps")
     return torch.device("cpu")
+
 
 # -----------------------------------------------------------------------------
 # Data Transforms and Label Parsing
@@ -127,7 +126,6 @@ class PreprocSample:
 
     def __call__(self, sample: Dict[str,Any]) -> Tuple[torch.Tensor,int]:
         key = sample.get("__key__", "<unknown>")
-        # Find PIL.Image in sample dict
         img = sample.get("jpg") or next(
             (v for v in sample.values() if isinstance(v, Image.Image)),
             None
@@ -139,6 +137,7 @@ class PreprocSample:
         if label_str not in self.class_to_idx:
             raise RuntimeError(f"Unknown label '{label_str}' in sample '{key}'")
         return self.tfms(img), self.class_to_idx[label_str]
+
 
 # -----------------------------------------------------------------------------
 # Class Discovery & Sample Counting
@@ -176,6 +175,7 @@ def count_samples(pattern: Path) -> int:
             total += sum(1 for m in tf.getmembers() if m.isfile() and m.name.lower().endswith(".jpg"))
     return total
 
+
 # -----------------------------------------------------------------------------
 # DataLoader Factory
 # -----------------------------------------------------------------------------
@@ -210,6 +210,7 @@ def build_loader(shards_pattern: str,
         pin_memory=use_cuda,
     )
 
+
 # -----------------------------------------------------------------------------
 # Backbone Factory
 # -----------------------------------------------------------------------------
@@ -230,6 +231,7 @@ def create_backbone(name: str, num_classes: int, pretrained: bool) -> nn.Module:
     model.fc = nn.Linear(model.fc.in_features, num_classes)
     return model
 
+
 # -----------------------------------------------------------------------------
 # Checkpointing Utilities
 # -----------------------------------------------------------------------------
@@ -245,11 +247,12 @@ def save_checkpoint(ckpt_dir: Path,
                     data_cfg: Dict[str,Any]) -> None:
     """
     Saves model and optimizer state to disk.
-    Uses a naming convention: <prefix>_best.pt or <prefix>_epochXXX.pt.
+    Uses a naming convention: <timestamp>_<prefix>_best.pt or <timestamp>_<prefix>_epochXXX.pt.
     """
     ckpt_dir.mkdir(parents=True, exist_ok=True)
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
     tag = "best" if best else f"epoch{epoch:03d}"
-    filename = f"{prefix}_{tag}.pt"
+    filename = f"{timestamp}_{prefix}_{tag}.pt"
     path = ckpt_dir / filename
     torch.save({
         "epoch": epoch,
@@ -259,7 +262,7 @@ def save_checkpoint(ckpt_dir: Path,
         "model_cfg": model_cfg,
         "data_cfg": data_cfg,
     }, path)
-    LOGGER.info("Checkpoint saved → %s", path)
+    print(f"Checkpoint saved → {path}")
 
 def load_checkpoint(ckpt_path: Path,
                     model: nn.Module,
@@ -274,7 +277,7 @@ def load_checkpoint(ckpt_path: Path,
     model.load_state_dict(ckpt["model_state_dict"])
     if optimizer is not None and "optim_state_dict" in ckpt:
         optimizer.load_state_dict(ckpt["optim_state_dict"])
-    LOGGER.info("Loaded checkpoint '%s' (epoch %d)", ckpt_path, ckpt.get("epoch", -1))
+    print(f"Loaded checkpoint '{ckpt_path}' (epoch {ckpt.get('epoch', -1)})")
     return ckpt
 
 def get_latest_checkpoint(ckpt_dir: Path, prefix: str) -> Path:
@@ -284,9 +287,9 @@ def get_latest_checkpoint(ckpt_dir: Path, prefix: str) -> Path:
     files = list(ckpt_dir.glob(f"{prefix}_*.pt"))
     if not files:
         raise FileNotFoundError(f"No checkpoints found in {ckpt_dir}")
-    # Sort by modification time (most recent last)
     latest = max(files, key=lambda p: p.stat().st_mtime)
     return latest
+
 
 # -----------------------------------------------------------------------------
 # Training Report Generation
@@ -311,7 +314,6 @@ def save_report_md(history: List[Dict[str, float]],
     out_dir.mkdir(parents=True, exist_ok=True)
     report_path = out_dir / f"{timestamp}_{model_name}.md"
 
-    # Extract configuration details
     backbone  = model_cfg["backbone"]
     pretrained= model_cfg.get("pretrained", False)
     patch     = model_cfg.get("patch_size", model_cfg["training"]["batch_size"])
@@ -362,4 +364,4 @@ def save_report_md(history: List[Dict[str, float]],
     ]
 
     report_path.write_text("\n".join(lines))
-    LOGGER.info("📄 Training report saved → %s", report_path)
+    print(f"Training report saved → {report_path}")
