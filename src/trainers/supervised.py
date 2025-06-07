@@ -9,6 +9,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 
 from utils.training_utils import (
+    create_backbone,
     BaseTrainer,
     choose_device,
     discover_classes,
