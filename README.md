@@ -1,6 +1,12 @@
 # wsi-ssrl-rcc_project
 
-This repository contains the code and experiments for classifying Renal Cell Carcinoma subtypes using self-supervised learning techniques on Whole Slide Images (WSIs). Project for MLA Course.
+This repository contains the code and experiments for classifying Renal Cell Carcinoma subtypes using self-supervised learning techniques on Whole Slide Images (WSIs).
+
+The dataset  contains Whole Slide Images (WSIs) of Renal Cell Carcinoma. The dataset is divided into different classes based on the subtype of RCC. 
+
+Some crops of the Regions of Interest (ROIs) divided in different classes are shown below:
+
+![alt text](/docs/img/roi.png)
 
 ## Team Members
 
@@ -64,5 +70,6 @@ conda activate wsi-ssrl
 
 * Convert python to notebook Jupyter: 
 ```bash
-jupytext /Users/stefanoroybisignano/Desktop/MLA/project/wsi-ssrl-rcc_project/notebooks/1_prepare_metadata.py --to notebook
+jupytext file.py --to notebook
   ```
+
