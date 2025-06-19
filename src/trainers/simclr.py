@@ -122,6 +122,14 @@ class SimCLRTrainer(BaseTrainer):
     """
     def __init__(self, model_cfg: Dict[str, Any], data_cfg: Dict[str, Any]) -> None:
         super().__init__(model_cfg, data_cfg)
+        self._init_training_params(model_cfg)
+        self.device = self._init_device()
+        self._init_paths(data_cfg)
+        self._init_dataloader()
+        self._init_model_and_optimizer(model_cfg)
+        self._init_tracking()
+
+    def _init_training_params(self, model_cfg: Dict[str, Any]) -> None:
         t = model_cfg["training"]
         self.epochs = int(t["epochs"])
         self.batch_size = int(t["batch_size"])
@@ -131,11 +139,15 @@ class SimCLRTrainer(BaseTrainer):
         self.patch_size = int(model_cfg.get("patch_size", 224))
         self.aug_cfg = model_cfg.get("augmentation", {})
 
-        self.device = choose_device()
+    def _init_device(self) -> torch.device:
+        return choose_device()
+
+    def _init_paths(self, data_cfg: Dict[str, Any]) -> None:
         self.train_pattern = str(Path(data_cfg["train"]))
         self.num_train = count_samples(Path(self.train_pattern))
         self.batches_train = math.ceil(self.num_train / self.batch_size)
 
+    def _init_dataloader(self) -> None:
         self.train_loader = build_simclr_loader(
             shards_pattern=self.train_pattern,
             patch_size=self.patch_size,
@@ -144,6 +156,7 @@ class SimCLRTrainer(BaseTrainer):
             aug_cfg=self.aug_cfg,
         )
 
+    def _init_model_and_optimizer(self, model_cfg: Dict[str, Any]) -> None:
         backbone_name = model_cfg.get("backbone", "resnet18").lower()
         base = create_backbone(backbone_name, num_classes=0, pretrained=False)
         D = base.fc.in_features
@@ -154,13 +167,13 @@ class SimCLRTrainer(BaseTrainer):
             nn.ReLU(),
             nn.Linear(model_cfg.get("proj_dim", 128), model_cfg.get("proj_dim", 128)),
         ).to(self.device)
-
         self.optimizer = optim.Adam(
             list(self.encoder.parameters()) + list(self.projector.parameters()),
             lr=self.lr, weight_decay=self.weight_decay
         )
         self.criterion = NTXentLoss(self.temperature)
 
+    def _init_tracking(self) -> None:
         self.best_epoch = 0
         self.best_loss = float("inf")
 
@@ -181,9 +194,8 @@ class SimCLRTrainer(BaseTrainer):
         if epoch_loss < self.best_loss:
             self.best_loss = epoch_loss
             self.best_epoch = epoch
-            # Checkpoint folder is created relative to train_pattern's parent directory
-            ckpt_dir = Path(self.train_pattern).parent / "checkpoints"
-            ckpt_dir.mkdir(parents=True, exist_ok=True)  # Ensure folder exists
+            ckpt_dir = Path(self.train_pattern).parent / "simclr" / "checkpoints"
+            ckpt_dir.mkdir(parents=True, exist_ok=True)
             save_checkpoint(
                 ckpt_dir=ckpt_dir,
                 prefix=self.__class__.__name__,
