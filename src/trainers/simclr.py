@@ -10,6 +10,7 @@ import torch.optim as optim
 import torchvision.transforms as T
 import webdataset as wds
 from torch.utils.data import DataLoader
+from PIL import Image
 
 from utils.training_utils import (
     BaseTrainer,
@@ -19,6 +20,7 @@ from utils.training_utils import (
     register_trainer,
     create_backbone,
 )
+from .extract_features import extract_features
 
 
 def build_simclr_loader(
@@ -206,3 +208,29 @@ class SimCLRTrainer(BaseTrainer):
 
     def summary(self) -> Tuple[int, float]:
         return self.best_epoch, self.best_loss
+    
+    def extract_features_to(self, output_path: str) -> None:
+        """
+        Estrae le feature usando il backbone e le salva in output_path.
+        """
+
+        def _make_inference_loader():
+          ds = (
+              wds.WebDataset(self.train_pattern)
+              .decode("pil")
+              .map(lambda sample: {
+                  "img": T.ToTensor()(
+                      next((v for k, v in sample.items() if isinstance(v, Image.Image)), None).convert("RGB")
+                  ),
+                  "key": sample["__key__"] + "." + next((k for k in sample.keys() if k.endswith(".jpg")), "")
+
+              })
+
+          )
+          return DataLoader(ds, batch_size=self.batch_size, shuffle=False)
+
+
+        dataloader = _make_inference_loader()
+        feats = extract_features(self.encoder, dataloader, self.device)
+        torch.save(feats, output_path)
+        self.logger.info(f"✅ Feature salvate in {output_path}")
