@@ -12,7 +12,7 @@ env_paths:
 # -----------------------------------------------------------------------------#
 # Base directories (non modificare)                                            
 # -----------------------------------------------------------------------------#
-base_dir: "${RESOLVED_BASE_DIR}/data/RCC_WSIs"
+dataset_dir: "${RESOLVED_BASE_DIR}/data/RCC_WSIs"
 project_root: "${RESOLVED_BASE_DIR}"
 
 # -----------------------------------------------------------------------------#
