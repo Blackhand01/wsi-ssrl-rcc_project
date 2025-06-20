@@ -4,8 +4,8 @@
 # Environment detection                                                         
 # -----------------------------------------------------------------------------#
 env_paths:
-  colab: "/content/drive/MyDrive/ColabNotebooks/wsi-ssrl-rcc_project"
-  local: "/Users/stefanoroybisignano/Desktop/MLA/project/wsi-ssrl-rcc_project"
+  colab: "/content/drive/MyDrive/Colab Notebooks/MLA_PROJECT/wsi-ssrl-rcc_project"
+  local: "/Users/mimmo/Desktop/mimmo/MLA/project_FP03/wsi-ssrl-rcc_project"
 
 # -----------------------------------------------------------------------------#
 # Quale modello lanciare                                                        
@@ -16,11 +16,9 @@ run_model: supervised  # es. simclr, supervised o all
 # Percorsi relativi ai WebDataset                                              
 # -----------------------------------------------------------------------------#
 data:
-
-  train: "data/processed/webdataset_5000/train/patches-0000.tar"
-  val:   "data/processed/webdataset_5000/val/patches-0000.tar"
-  test:  "data/processed/webdataset_5000/test/patches-0000.tar"
-
+  train: "data/processed/webdataset_2500/train/patches-0000.tar"
+  val:   "data/processed/webdataset_2500/val/patches-0000.tar"
+  test:  "data/processed/webdataset_2500/test/patches-0000.tar"
 
 # -----------------------------------------------------------------------------#
 # Parametri di tutti i modelli                                                 
@@ -92,7 +90,7 @@ models:
     pretrained: false
     training:
       epochs:        50
-      batch_size:    64
+      batch_size:    32
       optimizer:     "adam"
       learning_rate: 1e-4
       weight_decay:  1e-5
