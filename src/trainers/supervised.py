@@ -7,7 +7,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
-
+from sklearn.preprocessing import LabelEncoder
 from utils.training_utils import (
     create_backbone,
     BaseTrainer,
@@ -71,6 +71,8 @@ class SupervisedTrainer(BaseTrainer):
         data_root = train_pattern.parent
         self.output_root = data_root.parent
         self.class_to_idx = discover_classes(data_root)
+        self.label_encoder = LabelEncoder()
+        self.label_encoder.fit(list(self.class_to_idx.keys()))
         self.num_train = count_samples(train_pattern)
         self.num_val = count_samples(val_pattern)
         self.batches_train = math.ceil(self.num_train / self.batch_size)
