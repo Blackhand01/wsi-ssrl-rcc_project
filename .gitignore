@@ -181,8 +181,10 @@ docs/.DS_Store
 *.pt
 
 
-data/processed/webdataset_5000/val/patches-0000.tar
-data/raw/RCC_WSIs.html
-data/processed/webdataset_5000/train/patches-0000.tar
-data/processed/webdataset_5000/test/patches-0000.tar
-data/processed/webdataset_5000/patches-0000.tar
+
+data/processed/dataset_9f30917e/webdataset
+data/processed/dataset_7b24514c/webdataset
+data/raw
+*.tar
+*.pt
+*.joblib

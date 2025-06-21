@@ -1,6 +1,7 @@
 from __future__ import annotations
 import logging
 from pathlib import Path
+from typing import Optional
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple
 import torch
@@ -245,12 +246,16 @@ def save_checkpoint(ckpt_dir: Path,
                     data_cfg: Dict[str,Any]) -> None:
     """
     Saves model and optimizer state to disk.
-    Uses a naming convention: <prefix>_best.pt or <prefix>_epochXXX.pt.
+    Ensures only the best checkpoint is kept, with epoch in the filename.
     """
     ckpt_dir.mkdir(parents=True, exist_ok=True)
-    tag = "best" if best else f"epoch{epoch:03d}"
-    filename = f"{prefix}_{tag}.pt"
+    filename = f"{prefix}_best_epoch{epoch:03d}.pt"
     path = ckpt_dir / filename
+
+    # Remove previous best checkpoint if it exists
+    for existing_ckpt in ckpt_dir.glob(f"{prefix}_best_epoch*.pt"):
+        existing_ckpt.unlink()
+
     torch.save({
         "epoch": epoch,
         "model_state_dict": model.state_dict(),
@@ -277,16 +282,20 @@ def load_checkpoint(ckpt_path: Path,
     LOGGER.info("Loaded checkpoint '%s' (epoch %d)", ckpt_path, ckpt.get("epoch", -1))
     return ckpt
 
-def get_latest_checkpoint(ckpt_dir: Path, prefix: str) -> Path:
+
+
+def get_latest_checkpoint(ckpt_dir: Path, prefix: str = "", ext: str = ".pt") -> Optional[Path]:
     """
-    Returns the path of the most recent checkpoint file matching the given prefix.
+    Return the most recent checkpoint file in ckpt_dir matching the given prefix.
+    If no matching file is found, returns None (instead of raising an exception).
     """
-    files = list(ckpt_dir.glob(f"{prefix}_*.pt"))
-    if not files:
-        raise FileNotFoundError(f"No checkpoints found in {ckpt_dir}")
-    # Sort by modification time (most recent last)
-    latest = max(files, key=lambda p: p.stat().st_mtime)
-    return latest
+    ckpt_dir.mkdir(parents=True, exist_ok=True)
+    files = sorted(
+        ckpt_dir.glob(f"{prefix}_*{ext}"),
+        key=lambda p: p.stat().st_mtime,
+        reverse=True
+    )
+    return files[0] if files else None
 
 # -----------------------------------------------------------------------------
 # Training Report Generation

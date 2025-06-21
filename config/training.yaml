@@ -1,11 +1,11 @@
-# config/training_colab.yaml
+# config/training.yaml
 
 # -----------------------------------------------------------------------------#
 # Environment detection                                                         
 # -----------------------------------------------------------------------------#
 env_paths:
-  colab: "/content/drive/MyDrive/Colab Notebooks/MLA_PROJECT/wsi-ssrl-rcc_project"
-  local: "/Users/mimmo/Desktop/mimmo/MLA/project_FP03/wsi-ssrl-rcc_project"
+  colab: "/content/drive/MyDrive/ColabNotebooks/wsi-ssrl-rcc_project"
+  local: "/Users/stefanoroybisignano/Desktop/MLA/project/wsi-ssrl-rcc_project"
 
 # -----------------------------------------------------------------------------#
 # Quale modello lanciare                                                        
@@ -16,9 +16,12 @@ run_model: supervised  # es. simclr, supervised o all
 # Percorsi relativi ai WebDataset                                              
 # -----------------------------------------------------------------------------#
 data:
-  train: "data/processed/webdataset_2500/train/patches-0000.tar"
-  val:   "data/processed/webdataset_2500/val/patches-0000.tar"
-  test:  "data/processed/webdataset_2500/test/patches-0000.tar"
+  dataset_id: "dataset_9f30917e"
+  train: "data/processed/dataset_9f30917e/webdataset/train/patches-0000.tar"
+  val:   "data/processed/dataset_9f30917e/webdataset/val/patches-0000.tar"
+  test:  "data/processed/dataset_9f30917e/webdataset/test/patches-0000.tar"
+
+output_dir: "data/processed/dataset_9f30917e/models"
 
 # -----------------------------------------------------------------------------#
 # Parametri di tutti i modelli                                                 
@@ -37,8 +40,8 @@ models:
           saturation: 0.5
           hue:        0.2
       training:
-        epochs:          50
-        batch_size:      64
+        epochs:          2
+        batch_size:      32
         optimizer:       "adam"
         learning_rate:   1e-3
         weight_decay:    1e-6
