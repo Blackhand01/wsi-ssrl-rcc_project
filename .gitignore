@@ -188,3 +188,6 @@ data/raw
 *.tar
 *.pt
 *.joblib
+*.tar
+*.pt
+*.joblib
