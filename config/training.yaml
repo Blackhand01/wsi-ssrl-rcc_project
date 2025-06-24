@@ -10,7 +10,7 @@ env_paths:
 # -----------------------------------------------------------------------------#
 # Quale modello lanciare                                                        
 # -----------------------------------------------------------------------------#
-run_model: supervised  # es. simclr, supervised o all
+run_model: all  # es. simclr, supervised o all
 
 # -----------------------------------------------------------------------------#
 # Percorsi relativi ai WebDataset                                              
@@ -28,31 +28,33 @@ output_dir: "data/processed/dataset_9f30917e/models"
 # -----------------------------------------------------------------------------#
 models:
   simclr:
-      backbone: "resnet18"
-      proj_dim: 128
-      augmentation:
-        enabled: true
-        horizontal_flip: true
-        rotation: [0, 90, 180, 270]
-        color_jitter:
-          brightness: 0.5
-          contrast:   0.5
-          saturation: 0.5
-          hue:        0.2
-      training:
-        epochs:          2
-        batch_size:      32
-        optimizer:       "adam"
-        learning_rate:   1e-3
-        weight_decay:    1e-6
-        temperature:     0.5
+    backbone: "resnet18"
+    proj_dim: 128
+    augmentation:
+      enabled: true
+      horizontal_flip: true
+      rotation: [0, 90, 180, 270]
+      color_jitter:
+        brightness: 0.4
+        contrast:   0.4
+        saturation: 0.4
+        hue:        0.1
+    training:
+      epochs:        2
+      batch_size:    64
+      optimizer:     "adam"
+      learning_rate: 1e-3
+      weight_decay:  1e-5
+      temperature:   0.5
+
   moco_v2:
-    backbone: "resnet50"
+    backbone: "resnet18"
     proj_dim:  128
     augmentation:
       enabled:        true
       horizontal_flip: true
       color_jitter:
+      
         brightness: 0.4
         contrast:   0.4
         saturation: 0.4
@@ -61,10 +63,10 @@ models:
       grayscale:      true
     training:
       epochs:        2
-      batch_size:    256
+      batch_size:    128
       optimizer:     "sgd"
       learning_rate: 0.03
-      weight_decay:  1e-4
+      weight_decay:  1e-5
       queue:         65536
       m:             0.99
       temperature:   0.07
@@ -73,9 +75,9 @@ models:
     backbone: "resnet18"
     training:
       epochs:        2
-      batch_size:    128
+      batch_size:    64
       optimizer:     "adam"
-      learning_rate: 1e-4
+      learning_rate: 1e-3
       weight_decay:  1e-5
 
   jigsaw:
@@ -83,19 +85,19 @@ models:
     grid_size: 3
     training:
       epochs:        2
-      batch_size:    128
+      batch_size:    64
       optimizer:     "adam"
-      learning_rate: 1e-4
+      learning_rate: 1e-3
       weight_decay:  1e-5
 
   supervised:
     backbone:   "resnet50"
     pretrained: false
     training:
-      epochs:        50
-      batch_size:    32
+      epochs:        2
+      batch_size:    64
       optimizer:     "adam"
-      learning_rate: 1e-4
+      learning_rate: 1e-3
       weight_decay:  1e-5
 
   transfer:
@@ -103,7 +105,7 @@ models:
     pretrained: true
     training:
       epochs:        2
-      batch_size:    32
+      batch_size:    64
       optimizer:     "adam"
-      learning_rate: 1e-4
+      learning_rate: 1e-3
       weight_decay:  1e-5
