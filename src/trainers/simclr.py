@@ -30,7 +30,9 @@ def build_simclr_loader(
     device: torch.device,
     aug_cfg: Dict[str, Any],
 ) -> DataLoader:
-    """WebDataset loader per SimCLR: decodifica PIL, due viste augmentate."""
+    """
+    WebDataset loader per SimCLR: decodifica PIL, due viste augmentate.
+    """
     ds = (
         wds.WebDataset(
             shards_pattern,
@@ -53,7 +55,9 @@ def build_simclr_loader(
 
 
 class SimCLRPreprocSample:
-    """Genera due viste augmentate per SimCLR."""
+    """
+    Genera due viste augmentate per SimCLR.
+    """
     def __init__(self, patch_size: int, aug_cfg: Dict[str, Any]) -> None:
         self.patch_size = patch_size
         self.aug_cfg = aug_cfg
@@ -83,7 +87,9 @@ class SimCLRPreprocSample:
 
 
 class NTXentLoss(nn.Module):
-    """NT-Xent loss stabile, basata su log-sum-exp."""
+    """
+    NT-Xent loss stabile, basata su log-sum-exp.
+    """
     def __init__(self, temperature: float = 0.5) -> None:
         super().__init__()
         self.temperature = temperature
@@ -94,11 +100,13 @@ class NTXentLoss(nn.Module):
         z = F.normalize(z, dim=1)
         sim = torch.matmul(z, z.T) / self.temperature  # 2N x 2N
 
+        # Positive similarities
         pos = torch.cat([
             torch.diag(sim, N),
             torch.diag(sim, -N)
         ], dim=0)  # 2N
 
+        # Mask out self-similarities
         mask = ~torch.eye(2 * N, device=sim.device).bool()
         neg = sim.masked_select(mask).view(2 * N, 2 * N - 1)
 
@@ -109,18 +117,11 @@ class NTXentLoss(nn.Module):
 
 @register_trainer("simclr")
 class SimCLRTrainer(BaseTrainer):
-    """Trainer for SimCLR with NT-Xent loss."""
-
+    """
+    Trainer SimCLR con batch-wise training e NT-Xent loss stabile.
+    """
     def __init__(self, model_cfg: Dict[str, Any], data_cfg: Dict[str, Any]) -> None:
         super().__init__(model_cfg, data_cfg)
-        self._init_training_params(model_cfg)
-        self.device = choose_device()
-        self._init_paths(data_cfg)
-        self._init_dataloader()
-        self._init_model_and_optimizer(model_cfg)
-        self._init_tracking()
-
-    def _init_training_params(self, model_cfg: Dict[str, Any]) -> None:
         t = model_cfg["training"]
         self.epochs = int(t["epochs"])
         self.batch_size = int(t["batch_size"])
@@ -129,15 +130,13 @@ class SimCLRTrainer(BaseTrainer):
         self.temperature = float(t.get("temperature", 0.5))
         self.patch_size = int(model_cfg.get("patch_size", 224))
         self.aug_cfg = model_cfg.get("augmentation", {})
-        self.proj_dim = int(model_cfg.get("proj_dim", 128))
 
-    def _init_paths(self, data_cfg: Dict[str, Any]) -> None:
+        self.device = choose_device()
         self.train_pattern = str(Path(data_cfg["train"]))
-        self.ckpt_dir = Path(self.train_pattern).parent / "checkpoints"
         self.num_train = count_samples(Path(self.train_pattern))
         self.batches_train = math.ceil(self.num_train / self.batch_size)
+        
 
-    def _init_dataloader(self) -> None:
         self.train_loader = build_simclr_loader(
             shards_pattern=self.train_pattern,
             patch_size=self.patch_size,
@@ -146,16 +145,15 @@ class SimCLRTrainer(BaseTrainer):
             aug_cfg=self.aug_cfg,
         )
 
-    def _init_model_and_optimizer(self, model_cfg: Dict[str, Any]) -> None:
         backbone_name = model_cfg.get("backbone", "resnet18").lower()
         base = create_backbone(backbone_name, num_classes=0, pretrained=False)
         D = base.fc.in_features
         base.fc = nn.Identity()
         self.encoder = base.to(self.device)
         self.projector = nn.Sequential(
-            nn.Linear(D, self.proj_dim),
+            nn.Linear(D, model_cfg.get("proj_dim", 128)),
             nn.ReLU(),
-            nn.Linear(self.proj_dim, self.proj_dim),
+            nn.Linear(model_cfg.get("proj_dim", 128), model_cfg.get("proj_dim", 128)),
         ).to(self.device)
 
         self.optimizer = optim.Adam(
@@ -164,7 +162,6 @@ class SimCLRTrainer(BaseTrainer):
         )
         self.criterion = NTXentLoss(self.temperature)
 
-    def _init_tracking(self) -> None:
         self.best_epoch = 0
         self.best_loss = float("inf")
 
@@ -185,38 +182,44 @@ class SimCLRTrainer(BaseTrainer):
         if epoch_loss < self.best_loss:
             self.best_loss = epoch_loss
             self.best_epoch = epoch
-            self.ckpt_dir.mkdir(parents=True, exist_ok=True)
+            # Checkpoint folder is created relative to train_pattern's parent directory
+            ckpt_dir = Path(self.train_pattern).parent / "checkpoints"
+            ckpt_dir.mkdir(parents=True, exist_ok=True)  # Ensure folder exists
             save_checkpoint(
-                ckpt_dir=self.ckpt_dir,
+                ckpt_dir=ckpt_dir,
                 prefix=self.__class__.__name__,
                 epoch=epoch,
                 best=True,
                 model=torch.nn.Sequential(self.encoder, self.projector),
                 optimizer=self.optimizer,
-                class_to_idx={},
-                model_cfg=self.model_cfg,
-                data_cfg=self.data_cfg,
+                class_to_idx={}, model_cfg=self.model_cfg, data_cfg=self.data_cfg,
             )
 
     def summary(self) -> Tuple[int, float]:
         return self.best_epoch, self.best_loss
-
+    
     def extract_features_to(self, output_path: str) -> None:
-        """Extract and save features from training set using encoder."""
+        """
+        Estrae le feature usando il backbone e le salva in output_path.
+        """
+
         def _make_inference_loader():
-            ds = (
-                wds.WebDataset(self.train_pattern)
-                .decode("pil")
-                .map(lambda sample: {
-                    "img": T.ToTensor()(
-                        next((v for k, v in sample.items() if isinstance(v, Image.Image)), None).convert("RGB")
-                    ),
-                    "key": sample["__key__"] + "." + next((k for k in sample.keys() if k.endswith(".jpg")), "")
-                })
-            )
-            return DataLoader(ds, batch_size=self.batch_size, shuffle=False)
+          ds = (
+              wds.WebDataset(self.train_pattern)
+              .decode("pil")
+              .map(lambda sample: {
+                  "img": T.ToTensor()(
+                      next((v for k, v in sample.items() if isinstance(v, Image.Image)), None).convert("RGB")
+                  ),
+                  "key": sample["__key__"] + "." + next((k for k in sample.keys() if k.endswith(".jpg")), "")
+
+              })
+
+          )
+          return DataLoader(ds, batch_size=self.batch_size, shuffle=False)
+
 
         dataloader = _make_inference_loader()
         feats = extract_features(self.encoder, dataloader, self.device)
         torch.save(feats, output_path)
-        print(f"✅ Features saved to {output_path}")
+        self.logger.info(f"✅ Feature salvate in {output_path}")

@@ -1,11 +1,11 @@
-# config/training.yaml
+# config/training_colab.yaml
 
 # -----------------------------------------------------------------------------#
 # Environment detection                                                         
 # -----------------------------------------------------------------------------#
 env_paths:
-  colab: "/content/drive/MyDrive/ColabNotebooks/wsi-ssrl-rcc_project"
-  local: "/Users/stefanoroybisignano/Desktop/MLA/project/wsi-ssrl-rcc_project"
+  colab: "/content/drive/MyDrive/Colab Notebooks/MLA_PROJECT/wsi-ssrl-rcc_project"
+  local: "/Users/mimmo/Desktop/mimmo/MLA/project_FP03/wsi-ssrl-rcc_project"
 
 # -----------------------------------------------------------------------------#
 # Quale modello lanciare                                                        
@@ -16,37 +16,33 @@ run_model: all  # es. simclr, supervised o all
 # Percorsi relativi ai WebDataset                                              
 # -----------------------------------------------------------------------------#
 data:
-  dataset_id: "dataset_9f30917e"
-  train: "data/processed/dataset_9f30917e/webdataset/train/patches-0000.tar"
-  val:   "data/processed/dataset_9f30917e/webdataset/val/patches-0000.tar"
-  test:  "data/processed/dataset_9f30917e/webdataset/test/patches-0000.tar"
-
-output_dir: "data/processed/dataset_9f30917e/models"
+  train: "data/processed/webdataset_2500/train/patches-0000.tar"
+  val:   "data/processed/webdataset_2500/val/patches-0000.tar"
+  test:  "data/processed/webdataset_2500/test/patches-0000.tar"
 
 # -----------------------------------------------------------------------------#
 # Parametri di tutti i modelli                                                 
 # -----------------------------------------------------------------------------#
 models:
   simclr:
-    backbone: "resnet18"
-    proj_dim: 128
-    augmentation:
-      enabled: true
-      horizontal_flip: true
-      rotation: [0, 90, 180, 270]
-      color_jitter:
-        brightness: 0.4
-        contrast:   0.4
-        saturation: 0.4
-        hue:        0.1
-    training:
-      epochs:        2
-      batch_size:    64
-      optimizer:     "adam"
-      learning_rate: 1e-3
-      weight_decay:  1e-5
-      temperature:   0.5
-
+      backbone: "resnet18"
+      proj_dim: 128
+      augmentation:
+        enabled: true
+        horizontal_flip: true
+        rotation: [0, 90, 180, 270]
+        color_jitter:
+          brightness: 0.5
+          contrast:   0.5
+          saturation: 0.5
+          hue:        0.2
+      training:
+        epochs:          50
+        batch_size:      64
+        optimizer:       "adam"
+        learning_rate:   1e-3
+        weight_decay:    1e-6
+        temperature:     0.5
   moco_v2:
     backbone: "resnet18"
     proj_dim:  128
@@ -54,7 +50,6 @@ models:
       enabled:        true
       horizontal_flip: true
       color_jitter:
-      
         brightness: 0.4
         contrast:   0.4
         saturation: 0.4
@@ -66,7 +61,7 @@ models:
       batch_size:    128
       optimizer:     "sgd"
       learning_rate: 0.03
-      weight_decay:  1e-5
+      weight_decay:  1e-4
       queue:         65536
       m:             0.99
       temperature:   0.07
@@ -77,7 +72,7 @@ models:
       epochs:        2
       batch_size:    64
       optimizer:     "adam"
-      learning_rate: 1e-3
+      learning_rate: 1e-4
       weight_decay:  1e-5
 
   jigsaw:
@@ -87,17 +82,17 @@ models:
       epochs:        2
       batch_size:    64
       optimizer:     "adam"
-      learning_rate: 1e-3
+      learning_rate: 1e-4
       weight_decay:  1e-5
 
   supervised:
     backbone:   "resnet50"
     pretrained: false
     training:
-      epochs:        2
+      epochs:        50
       batch_size:    64
       optimizer:     "adam"
-      learning_rate: 1e-3
+      learning_rate: 1e-4
       weight_decay:  1e-5
 
   transfer:
@@ -107,5 +102,5 @@ models:
       epochs:        2
       batch_size:    64
       optimizer:     "adam"
-      learning_rate: 1e-3
+      learning_rate: 1e-4
       weight_decay:  1e-5

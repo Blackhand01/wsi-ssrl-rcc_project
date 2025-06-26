@@ -157,6 +157,8 @@ class MoCoV2Trainer(BaseTrainer):
             lr=self.lr,
             weight_decay=self.weight_decay,
         )
+        self.encoder = self.encoder_q
+        self.projector = self.projector_q
 
         self.best_epoch = 0
         self.best_loss = float("inf")
