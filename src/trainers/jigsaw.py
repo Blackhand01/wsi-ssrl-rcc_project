@@ -189,10 +189,9 @@ class JigsawTrainer(BaseTrainer):
     def post_epoch(self, epoch: int, epoch_loss: float):
         if epoch_loss < self.best_loss:
             self.best_loss, self.best_epoch = epoch_loss, epoch
-            ckpt_dir = Path(self.train_pattern).parent / "checkpoints"
-            ckpt_dir.mkdir(parents=True, exist_ok=True)
+            self.ckpt_dir.mkdir(parents=True, exist_ok=True)
             save_checkpoint(
-                ckpt_dir=ckpt_dir,
+                ckpt_dir=self.ckpt_dir,
                 prefix=self.__class__.__name__,
                 epoch=epoch,
                 best=True,

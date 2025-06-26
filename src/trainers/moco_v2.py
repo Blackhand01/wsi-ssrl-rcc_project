@@ -152,11 +152,17 @@ class MoCoV2Trainer(BaseTrainer):
         self.queue = nn.functional.normalize(torch.randn(self.queue_size, self.proj_dim), dim=1).to(self.device)
         self.queue_ptr = torch.zeros(1, dtype=torch.long).to(self.device)
 
-        self.optimizer = optim.Adam(
-            list(self.encoder_q.parameters()) + list(self.projector_q.parameters()),
-            lr=self.lr,
-            weight_decay=self.weight_decay,
-        )
+
+        opt_name = model_cfg["training"].get("optimizer", "sgd").lower()
+        params = list(self.encoder_q.parameters()) + list(self.projector_q.parameters())
+        if opt_name == "sgd":
+            self.optimizer = optim.SGD(params, lr=self.lr,
+                                       momentum=0.9, weight_decay=self.weight_decay)
+        elif opt_name == "adam":
+            self.optimizer = optim.Adam(params, lr=self.lr,
+                                        weight_decay=self.weight_decay)
+        else:
+            raise ValueError(f"Unsupported optimizer: {opt_name}")
 
         self.best_epoch = 0
         self.best_loss = float("inf")

@@ -1,5 +1,3 @@
-# config/training.yaml
-
 # -----------------------------------------------------------------------------#
 # Environment detection                                                         
 # -----------------------------------------------------------------------------#
@@ -13,6 +11,11 @@ env_paths:
 run_model: all  # es. simclr, supervised o all
 
 # -----------------------------------------------------------------------------#
+# Esperimento da (ri)completare – lascia vuoto o commenta per crearne uno nuovo
+# -----------------------------------------------------------------------------#
+exp_code: ""            # es. "20250701094522"
+
+# -----------------------------------------------------------------------------#
 # Percorsi relativi ai WebDataset                                              
 # -----------------------------------------------------------------------------#
 data:
@@ -21,13 +24,15 @@ data:
   val:   "data/processed/dataset_9f30917e/webdataset/val/patches-0000.tar"
   test:  "data/processed/dataset_9f30917e/webdataset/test/patches-0000.tar"
 
-output_dir: "data/processed/dataset_9f30917e/models"
+# directory base di output, ignorata dal launcher che sposta su folder per exp
+output_dir: "data/processed/{dataset_id}/experiments"
 
 # -----------------------------------------------------------------------------#
 # Parametri di tutti i modelli                                                 
 # -----------------------------------------------------------------------------#
 models:
   simclr:
+    type: ssl
     backbone: "resnet18"
     proj_dim: 128
     augmentation:
@@ -40,7 +45,7 @@ models:
         saturation: 0.4
         hue:        0.1
     training:
-      epochs:        2
+      epochs:        10
       batch_size:    64
       optimizer:     "adam"
       learning_rate: 1e-3
@@ -48,13 +53,13 @@ models:
       temperature:   0.5
 
   moco_v2:
+    type: ssl
     backbone: "resnet18"
     proj_dim:  128
     augmentation:
       enabled:        true
       horizontal_flip: true
       color_jitter:
-      
         brightness: 0.4
         contrast:   0.4
         saturation: 0.4
@@ -62,7 +67,7 @@ models:
       gaussian_blur:  true
       grayscale:      true
     training:
-      epochs:        2
+      epochs:        10
       batch_size:    128
       optimizer:     "sgd"
       learning_rate: 0.03
@@ -72,40 +77,51 @@ models:
       temperature:   0.07
 
   rotation:
+    type: ssl
     backbone: "resnet18"
     training:
-      epochs:        2
+      epochs:        10
       batch_size:    64
       optimizer:     "adam"
       learning_rate: 1e-3
       weight_decay:  1e-5
 
   jigsaw:
+    type: ssl
     backbone:  "resnet18"
     grid_size: 3
     training:
-      epochs:        2
+      epochs:        10
       batch_size:    64
       optimizer:     "adam"
       learning_rate: 1e-3
       weight_decay:  1e-5
 
   supervised:
+    type: sl
     backbone:   "resnet50"
     pretrained: false
     training:
-      epochs:        2
+      epochs:        10
       batch_size:    64
       optimizer:     "adam"
       learning_rate: 1e-3
       weight_decay:  1e-5
 
   transfer:
+    type: sl
     backbone:   "resnet50"
     pretrained: true
     training:
-      epochs:        2
+      epochs:        10
       batch_size:    64
       optimizer:     "adam"
       learning_rate: 1e-3
       weight_decay:  1e-5
+
+
+# -----------------------------------------------------------------------------#data/processed/{dataset_id}/experiments/{EXP_CODE}/{model_name}/
+# ├── log_{EXP_CODE}.md
+# ├── {model_name}_epoch{best_epoch}_best.pt
+# ├── {model_name}_features.pt         # per SSL
+# └── {model_name}_classifier.joblib   # per SSL

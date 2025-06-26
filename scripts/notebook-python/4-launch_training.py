@@ -46,44 +46,74 @@ _pip_install([
 
 
 # %%
-# Cell 2 – SLURM Submission via SSH per locale VSCode (debug .env + rsync)
-import os, subprocess, traceback
+# Cell 2 – SLURM Submission via SSH per locale VSCode (upload dataset once + rsync + sshpass)
+import os, subprocess, traceback, shutil
 from pathlib import Path
 from textwrap import dedent
+from dotenv import load_dotenv, find_dotenv
+import yaml
 
-# Detect VSCode vs Colab
+# --- 1) Detect environment ---------------------------------------------------
 IN_COLAB  = Path("/content").exists()
-# Use explicit check for not in Colab for VSCode specific logic
 IN_VSCODE = not IN_COLAB and bool(os.environ.get("VSCODE_PID"))
 print(f"🚀 Detected Colab={IN_COLAB}, VSCode={IN_VSCODE}")
 
 if IN_VSCODE:
-    from dotenv import load_dotenv, find_dotenv
-
-    # 1) Carica .env (ricerca automatica)
+    # --- 2) Load .env ----------------------------------------------------------
     dotenv_path = find_dotenv()
     if not dotenv_path:
-        raise FileNotFoundError("❌ Non ho trovato alcun .env! Mettilo nella root del progetto.")
-    print(f"🔍 Carico .env da {dotenv_path}")
+        raise FileNotFoundError("❌ .env not found! Place it in the project root.")
+    print(f"🔍 Loading .env from {dotenv_path}")
     load_dotenv(dotenv_path, override=True)
 
-    # 2) Controlla le env vars
+    # --- 3) Read training.yaml to get dataset_id --------------------------------
+    cfg_path   = PROJECT_ROOT / "config" / "training.yaml"
+    cfg        = yaml.safe_load(cfg_path.read_text())
+    DATASET_ID = cfg["data"]["dataset_id"]
+
+    # --- 4) Read env vars ------------------------------------------------------
     REMOTE_USER      = os.getenv("CLUSTER_USER")
     REMOTE_HOST      = os.getenv("CLUSTER_HOST")
     REMOTE_BASE_PATH = os.getenv("REMOTE_BASE_PATH")
     SBATCH_MODULE    = os.getenv("SBATCH_MODULE", "python/3.9")
     SBATCH_PARTITION = os.getenv("SBATCH_PARTITION", "global")
     MAIL_USER        = os.getenv("RESPONSABILE_EMAIL", os.getenv("MEMBER_EMAIL"))
+    CLUSTER_PW       = os.getenv("CLUSTER_PASSWORD", "")
 
     missing = [v for v in ("CLUSTER_USER","CLUSTER_HOST","REMOTE_BASE_PATH") if not os.getenv(v)]
     if missing:
-        raise KeyError(f"🌱 Mancano queste env vars: {missing}. Controlla il .env.")
+        raise KeyError(f"🌱 Missing env vars: {missing}. Check your .env file.")
 
-    # 3) Prepara lo script sbatch locale per la sottomissione remota
+    # --- 5) Check for sshpass --------------------------------------------------
+    USE_SSHPASS = bool(CLUSTER_PW and shutil.which("sshpass"))
+    if USE_SSHPASS:
+        print("🔐 Using sshpass for non-interactive SSH/rsync.")
+    else:
+        print("🔐 sshpass not found or no CLUSTER_PASSWORD: falling back to interactive SSH.")
+
+    def ssh_cmd(remote_expr: str):
+        """Return the command list to run an SSH command (with or without sshpass)."""
+        base = []
+        if USE_SSHPASS:
+            base += ["sshpass", "-p", CLUSTER_PW]
+        base += ["ssh", f"{REMOTE_USER}@{REMOTE_HOST}", remote_expr]
+        return base
+
+    def rsync_cmd_args(src: str, dest: str, exclude_processed: bool = True):
+        """Return args for rsync, using sshpass if available."""
+        args = ["rsync", "-avz"]
+        if exclude_processed:
+            args += ["--exclude", "data/processed"]
+        if USE_SSHPASS:
+            sshpart = f"sshpass -p {CLUSTER_PW} ssh -o StrictHostKeyChecking=no"
+            args += ["-e", sshpart]
+        args += [src, dest]
+        return args
+
+    # --- 6) Write local sbatch script ------------------------------------------
     LOCAL_SCRIPT = Path.cwd() / "hpc_submit.sh"
     print(f"   • SSH target: {REMOTE_USER}@{REMOTE_HOST}:{REMOTE_BASE_PATH}")
 
-    # 4) Genera sbatch script
     header = dedent(f"""\
         #!/bin/bash
         #SBATCH --job-name=rcc_ssrl_launch
@@ -110,40 +140,51 @@ if IN_VSCODE:
     print(f"📝 Wrote sbatch script: {LOCAL_SCRIPT}")
 
     try:
-        # 5) Crea cartella remota
-        subprocess.run(
-            ["ssh", f"{REMOTE_USER}@{REMOTE_HOST}", f"mkdir -p {REMOTE_BASE_PATH}"],
-            check=True
-        )
-        print("🔄 Remote directory ensured")
+        # --- 7) Ensure remote base directory exists -----------------------------
+        subprocess.run(ssh_cmd(f"mkdir -p {REMOTE_BASE_PATH}"), check=True)
 
-        # 6) Sync progetto (esclude dati pesanti)
-        subprocess.run([
-            "rsync","-avz","--delete",
-            "--exclude","data/processed",
-            f"{PROJECT_ROOT}/",
-            f"{REMOTE_USER}@{REMOTE_HOST}:{REMOTE_BASE_PATH}/"
-        ], check=True)
-        print("🔄 Project synchronized via rsync")
+        # --- 8) Sync project code only (excl. processed) -----------------------
+        prj_src  = f"{PROJECT_ROOT}/"
+        prj_dest = f"{REMOTE_USER}@{REMOTE_HOST}:{REMOTE_BASE_PATH}/"
+        subprocess.run(rsync_cmd_args(prj_src, prj_dest, exclude_processed=True), check=True)
+        print("🔄 Project code synchronized via rsync")
 
-        # 7) Sottometti job
-        res = subprocess.run(
-            ["ssh", f"{REMOTE_USER}@{REMOTE_HOST}",
-             f"cd {REMOTE_BASE_PATH} && sbatch {LOCAL_SCRIPT.name}"],
-            capture_output=True, text=True, check=True
-        )
-        print(f"🔍 sbatch stdout: {res.stdout.strip()}")
-        print(f"📬 Job submitted: {res.stdout.strip().split()[-1]}")
+        # --- 9) Upload dataset once if missing ---------------------------------
+        remote_ds = f"{REMOTE_BASE_PATH}/data/processed/{DATASET_ID}"
+        # test -d returns 0 if exists
+        test = subprocess.run(ssh_cmd(f"test -d {remote_ds}"), capture_output=True)
+        if test.returncode != 0:
+            print("📦 Dataset not on cluster, uploading now (this may take a while)…")
+            local_ds  = f"{PROJECT_ROOT}/data/processed/{DATASET_ID}/"
+            remote_ds_dest = f"{REMOTE_USER}@{REMOTE_HOST}:{remote_ds}/"
+            subprocess.run(rsync_cmd_args(local_ds, remote_ds_dest, exclude_processed=False), check=True)
+            print("✅ Dataset uploaded to cluster")
+        else:
+            print("📦 Dataset already present on cluster, skipping upload")
+
+        # --- 10) Submit SLURM job via SSH ---------------------------------------
+        # If using sshpass, we can capture output; otherwise let interactive prompt through
+        if USE_SSHPASS:
+            result = subprocess.run(
+                ssh_cmd(f"cd {REMOTE_BASE_PATH} && sbatch {LOCAL_SCRIPT.name}"),
+                capture_output=True, text=True, check=True
+            )
+            print(f"🔍 sbatch stdout: {result.stdout.strip()}")
+            print(f"📬 Job submitted: {result.stdout.strip().split()[-1]}")
+        else:
+            # this will prompt for password in the terminal
+            subprocess.run(ssh_cmd(f"cd {REMOTE_BASE_PATH} && sbatch {LOCAL_SCRIPT.name}"), check=True)
 
     except subprocess.CalledProcessError as e:
         print("❌ SLURM submission failed:")
-        print(e.stdout, e.stderr)
+        print(e.stdout or "", e.stderr or "")
     except Exception:
-        print("❌ Unexpected error:")
+        print("❌ Unexpected error during SLURM submission:")
         traceback.print_exc()
 
 else:
-    print("⚠️ SLURM integration skipped: non in locale VSCode.")
+    print("⚠️ SLURM integration skipped: not running in local VSCode.")
+
 
 # %%
 # Cell 3 – Dynamic import of utils.training_utils
@@ -175,30 +216,68 @@ print("  • load_checkpoint       →", load_checkpoint)
 
 # %%
 # Cell 4 – Configuration & Directory Setup (formatted and absolute paths)
-import yaml
+import yaml, datetime, os
 from pathlib import Path
 
-# 1. Load config file
-cfg_path   = PROJECT_ROOT / "config" / "training.yaml"
-cfg        = yaml.safe_load(cfg_path.read_text())
+# ------------------------------------------------------------------ #
+# 0) EXP_CODE: riprendi da YAML → env → genera nuovo                 #
+# ------------------------------------------------------------------ #
+
+yaml_exp = cfg.get("exp_code", "")           # <─ nuovo parametro
+env_exp  = os.environ.get("EXP_CODE", "")
+
+if yaml_exp:                                 # 1) priorità al file YAML
+    EXP_CODE = yaml_exp
+elif env_exp:                                # 2) poi variabile d’ambiente
+    EXP_CODE = env_exp
+else:                                        # 3) altrimenti nuovo timestamp
+    EXP_CODE = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+
+# salva nel processo per eventuali figli
+os.environ["EXP_CODE"] = EXP_CODE
+
+print(f"[DEBUG] EXP_CODE → {EXP_CODE}")
+
+
+# ------------------------------------------------------------------ #
+# 1) Carica configurazione generale                                  #
+# ------------------------------------------------------------------ #
+cfg_path  = PROJECT_ROOT / "config" / "training.yaml"
+cfg       = yaml.safe_load(cfg_path.read_text())
 DATASET_ID = cfg["data"]["dataset_id"]
+cfg["experiment_code"] = EXP_CODE     # lo inseriamo nel dict per eventuali usi downstream
 
-# 2. Format and resolve absolute paths for train/val/test
+# ------------------------------------------------------------------ #
+# 2) Percorsi assoluti (train / val / test)                          #
+# ------------------------------------------------------------------ #
 for split in ("train", "val", "test"):
-    rel_path = cfg["data"][split].format(dataset_id=DATASET_ID)
-    abs_path = (PROJECT_ROOT / rel_path).resolve()
-    cfg["data"][split] = str(abs_path)
-    print(f"[DEBUG] {split.upper()} → {abs_path}")
+    rel = cfg["data"][split].format(dataset_id=DATASET_ID)
+    abs_ = (PROJECT_ROOT / rel).resolve()
+    cfg["data"][split] = str(abs_)
+    print(f"[DEBUG] {split.upper()} → {abs_}")
 
-# 3. Format and resolve models dir
-rel_models = cfg["output_dir"].format(dataset_id=DATASET_ID)
-MODELS_DIR = (PROJECT_ROOT / rel_models).resolve()
-MODELS_DIR.mkdir(parents=True, exist_ok=True)
-print(f"[DEBUG] MODELS_DIR → {MODELS_DIR}")
+# ------------------------------------------------------------------ #
+# 3) Struttura directory esperimento                                 #
+# ------------------------------------------------------------------ #
+EXP_ROOT = PROJECT_ROOT / "data" / "processed" / str(DATASET_ID)
+EXP_BASE = EXP_ROOT / "experiments" / EXP_CODE                   # unica per tutta la run
+EXP_BASE.mkdir(parents=True, exist_ok=True)
+(EXP_ROOT / "experiments.md").touch(exist_ok=True)               # indice globale
 
+print(f"[DEBUG] EXP_BASE → {EXP_BASE}")
+
+# ------------------------------------------------------------------ #
+# 4) Salva la **copia YAML** solo se non esiste già                  #
+# ------------------------------------------------------------------ #
+exp_yaml = EXP_BASE / f"training_{EXP_CODE}.yaml"
+if not exp_yaml.exists():                          # evita duplicati
+    exp_yaml.write_text(yaml.dump(cfg, sort_keys=False))
+    print(f"[DEBUG] Scritto   {exp_yaml}")
+else:
+    print(f"[DEBUG] Config già presente → {exp_yaml}")
 
 # %%
-# Cell 5 – Import all trainer modules with debug prints
+# Cell 5 – Import all trainer modules
 import importlib, sys
 from utils.training_utils import TRAINER_REGISTRY
 
@@ -207,183 +286,183 @@ trainer_mods = [
     "trainers.moco_v2",
     "trainers.rotation",
     "trainers.jigsaw",
-    "trainers.supervised",
+    "trainers.supervised",   # ✅ CORRETTO
     "trainers.transfer",
 ]
 
-for module_name in trainer_mods:
-    if module_name in sys.modules:
-        print(f"[DEBUG] Reloading module: {module_name}")
-        importlib.reload(sys.modules[module_name])
-    else:
-        print(f"[DEBUG] Importing module: {module_name}")
-        importlib.import_module(module_name)
+for m in trainer_mods:
+    importlib.reload(sys.modules[m]) if m in sys.modules else importlib.import_module(m)
 
 print(f"[DEBUG] Registered trainers: {list(TRAINER_REGISTRY.keys())}")
 
 
 # %%
-# Cell 6
-def save_artifact(subdir: str, filename: str) -> Path:
-    out_dir = MODELS_DIR / subdir
-    out_dir.mkdir(parents=True, exist_ok=True)
-    return out_dir / filename
-
-def append_report(md_rel: Path, header: str, body: str):
-    md_abs = MODELS_DIR / md_rel
-    md_abs.parent.mkdir(parents=True, exist_ok=True)
-    ts = datetime.datetime.now().strftime("%Y‑%m‑%d %H:%M")
-    with md_abs.open("a") as f:
-        f.write(f"\n\n### {header}  \n*{ts}*\n\n{body}\n")
-
-
-# %%
-# Cell 7 – launch_training() con logging dettagliato in checkpoint_report.md
-import torch
-import inspect
-import time
-import datetime
+# %% -------------------------------------------------------------------- #
+# Cell 6 – Helper utilities (Tee, paths, selezione, …)                    #
+# ----------------------------------------------------------------------- #
+import contextlib, sys, time, inspect
 from pathlib import Path
-from utils.training_utils import (
-    TRAINER_REGISTRY,
-    load_checkpoint,
-    get_latest_checkpoint,
-)
+import torch
+from utils.training_utils import get_latest_checkpoint, load_checkpoint
 from trainers.train_classifier import train_classifier
 
-def launch_training(cfg: dict) -> None:
-    run_model  = cfg.get("run_model", "all").lower()
-    models_cfg = cfg["models"]
-    tasks = models_cfg.items() if run_model == "all" else [(run_model, models_cfg[run_model])]
+# ──────────────────────────────────────────────────────────────────────── #
+# I/O helpers                                                             #
+# ──────────────────────────────────────────────────────────────────────── #
+class _Tee:
+    """Duplica stdout / stderr su console *e* file."""
+    def __init__(self, *targets): self.targets = targets
+    def write(self, data):  [t.write(data) and t.flush() for t in self.targets]
+    def flush(self):        [t.flush()      for t in self.targets]
 
-    for name, m_cfg in tasks:
-        # --- Trainer setup ---------------------------------------------------- #
-        TrainerCls = TRAINER_REGISTRY.get(name)
-        if TrainerCls is None:
-            raise KeyError(f"Trainer '{name}' non registrato")
-        trainer = TrainerCls(m_cfg, cfg["data"])
-        has_val  = hasattr(trainer, "validate_epoch")
-        epochs   = int(m_cfg["training"]["epochs"])
-        batch_sz = int(m_cfg["training"]["batch_size"])
-        device   = getattr(trainer, "device", "cpu")
+def _global_experiments_append(line: str):
+    """Aggiunge una riga all’indice globale `experiments.md`."""
+    exp_md = EXP_ROOT / "experiments.md"
+    with exp_md.open("a") as f:
+        f.write(line.rstrip() + "\n")
 
-        print(f"Device: {device} 🚀  Starting training for model '{name}'")
-        print(f"→ Model config: {m_cfg}")
-        print(f"Epochs: {epochs} | Batch size: {batch_sz}\n")
+# ──────────────────────────────────────────────────────────────────────── #
+# Path builders & artefact checks                                         #
+# ──────────────────────────────────────────────────────────────────────── #
+def _paths(model_name: str) -> dict[str, Path]:
+    """Restituisce tutti i path (dir/log/ckpt/features/clf) per un modello."""
+    mdir = EXP_BASE / model_name
+    mdir.mkdir(parents=True, exist_ok=True)
+    return {
+        "dir"      : mdir,
+        "log"      : mdir / f"log_{EXP_CODE}.md",
+        "features" : mdir / f"{model_name}_features.pt",
+        "clf"      : mdir / f"{model_name}_classifier.joblib",
+        "ckpt_pref": f"{model_name}_epoch",        # usato da save_checkpoint
+    }
 
-        # --- Paths per artefatti ---------------------------------------------- #
-        ckpt_dir  = MODELS_DIR / f"{name}/checkpoints"
-        ckpt_dir.mkdir(parents=True, exist_ok=True)
-        ckpt_best = ckpt_dir / f"{TrainerCls.__name__}_best.pt"
+def _completed(paths: dict, is_ssl: bool) -> bool:
+    """True se TUTTI gli artefatti richiesti sono già presenti."""
+    ckpt_ok = get_latest_checkpoint(paths["dir"], prefix=paths["ckpt_pref"]) is not None
+    if not ckpt_ok:
+        return False
+    if is_ssl:
+        return paths["features"].exists() and paths["clf"].exists()
+    return True
 
-        feat_path = save_artifact(f"{name}/features",   f"{name}_features.pt")
-        clf_path  = save_artifact(f"{name}/classifier", f"{name}_classifier.joblib")
-        report_md = Path(f"{name}/checkpoints/checkpoint_report.md")
+# ──────────────────────────────────────────────────────────────────────── #
+# Selezione modelli & trainer helpers                                     #
+# ──────────────────────────────────────────────────────────────────────── #
+def _select_models(cfg: dict) -> dict[str, dict]:
+    sel = cfg.get("run_model", "all").lower()
+    return {
+        n: c for n, c in cfg["models"].items()
+        if sel in ("all", n) or
+           (sel == "sl"  and c.get("type") == "sl") or
+           (sel == "ssl" and c.get("type") == "ssl")
+    }
 
-        # --- Checkpoint già presente? ---------------------------------------- #
-        latest_ckpt = get_latest_checkpoint(ckpt_dir, prefix=TrainerCls.__name__)
-        if latest_ckpt is not None:
-            print(f"⏭️  Checkpoint trovato per '{name}': {latest_ckpt.name} – skip training")
-            model = torch.nn.Sequential(trainer.encoder,
-                                        getattr(trainer, "projector", torch.nn.Identity()))
-            load_checkpoint(latest_ckpt, model=model)
-            trainer.encoder = model[0].to(trainer.device)
-            append_report(report_md, "Checkpoint ri-usato",
-                          f"`{latest_ckpt.relative_to(MODELS_DIR)}`")
-            skip_training = True
+def _init_trainer(name: str, m_cfg: dict, data_cfg: dict, ckpt_dir: Path):
+    Trainer = TRAINER_REGISTRY[name]
+    tr = Trainer(m_cfg, data_cfg)
+    tr.ckpt_dir = ckpt_dir         # salva i .pt qui
+    return tr
+
+# ──────────────────────────────────────────────────────────────────────── #
+# Training / resume / artefacts                                           #
+# ──────────────────────────────────────────────────────────────────────── #
+def _run_full_training(trainer, epochs: int):
+    """Loop di training (identico al codice esistente, solo incapsulato)."""
+    has_val = hasattr(trainer, "validate_epoch")
+    total_batches = getattr(trainer, "batches_train", None)
+    if total_batches is None:
+        try: total_batches = len(trainer.train_loader)
+        except TypeError: total_batches = None
+
+    for epoch in range(1, epochs + 1):
+        t0 = time.time(); run_loss = run_corr = seen = 0
+        print(f"--- Epoch {epoch}/{epochs} ---")
+        for i, batch in enumerate(trainer.train_loader, 1):
+            sig = inspect.signature(trainer.train_step)
+            res = trainer.train_step(batch) if len(sig.parameters) == 1 \
+                  else trainer.train_step(*batch)
+            if len(res) == 4: _, loss, corr, bs = res
+            else:             loss, bs = res; corr = 0
+            run_loss += loss * bs; run_corr += corr; seen += bs
+
+            # progress bar
+            if total_batches:
+                pct = (i/total_batches)*100
+                eta = ((time.time()-t0)/i)*(total_batches-i)
+                msg = (f"  Batch {i}/{total_batches} ({pct:.1f}%) | "
+                       f"Loss: {run_loss/seen:.4f}")
+                if has_val: msg += f" | Acc: {run_corr/seen:.3f}"
+                msg += f" | Elapsed: {time.time()-t0:.1f}s | ETA: {eta:.1f}s"
+            else:
+                msg = f"  Batch {i} | Loss: {run_loss/seen:.4f}"
+                if has_val: msg += f" | Acc: {run_corr/seen:.3f}"
+                msg += f" | Elapsed: {time.time()-t0:.1f}s"
+            print(msg)
+
+        if has_val:
+            v_loss, v_acc = trainer.validate_epoch()
+            trainer.post_epoch(epoch, v_acc)
+            print(f"Val -> Loss: {v_loss:.4f} | Acc: {v_acc:.3f}")
         else:
-            skip_training = False
+            trainer.post_epoch(epoch, run_loss/seen)
 
-        # --- Training loop ---------------------------------------------------- #
-        if not skip_training:
-            total_batches = getattr(trainer, "batches_train", None) or len(trainer.train_loader)
-            print(f"TOTAL BATCHES {total_batches}")
+        print(f"Epoch {epoch} completed in {time.time()-t0:.1f}s\n")
 
-            for epoch in range(1, epochs + 1):
-                epoch_start = time.time()
-                running_loss, running_correct, total_samples = 0.0, 0, 0
+def _resume_or_train(trainer, paths: dict, epochs: int):
+    ckpt = get_latest_checkpoint(paths["dir"], prefix=paths["ckpt_pref"])
+    if ckpt:
+        print(f"⏩ Resume da {ckpt.name}")
+        load_checkpoint(
+            ckpt,
+            model=torch.nn.Sequential(
+                trainer.encoder,
+                getattr(trainer, "projector", torch.nn.Identity())
+            )
+        )
+    else:
+        _run_full_training(trainer, epochs)
 
-                print(f"--- Epoch {epoch}/{epochs} ---")
-                for i, batch in enumerate(trainer.train_loader, start=1):
-                    sig    = inspect.signature(trainer.train_step)
-                    result = trainer.train_step(batch) if len(sig.parameters) == 1 else trainer.train_step(*batch)
+def _ensure_ssl_artifacts(trainer, paths: dict):
+    if not paths["features"].exists():
+        trainer.extract_features_to(str(paths["features"]))
+    if not paths["clf"].exists():
+        train_classifier(str(paths["features"]), str(paths["clf"]))
 
-                    if len(result) == 4:
-                        _, loss, correct, bs = result
-                    else:
-                        loss, bs = result
-                        correct = 0
+# %%
+# %% -------------------------------------------------------------------- #
+# Cell 7 – Modular Launch & Auto-Recover                                  #
+# ----------------------------------------------------------------------- #
+def launch_training(cfg: dict) -> None:
+    """Lancia (o recupera) tutti i modelli selezionati."""
+    for name, m_cfg in _select_models(cfg).items():
+        paths   = _paths(name)
+        is_ssl  = m_cfg.get("type") == "ssl"
+        epochs  = int(m_cfg["training"]["epochs"])
 
-                    running_loss    += loss * bs
-                    running_correct += correct
-                    total_samples   += bs
+        # ---------- logging (append) ----------------------------------- #
+        with open(paths["log"], "a") as lf, \
+             contextlib.redirect_stdout(_Tee(sys.stdout, lf)), \
+             contextlib.redirect_stderr(_Tee(sys.stderr, lf)):
 
-                    avg_loss = running_loss / total_samples
-                    avg_acc  = (running_correct / total_samples) if has_val else 0.0
-                    elapsed  = time.time() - epoch_start
-                    pct      = (i / total_batches) * 100
-                    eta      = (elapsed / i) * (total_batches - i)
+            if _completed(paths, is_ssl):
+                print(f"✅ Artefatti completi per '{name}' – skip\n")
+                continue
 
-                    msg = f"  Batch {i}/{total_batches} ({pct:.1f}%) | Loss: {avg_loss:.4f}"
-                    if has_val:
-                        msg += f" | Acc: {avg_acc:.3f}"
-                    msg += f" | Elapsed: {elapsed:.1f}s | ETA: {eta:.1f}s"
-                    print(msg)
+            trainer = _init_trainer(name, m_cfg, cfg["data"], paths["dir"])
+            print(f"Device: {trainer.device} 🚀  Starting training for '{name}'")
+            print(f"→ Model config: {m_cfg}\n")
 
-                if has_val:
-                    val_loss, val_acc = trainer.validate_epoch()
-                    print(f"Val -> Loss: {val_loss:.4f} | Acc: {val_acc:.3f}")
-                    metric = val_acc
-                else:
-                    val_loss = val_acc = None
-                    metric = running_loss / total_samples
+            _resume_or_train(trainer, paths, epochs)
 
-                trainer.post_epoch(epoch, metric)
-                epoch_time = time.time() - epoch_start
-                train_loss = running_loss / total_samples
-                train_acc  = running_correct / total_samples if has_val else None
+            if is_ssl:
+                _ensure_ssl_artifacts(trainer, paths)
 
-                print(f"Epoch {epoch} completed in {epoch_time:.1f}s\n")
+            # Aggiorna indice globale
+            last_ckpt = get_latest_checkpoint(paths["dir"], prefix=paths["ckpt_pref"])
+            rel = last_ckpt.relative_to(EXP_ROOT) if last_ckpt else "-"
+            _global_experiments_append(f"| {EXP_CODE} | {name} | {epochs} | {rel} |")
 
-                # --- Scrittura metriche in Markdown ---------------------------- #
-                metrics_md = (
-                    f"| Epoch | Train Loss | Train Acc | Val Loss | Val Acc | Duration |\n"
-                    f"|-------|------------|-----------|----------|---------|----------|\n"
-                    f"| {epoch} "
-                    f"| {train_loss:.4f} "
-                    f"| {train_acc:.3f} " if train_acc is not None else "| n/a "
-                )
-                metrics_md += (
-                    f"| {val_loss:.4f} | {val_acc:.3f} " if val_loss is not None else "| n/a | n/a "
-                )
-                metrics_md += f"| {epoch_time:.1f}s |"
-
-                append_report(report_md, f"Epoch {epoch} summary", metrics_md)
-
-            # Salva checkpoint finale
-            new_best = get_latest_checkpoint(ckpt_dir, prefix=TrainerCls.__name__)
-            if new_best and new_best != ckpt_best:
-                new_best.replace(ckpt_best)
-            append_report(report_md, "Checkpoint salvato",
-                          f"`{ckpt_best.relative_to(MODELS_DIR)}`")
-
-        # --- SSL: estrazione feature + classificatore -------------------------- #
-        if not has_val:
-            if not feat_path.exists():
-                trainer.extract_features_to(str(feat_path))
-            feat_shape = tuple(torch.load(feat_path)["features"].shape)
-            append_report(Path(f"{name}/features/features_report.md"),
-                          "Features estratte",
-                          f"`{feat_path.relative_to(MODELS_DIR)}` shape = {feat_shape}")
-
-            print(f"🔍 Extracting & training classifier for '{name}'")
-            train_classifier(str(feat_path), str(clf_path))
-            append_report(Path(f"{name}/classifier/classifier_report.md"),
-                          "Classifier addestrato",
-                          f"`{clf_path.relative_to(MODELS_DIR)}`")
-
-# Cell 8 – Run!
+# 🚀 Avvio immediato
 launch_training(cfg)
-
 
 
