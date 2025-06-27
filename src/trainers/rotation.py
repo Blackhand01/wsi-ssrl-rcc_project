@@ -161,9 +161,10 @@ class RotationTrainer(BaseTrainer):
         if epoch_loss < self.best_loss:
             self.best_loss  = epoch_loss
             self.best_epoch = epoch
-            self.ckpt_dir.mkdir(parents=True, exist_ok=True)
+            ckpt_dir = Path(self.train_pattern).parent / "checkpoints"
+            ckpt_dir.mkdir(parents=True, exist_ok=True)
             save_checkpoint(
-                ckpt_dir=self.ckpt_dir,
+                ckpt_dir=ckpt_dir,
                 prefix=self.__class__.__name__,
                 epoch=epoch,
                 best=True,

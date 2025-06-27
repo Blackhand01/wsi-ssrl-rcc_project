@@ -124,7 +124,6 @@ class TransferTrainer(BaseTrainer):
         self.history.append({"epoch": epoch, "val_acc": val_acc})
         if val_acc > self.best_val_acc:
             self.best_val_acc, self.best_epoch = val_acc, epoch
-            self.ckpt_dir.mkdir(parents=True, exist_ok=True)
             save_checkpoint(
                 ckpt_dir=self.ckpt_dir,
                 prefix=self.__class__.__name__,
