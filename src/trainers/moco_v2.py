@@ -70,12 +70,10 @@ class MoCoPreprocSample:
         if self.aug_cfg.get("rotation"):
             angles = self.aug_cfg["rotation"]
             aug.append(T.RandomChoice([T.RandomRotation((a, a)) for a in angles]))
-        if cj := self.aug_cfg.get("color_jitter", {}):
-            aug.append(T.ColorJitter(**cj))
-        if self.aug_cfg.get("grayscale", False):
-            aug.append(T.RandomGrayscale(p=0.2))
-        if self.aug_cfg.get("gaussian_blur", False):
-            aug.append(T.GaussianBlur(kernel_size=3))
+        # Strong color jitter and blur as in MoCo v2
+        aug.append(T.RandomApply([T.ColorJitter(0.4, 0.4, 0.4, 0.1)], p=0.8))
+        aug.append(T.RandomGrayscale(p=0.2))
+        aug.append(T.RandomApply([T.GaussianBlur(23, sigma=(0.1, 2.0))], p=0.5))
         aug.append(T.ToTensor())
         return T.Compose(aug)
 
@@ -94,19 +92,20 @@ class MoCoV2Trainer(BaseTrainer):
     def __init__(self, model_cfg: Dict[str, Any], data_cfg: Dict[str, Any]) -> None:
         super().__init__(model_cfg, data_cfg)
         tcfg = model_cfg["training"]
-        self.epochs = int(tcfg["epochs"])
-        self.batch_size = int(tcfg["batch_size"])
+        self.epochs = int(tcfg.get("epochs", 100))
+        self.batch_size = int(tcfg.get("batch_size", 128))
         self.lr = float(tcfg["learning_rate"])
         self.weight_decay = float(tcfg["weight_decay"])
         self.momentum = float(tcfg.get("momentum", 0.999))
         self.temperature = float(tcfg.get("temperature", 0.2))
-        self.queue_size = int(tcfg.get("queue_size", 4096))
+        self.queue_size = int(tcfg.get("queue_size", 1024))
         self.patch_size = int(model_cfg.get("patch_size", 224))
-        self.proj_dim = int(model_cfg.get("proj_dim", 128))
+        self.proj_dim = int(model_cfg.get("proj_dim", 256))
         self.aug_cfg = model_cfg.get("augmentation", {})
 
         self.device = choose_device()
         self.train_pattern = str(Path(data_cfg["train"]))
+        self.ckpt_dir = Path(self.train_pattern).parent / "checkpoints"
         self.num_train = count_samples(Path(self.train_pattern))
         self.batches_train = math.ceil(self.num_train / self.batch_size)
 
@@ -147,18 +146,37 @@ class MoCoV2Trainer(BaseTrainer):
             param.requires_grad = False
         for param in self.projector_k.parameters():
             param.requires_grad = False
+        # Ensure BN stats are frozen for key encoder
+        self.encoder_k.eval()
+        self.projector_k.eval()
 
         # Queue
         self.queue = nn.functional.normalize(torch.randn(self.queue_size, self.proj_dim), dim=1).to(self.device)
         self.queue_ptr = torch.zeros(1, dtype=torch.long).to(self.device)
 
-        self.optimizer = optim.Adam(
-            list(self.encoder_q.parameters()) + list(self.projector_q.parameters()),
-            lr=self.lr,
-            weight_decay=self.weight_decay,
-        )
-        self.encoder = self.encoder_q
-        self.projector = self.projector_q
+
+        opt_name = model_cfg["training"].get("optimizer", "sgd").lower()
+        params = list(self.encoder_q.parameters()) + list(self.projector_q.parameters())
+        if opt_name == "sgd":
+            self.optimizer = optim.SGD(params, lr=self.lr,
+                                       momentum=0.9, weight_decay=self.weight_decay)
+        elif opt_name == "adam":
+            self.optimizer = optim.Adam(params, lr=self.lr,
+                                        weight_decay=self.weight_decay)
+        else:
+            raise ValueError(f"Unsupported optimizer: {opt_name}")
+        # Cosine annealing LR schedule with linear warmup
+        self.lr_schedule = tcfg.get("lr_schedule", "cosine")
+        # Warmup epochs: 10% of total, max 10
+        self.warmup_epochs = min(10, int(0.1 * self.epochs))
+        total_steps = self.epochs * self.batches_train
+        warmup_steps = self.warmup_epochs * self.batches_train
+        def lr_lambda(step):
+            if step < warmup_steps:
+                return float(step) / float(max(1, warmup_steps))
+            progress = float(step - warmup_steps) / float(max(1, total_steps - warmup_steps))
+            return 0.5 * (1.0 + math.cos(math.pi * progress))
+        self.scheduler = optim.lr_scheduler.LambdaLR(self.optimizer, lr_lambda)
 
         self.best_epoch = 0
         self.best_loss = float("inf")
@@ -177,6 +195,8 @@ class MoCoV2Trainer(BaseTrainer):
 
         self.encoder_q.train()
         self.projector_q.train()
+        self.encoder_k.eval()
+        self.projector_k.eval()
         self.optimizer.zero_grad()
 
         q_feats = self.projector_q(self.encoder_q(q_imgs))  # NxD
@@ -197,23 +217,33 @@ class MoCoV2Trainer(BaseTrainer):
         loss = F.cross_entropy(logits, labels)
         loss.backward()
         self.optimizer.step()
+        self.scheduler.step()
 
-        # Update queue
+        # Update queue (circular, wrap-around, bugfix)
         batch_size = k_feats.shape[0]
         ptr = int(self.queue_ptr)
-        self.queue[ptr:ptr + batch_size] = k_feats.detach()
-        self.queue_ptr[0] = (ptr + batch_size) % self.queue_size
+        end = ptr + batch_size
+        if end <= self.queue_size:
+            self.queue[ptr:end] = k_feats.detach()
+        else:
+            first = self.queue_size - ptr
+            self.queue[ptr:] = k_feats[:first].detach()
+            self.queue[:end % self.queue_size] = k_feats[first:].detach()
+        self.queue_ptr[0] = end % self.queue_size
 
         return float(loss.item()), q_imgs.size(0)
 
     def post_epoch(self, epoch: int, epoch_loss: float) -> None:
+        # Non salvare checkpoint prima della fine del warm-up
+        if epoch < self.warmup_epochs:
+            return
+
         if epoch_loss < self.best_loss:
             self.best_loss = epoch_loss
             self.best_epoch = epoch
-            ckpt_dir = Path(self.train_pattern).parent / "checkpoints"
-            ckpt_dir.mkdir(parents=True, exist_ok=True)
+            self.ckpt_dir.mkdir(parents=True, exist_ok=True)
             save_checkpoint(
-                ckpt_dir=ckpt_dir,
+                ckpt_dir=self.ckpt_dir,
                 prefix=self.__class__.__name__,
                 epoch=epoch,
                 best=True,
@@ -228,6 +258,7 @@ class MoCoV2Trainer(BaseTrainer):
         return self.best_epoch, self.best_loss
 
     def extract_features_to(self, output_path: str) -> None:
+        self.encoder_q.eval()
         def _make_loader():
             ds = (
                 wds.WebDataset(self.train_pattern)
