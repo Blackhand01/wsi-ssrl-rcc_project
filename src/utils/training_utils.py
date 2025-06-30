@@ -284,18 +284,22 @@ def load_checkpoint(ckpt_path: Path,
 
 
 
-def get_latest_checkpoint(ckpt_dir: Path, prefix: str = "", ext: str = ".pt") -> Optional[Path]:
+def get_latest_checkpoint(ckpt_dir: Path,
+                          *,
+                          ext: str = ".pt") -> Optional[Path]:
     """
-    Return the most recent checkpoint file in ckpt_dir matching the given prefix.
-    If no matching file is found, returns None (instead of raising an exception).
+    Restituisce il file più recente in ckpt_dir che contenga '_best_epoch'
+    e termini con .pt. Se non ne trova, torna None invece di sollevare.
     """
     ckpt_dir.mkdir(parents=True, exist_ok=True)
+    # globberà file tipo '…_best_epoch###.pt' a prescindere dal prefisso
     files = sorted(
-        ckpt_dir.glob(f"{prefix}_*{ext}"),
+        ckpt_dir.glob(f"* _best_epoch*{ext}".replace(" ", "")),
         key=lambda p: p.stat().st_mtime,
         reverse=True
     )
     return files[0] if files else None
+
 
 # -----------------------------------------------------------------------------
 # Training Report Generation
