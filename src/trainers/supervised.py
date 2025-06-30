@@ -168,8 +168,9 @@ class SupervisedTrainer(BaseTrainer):
         if val_metric > self.best_val_acc:
             self.best_val_acc = val_metric
             self.best_epoch = epoch
+            self.ckpt_dir.mkdir(parents=True, exist_ok=True)
             save_checkpoint(
-                ckpt_dir=self.output_root / "supervised" / "checkpoints",
+                ckpt_dir=self.ckpt_dir,
                 prefix=self.__class__.__name__, epoch=epoch, best=True,
                 model=self.model, optimizer=self.optimizer,
                 class_to_idx=self.class_to_idx,
