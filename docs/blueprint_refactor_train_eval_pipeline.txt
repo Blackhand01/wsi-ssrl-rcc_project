@@ -1,0 +1,182 @@
+### 1. Struttura cartelle di riferimento
+
+
+experiments/
+└─ {EXP_CODE}/                       # es. 20250709-001100
+   ├─ {SSL_model}/                        # ↓  ripetuto per ogni modello
+   │  ├─ fold{i}/
+   │  │   ├─ training/
+   │  │   │   ├─ {SSL_model}_bestepoch002_fold{i}.pt
+   │  │   │   ├─ {SSL_model}_features_fold{i}.pt
+   │  │   │   ├─ {SSL_model}_classifier_fold{i}.joblib
+   │  │   │   ├─ {SSL_model}_ts_scaler_fold{i}.joblib
+   │  │   │   ├─ {SSL_model}_train_log_fold{i}.md
+   │  │   │   └─ {SSL_model}_train_valid_loss_fold{i}.json
+   │  │   ├─ inference/
+   │  │   │   ├─ {SSL_model}_patch_preds_fold{i}.pt
+   │  │   │   ├─ {SSL_model}_patient_preds_fold{i}.csv
+   │  │   │   ├─ {SSL_model}_mc_logits_fold{i}.npy
+   │  │   │   └─ {SSL_model}_metrics_fold{i}.json       # accuracy, f1, auc, ece_pre, ...
+   │  │   └─ explain/
+   │  │       ├─ patient_id/patchID_gradcam.png
+   │  │       └─ {SSL_model}_metadata_gradcam_fold{i}.csv 
+   │  └─ _aggregate/                             # ← μ±σ SU TUTTI I FOLD DI QUESTO MODELLO
+   │      ├─ {SSL_model}_metrics.json             # valori numerici
+   │      └─ {SSL_model}summary_agg.jpg              # tabella seaborn pronta per il paper
+   │
+   ├─ {SL_model}/
+   │  ├─ fold{i}/
+   │  │   ├─ training/
+   │  │   │   ├─ {SL_model}_bestepoch047_fold{i}.pt
+   │  │   │   ├─ {SL_model}_ts_scaler_fold{i}.joblib
+   │  │   │   ├─ {SL_model}_train_log_fold{i}.md
+   │  │   │   └─ {SL_model}_train_valid_loss_fold{i}.json
+   │   ├─ inference/
+   │  │   │   ├─ {SL_model}_patch_preds_fold{i}.pt
+   │  │   │   ├─ {SL_model}_patient_preds_fold{i}.csv
+   │  │   │   ├─ {SL_model}_mc_logits_fold{i}.npy
+   │  │   │   └─ {SL_model}_metrics_fold{i}.json       # accuracy, f1, auc, ece_pre, ...
+   │  │   └─ explain/
+   │  │       ├─ patient_id/patchID_gradcam.png
+   │  │       └─ {SL_model}_metadata_gradcam_fold{i}.csv 
+   │  └─ _aggregate/                             # ← μ±σ SU TUTTI I FOLD DI QUESTO MODELLO
+   │      ├─ {SL_model}_metrics.json             # valori numerici
+   │      └─ {SL_model}summary_agg.jpg              # tabella seaborn pronta per il paper
+   │├─ _experiment_level/                         # ← AGGREGATO CROSS-MODELLO (stesso EXP_CODE)
+   │   ├─ models_comparison.json                 # tabella JSON {model: {metric: μ±σ}}
+   │   └─ models_comparison.jpg                   # tabella seaborn pronta per il paper
+   │
+   └─ README_EXPERIMENT.md                       # Motivazione della scelta degli iperparametri per ogni esperimento
+
+
+### 📁 Descrizione dettagliata della gerarchia `experiments/{EXP_CODE}/`
+
+> **Nota** – i segnaposto vanno sostituiti così:
+> • `{SSL_model}` ∈ `simclr`, `moco_v2`, `rotation`, `jepa`
+> • `{SL_model}` ∈ `supervised`, `transfer`
+> • `{i}` = indice fold (0, 1, …)
+
+| Percorso / File                         | Contenuto esatto                                                                                                                                             | Perché serve                                              |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------- |
+| **`training/`** *(in ogni fold)*        |                                                                                                                                                              |                                                           |
+| `{model}_bestepochXYZ_fold{i}.pt`       | **Checkpoint PyTorch** (stato `model` + `optimizer`) con valid-loss migliore. SSL → encoder (+ projector); SL → rete completa.                               | Permette resume e inferenza riproducibile.                |
+| `{model}_features_fold{i}.pt`           | *(solo SSL)* `dict{"features": Tensor[N, D], "keys": list[str]}` – embedding patch estratti dall’encoder.                                                    | Ri-uso rapido senza ri-passare le immagini.               |
+| `{model}_classifier_fold{i}.joblib`     | *(solo SSL)* classificatore lineare/MLP addestrato sullo spazio feature. Salvato con `joblib.dump({"model": clf, "label_encoder": le})`.                     | Predizione patch-level da embedding.                      |
+| `{model}_ts_scaler_fold{i}.joblib`      | Parametro di **temperature scaling** (`T` float) salvato con `joblib`.                                                                                       | Corregge la sovra-/sottoconfidenza del probe (o SL).      |
+| `{model}_train_log_fold{i}.md`          | Log grezzo di stdout/stderr rediretto (*tee*) durante il training di quel fold.                                                                              | Debug rapido e tracciabilità esperimento.                 |
+| `{model}_train_valid_loss_fold{i}.json` | Lista per epoca: `{"epoch": k, "train_loss": …, "val_loss": …}`.                                                                                             | Plot learning-curve, early-stop proof.                    |
+| **`inference/`**                        |                                                                                                                                                              |                                                           |
+| `{model}_patch_preds_fold{i}.pt`        | `torch.save` di un `dict`:<br>• `preds_raw`<br>• `probs_raw`<br>• `probs_cal` (dopo T)<br>• `true_labels`<br>• `keys`                                        | Per analisi fine-grana, ROC/PR patch-level.               |
+| `{model}_patient_preds_fold{i}.csv`     | Tabelle a una riga/paziente:<br>`patient_id, true_label, pred_label, n_patches, mean_conf_raw, mean_conf_cal`                                                | Reporting clinico “per caso”.                             |
+| `{model}_mc_logits_fold{i}.npy`         | Array `float32 [T, N, C]` – logits di **T passaggi MC-Dropout** (T = 20).                                                                                    | Stima **incertezza epistemica**.                          |
+| `{model}_metrics_fold{i}.json`          | `json { "accuracy":0.83, "macro_f1":0.79, "auc":0.90, "ece_pre":0.12, "ece_post":0.03, "uncertainty_mc":0.11 } `                                             | Metriche finali fold-level usate in aggregazione.         |
+| **`explain/`**                          |                                                                                                                                                              |                                                           |
+| `patient_id/patchID_gradcam.png`        | Overlay Grad-CAM (heat-map su patch).                                                                                                                        | Interpretabilità visiva.                                  |
+| `{model}_metadata_gradcam_fold{i}.csv`  | Righe: `patch_id, patient_id, true_label, pred_label, confidence` dei patch selezionati per Grad-CAM.                                                        | Traceability delle heat-map usate nel paper.              |
+| **`_aggregate/`** *(per modello)*       |                                                                                                                                                              |                                                           |
+| `{model}_metrics.json`                  | Unica entry per metrica: `{"acc":{"mean":0.83,"std":0.04}, ...}` calcolata su tutti i fold definiti in `training.yaml`.                                      | Valore μ±σ per la tabella del paper.                      |
+| `{model}summary_agg.jpg`                | Table/heatmap generata con Seaborn che riassume μ±σ (pronta da inserire in LaTeX).                                                                           | Asset grafico immediato.                                  |
+| **`_experiment_level/`**                |                                                                                                                                                              |                                                           |
+| `models_comparison.json`                | Dizionario nidificato `{model → {metric → μ±σ}}` per **tutti** i modelli dell’esperimento.                                                                   | Fonte unica per figure comparative.                       |
+| `models_comparison.jpg`                 | Tabella o bar-plot comparativo (Acc, F1, ECE, Unc).                                                                                                          | Figura riassuntiva finale.                                |
+| **`README_EXPERIMENT.md`**              | • Data & ora di lancio<br>• Commit git<br>• Hyper-param principali per ciascun modello<br>• Note su hardware (GPU, RAM)<br>• Eventuali anomalie/osservazioni | Documentazione auto-contenuta per il revisore/professore. |
+
+---
+
+### ✅ Perché questa struttura è coerente?
+
+1. **Isola** chiaramente training vs inference vs explain.
+2. Rende **simmetrici** SSL e SL (stessi sotto-folder e metriche).
+3. Facilita ➜ **resume**, **debug** (log.md), **riproducibilità** (checkpoint + scaler), **analisi** (patch\_preds).
+4. File *\_aggregate* e *\_experiment\_level* forniscono **pronto-uso** per tabelle/figure del paper.
+
+Così avrai un repository di risultati ordinato, facilmente navigabile, pensato sia per sviluppo iterativo in Colab/cluster, sia per la fase di scrittura scientifica.
+
+
+Ogni shard è un file .tar (es: patches-0000.tar).
+All’interno ci sono solo immagini .jpg (patches), senza chiavi (__key__) o metadati aggiuntivi.
+I nomi dei file sono flat e incrementali: CHROMO_HP19012316_7296_5877.jpg, not_tumor_HP11023312_6134_4272.jpg
+Non ci sono sottocartelle o strutture annidate.
+Gli shards sono divisi per split (train, val, test) e si trovano in una struttura tipo:
+CHROMO_HP19012316_7296_5877.jpg
+└────┬──┘ └──┬──┘ └───┬───┘
+  │      │       │
+  │      │       └─ coordinate (x, y)
+  │      └────────── patient ID normalizzato
+  └───────────────── classe (CHROMO, ONCO, ccRCC, pRCC, not_tumor)
+
+
+Ottima domanda. Capire **come sono strutturati i `.tar` usati da WebDataset** è essenziale per evitare errori di parsing, soprattutto in progetti come il tuo in cui **usi `.tar` flat, senza metadati aggiuntivi né chiavi esplicite**.
+
+---
+
+## 🧱 Formato "flat" dei miei shard
+
+Nel mio caso, i `.tar` sono *piatti* e contengono **solo immagini `.jpg`** con nomi completi, ad esempio:
+
+```
+ccRCC_HP12345678_1234_5678.jpg
+ONCO_HP34567890_4321_8765.jpg
+not_tumor_HP98765432_0000_1111.jpg
+```
+
+Quindi:
+
+* **Non esiste `__key__` esplicito**.
+* **Nessuna struttura a “gruppi di file”** con chiavi comuni.
+* Ogni file è **indipendente** e contiene **tutte le informazioni nel nome**.
+getto immagine, e `__key__` viene **derivato automaticamente dal nome file senza estensione**.
+
+Ma nel tuo caso meglio ancora:
+
+```python
+.to_tuple("jpg", "__key__")  # e poi .map_tuple(..., lambda k: f"{k}.jpg")
+```
+
+Funziona **solo se** `.jpg` è il **tipo MIME** dedotto durante `.decode("pil")`.
+
+---
+
+## 📷 Esempio: cosa contiene il tuo `shard.tar`
+
+Dati i file `.tar` così:
+
+```bash
+$ tar tf patches-0000.tar
+ccRCC_HP12345678_1234_5678.jpg
+ONCO_HP34567890_4321_8765.jpg
+...
+```
+
+Il dataset WebDataset si comporta così:
+
+```python
+ds = wds.WebDataset("patches-0000.tar").decode("pil")
+
+for sample in ds:
+    print(sample)
+```
+
+Output (semplificato):
+
+```python
+{
+  "ccRCC_HP12345678_1234_5678.jpg": <PIL.Image.Image object at ...>
+}
+```
+
+Quindi devi:
+
+* estrarre **il valore associato all’unica chiave**.
+* o usare `.to_tuple("jpg", "__key__")` dopo `.decode("pil")`.
+
+---
+
+## 📌 Conclusione
+
+| Aspetto                       | WebDataset Classico       | Il tuo formato Flat `.tar`                 |
+| ----------------------------- | ------------------------- | ------------------------------------------ |
+| Chiave `__key__`              | Presente                  | Deducibile dal nome file `.jpg`            |
+| `.jpg`, `.cls`, `.json`       | Multipli per esempio      | Solo `.jpg`                                |
+| `.to_tuple("jpg", "__key__")` | Funziona direttamente     | Funziona se `.jpg` è dedotto correttamente |
+| `.map(lambda s: ...)`         | `s["jpg"], s["cls"], ...` | Devi cercare la *prima* immagine           |

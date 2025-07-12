@@ -1,0 +1,107 @@
+# ────────────────────────────  training_exp3.yaml  ────────────────────────────
+# Esperimento 3 – “backbone più profondo”
+
+env_paths:
+  colab: "/content/drive/MyDrive/ColabNotebooks/wsi-ssrl-rcc_project"
+  local: "/Users/stefanoroybisignano/Desktop/MLA/project/wsi-ssrl-rcc_project"
+
+run_model: all
+exp_code: "exp3"
+
+data:
+  dataset_id: "dataset_9f30917e"
+  train: "data/processed/dataset_9f30917e/webdataset/train/patches-0000.tar"
+  val:   "data/processed/dataset_9f30917e/webdataset/val/patches-0000.tar"
+  test:  "data/processed/dataset_9f30917e/webdataset/test/patches-0000.tar"
+
+output_dir: "data/processed/{dataset_id}/experiments"
+
+models:
+  simclr:
+    type: ssl
+    backbone: "resnet34"
+    proj_dim: 128
+    augmentation:
+      enabled: true
+      horizontal_flip: true
+      rotation: [0, 90, 180, 270]
+      color_jitter: {brightness: 0.4, contrast: 0.4, saturation: 0.4, hue: 0.1}
+      gaussian_blur: true
+    training:
+      epochs:        50
+      batch_size:    64
+      optimizer:     "adam"
+      learning_rate: 1e-3
+      weight_decay:  1e-5
+      temperature:   0.5
+
+  moco_v2:
+    type: ssl
+    backbone: "resnet34"
+    proj_dim: 512
+    patch_size: 224
+    augmentation:
+      enabled: true
+      horizontal_flip: true
+      gaussian_blur: true
+      grayscale: true
+      color_jitter: {brightness: 0.4, contrast: 0.4, saturation: 0.4, hue: 0.1}
+    training:
+      epochs:        50
+      batch_size:    64
+      optimizer:     "sgd"
+      learning_rate: 0.05
+      weight_decay:  1e-4
+      queue_size:    512
+      momentum:      0.995
+      temperature:   0.20
+      lr_schedule:   "cosine"
+      warmup_epochs: 5
+
+  rotation:
+    type: ssl
+    backbone: "resnet34"
+    patch_size: 224
+    training:
+      epochs:        50
+      batch_size:    32
+      optimizer:     "adam"
+      learning_rate: 1e-4
+      weight_decay:  1e-5
+
+  jigsaw:
+    type:  ssl
+    backbone:  "resnet34"
+    grid_size: 4
+    n_permutations: 50
+    patch_size: 256
+    hidden_dim: 2048
+    training:
+      epochs:        50
+      batch_size:    32
+      optimizer:     "adamw"
+      learning_rate: 2e-4
+      weight_decay:  5e-4
+
+  supervised:
+    type: sl
+    backbone: "resnet34"
+    pretrained: false
+    training:
+      epochs:        50
+      batch_size:    64
+      optimizer:     "sgd"
+      momentum:      0.9
+      learning_rate: 0.05
+      weight_decay:  1e-4
+
+  transfer:
+    type: sl
+    backbone: "resnet34"
+    pretrained: true
+    training:
+      epochs:        50
+      batch_size:    64
+      optimizer:     "adam"
+      learning_rate: 2e-4
+      weight_decay:  1e-5

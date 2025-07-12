@@ -1,0 +1,116 @@
+# ────────────────────────────  training_exp1.yaml  ────────────────────────────
+# Esperimento 1 – “baseline lunga”
+
+# -----------------------------------------------------------------------------#
+# Environment detection
+# -----------------------------------------------------------------------------#
+env_paths:
+  colab: "/content/drive/MyDrive/ColabNotebooks/wsi-ssrl-rcc_project"
+  local: "/Users/stefanoroybisignano/Desktop/MLA/project/wsi-ssrl-rcc_project"
+
+run_model: all            # simclr, supervised o all
+exp_code: "exp1"
+
+# -----------------------------------------------------------------------------#
+# WebDataset paths
+# -----------------------------------------------------------------------------#
+data:
+  dataset_id: "dataset_9f30917e"
+  train: "data/processed/dataset_9f30917e/webdataset/train/patches-0000.tar"
+  val:   "data/processed/dataset_9f30917e/webdataset/val/patches-0000.tar"
+  test:  "data/processed/dataset_9f30917e/webdataset/test/patches-0000.tar"
+
+output_dir: "data/processed/{dataset_id}/experiments"
+
+# -----------------------------------------------------------------------------#
+# Model-specific parameters
+# -----------------------------------------------------------------------------#
+models:
+  simclr:
+    type: ssl
+    backbone: "resnet18"
+    proj_dim: 128
+    augmentation:
+      enabled: true
+      horizontal_flip: true
+      rotation: [0, 90, 180, 270]
+      color_jitter: {brightness: 0.4, contrast: 0.4, saturation: 0.4, hue: 0.1}
+      gaussian_blur: true
+    training:
+      epochs:        50
+      batch_size:    64
+      optimizer:     "adam"
+      learning_rate: 1e-3
+      weight_decay:  1e-5
+      temperature:   0.5
+
+  moco_v2:
+    type: ssl
+    backbone: "resnet18"
+    proj_dim: 256
+    patch_size: 224
+    augmentation:
+      enabled: true
+      horizontal_flip: true
+      rotation: [90, 180, 270]
+      gaussian_blur: true
+      grayscale: true
+      color_jitter: {brightness: 0.4, contrast: 0.4, saturation: 0.4, hue: 0.1}
+    training:
+      epochs:        50
+      batch_size:    128
+      optimizer:     "sgd"
+      learning_rate: 0.03
+      weight_decay:  1e-4
+      queue_size:    256
+      momentum:      0.99
+      temperature:   0.07
+      lr_schedule:   "cosine"
+      warmup_epochs: 5
+
+  rotation:
+    type: ssl
+    backbone: "resnet18"
+    patch_size: 224
+    training:
+      epochs:        50
+      batch_size:    64
+      optimizer:     "sgd"
+      learning_rate: 5e-2
+      weight_decay:  1e-4
+
+  jigsaw:
+    type:  ssl
+    backbone:  "resnet18"
+    grid_size: 3
+    n_permutations: 100
+    patch_size: 224
+    training:
+      epochs:        50
+      batch_size:    64
+      optimizer:     "adam"
+      learning_rate: 1e-3
+      weight_decay:  1e-5
+
+  supervised:            # training da zero (upper-bound supervised)
+    type: sl
+    backbone: "resnet50"
+    pretrained: false
+    training:
+      epochs:        50
+      batch_size:    64
+      optimizer:     "sgd"
+      momentum:      0.9
+      learning_rate: 0.1          # LR “classica” ImageNet
+      weight_decay:  1e-4
+
+  transfer:              # fine-tuning da ImageNet
+    type: sl
+    backbone: "resnet50"
+    pretrained: true
+    training:
+      epochs:        50
+      batch_size:    64
+      optimizer:     "adam"
+      learning_rate: 1e-4         # LR bassa per evitare forgetting
+      weight_decay:  1e-5

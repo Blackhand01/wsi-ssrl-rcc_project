@@ -1,127 +1,173 @@
-# -----------------------------------------------------------------------------#
-# Environment detection                                                         
-# -----------------------------------------------------------------------------#
+# -----------------------------------------------------------------------------
+# 0. Working Environment
+# -----------------------------------------------------------------------------
 env_paths:
   colab: "/content/drive/MyDrive/ColabNotebooks/wsi-ssrl-rcc_project"
   local: "/Users/stefanoroybisignano/Desktop/MLA/project/wsi-ssrl-rcc_project"
 
-# -----------------------------------------------------------------------------#
-# Quale modello lanciare                                                        
-# -----------------------------------------------------------------------------#
-run_model: all  # es. simclr, supervised o all
+# -----------------------------------------------------------------------------
+# 1. Experiment Identifier
+#    Leave empty to auto-generate a timestamp
+# -----------------------------------------------------------------------------
+exp_code: ""
+seed: 42
+# -----------------------------------------------------------------------------
+# 2. Cross-Validation
+# -----------------------------------------------------------------------------
+folds: [0, 1, 2]
+train_encoder_once: true
 
-# -----------------------------------------------------------------------------#
-# Esperimento da (ri)completare – lascia vuoto o commenta per crearne uno nuovo
-# -----------------------------------------------------------------------------#
-exp_code: ""            # es. "20250701094522"
-
-# -----------------------------------------------------------------------------#
-# Percorsi relativi ai WebDataset                                              
-# -----------------------------------------------------------------------------#
+# -----------------------------------------------------------------------------
+# 3. Dataset Paths (WebDataset .tar files)
+# -----------------------------------------------------------------------------
 data:
   dataset_id: "dataset_9f30917e"
-  train: "data/processed/dataset_9f30917e/webdataset/train/patches-0000.tar"
-  val:   "data/processed/dataset_9f30917e/webdataset/val/patches-0000.tar"
-  test:  "data/processed/dataset_9f30917e/webdataset/test/patches-0000.tar"
+  train: "data/processed/{dataset_id}/webdataset/fold{fold_idx}/train/patches-0000.tar"
+  val:   "data/processed/{dataset_id}/webdataset/fold{fold_idx}/val/patches-0000.tar"
+  test:  "data/processed/{dataset_id}/webdataset/test_holdout.tar"
 
-# directory base di output, ignorata dal launcher che sposta su folder per exp
-output_dir: "data/processed/{dataset_id}/experiments"
+# -----------------------------------------------------------------------------
+# 4. Output Directory and File Patterns
+# -----------------------------------------------------------------------------
+output:
+  exp_dir:       "data/processed/{dataset_id}/experiments/{exp_code}/"
+  exp_model_dir: "{exp_dir}{model_name}/"
 
-# -----------------------------------------------------------------------------#
-# Parametri di tutti i modelli                                                 
-# -----------------------------------------------------------------------------#
+  training:
+    ckpt:      "{exp_model_dir}fold{fold_idx}/training/{model_name}_bestepoch{epoch:03d}_fold{fold_idx}.pt"
+    features:  "{exp_model_dir}fold{fold_idx}/training/{model_name}_features_fold{fold_idx}.pt"
+    clf:       "{exp_model_dir}fold{fold_idx}/training/{model_name}_classifier_fold{fold_idx}.joblib"
+    scaler:    "{exp_model_dir}fold{fold_idx}/training/{model_name}_ts_scaler_fold{fold_idx}.joblib"
+    log:       "{exp_model_dir}fold{fold_idx}/training/{model_name}_train_log_fold{fold_idx}.md"
+    loss_json: "{exp_model_dir}fold{fold_idx}/training/{model_name}_train_valid_loss_fold{fold_idx}.json"
+
+  inference:
+    patch_preds:  "{exp_model_dir}fold{fold_idx}/inference/{model_name}_patch_preds_fold{fold_idx}.pt"
+    patient_preds: "{exp_model_dir}fold{fold_idx}/inference/{model_name}_patient_preds_fold{fold_idx}.csv"
+    mc_logits:    "{exp_model_dir}fold{fold_idx}/inference/{model_name}_mc_logits_fold{fold_idx}.npy"
+    metrics:      "{exp_model_dir}fold{fold_idx}/inference/{model_name}_metrics_fold{fold_idx}.json"
+
+  explain:
+    gradcam_dir:  "{exp_model_dir}fold{fold_idx}/explain/{patient_id}/"
+    metadata_csv: "{exp_model_dir}fold{fold_idx}/explain/{model_name}_metadata_gradcam_fold{fold_idx}.csv"
+
+  aggregate:
+    metrics:     "{exp_model_dir}_aggregate/{model_name}_metrics.json"
+    summary_img: "{exp_model_dir}_aggregate/{model_name}_summary_agg.jpg"
+
+  experiment_level:
+    comparison_json: "{exp_dir}_experiment_level/models_comparison.json"
+    comparison_img:  "{exp_dir}_experiment_level/models_comparison.jpg"
+
+  readme: "{exp_dir}README_EXPERIMENT.md"
+
+# -----------------------------------------------------------------------------
+# 5. Evaluation Settings
+# -----------------------------------------------------------------------------
+evaluation:
+  mc_dropout_passes: 20
+  ece_bins:          10
+  gradcam:
+    top_k: 5
+    layer: "layer4"
+
+# -----------------------------------------------------------------------------
+# 6. Models to Run
+# -----------------------------------------------------------------------------
+run_models: ["rotation", "simclr",  "moco_v2", "jepa", "supervised", "transfer"]
+
+# -----------------------------------------------------------------------------
+# 7. Model Configurations
+# -----------------------------------------------------------------------------
 models:
   simclr:
     type: ssl
     backbone: "resnet18"
+    patch_size: 512 # definiti nel parquet, fisso non dinamico
+    stride: 256 # definiti nel parquet, fisso non dinamico
     proj_dim: 128
-    augmentation:
-      enabled: true
-      horizontal_flip: true
-      rotation: [0, 90, 180, 270]
-      color_jitter:
-        brightness: 0.4
-        contrast:   0.4
-        saturation: 0.4
-        hue:        0.1
     training:
-      epochs:        10
-      batch_size:    64
+      epochs:         2
+      batch_size:     8
+      optimizer:      "adam"
+      learning_rate:  1e-3
+      weight_decay:   1e-5
+      temperature:    0.5
+    augmentation:
+      horizontal_flip: true
+      rotation:         [0, 90, 180, 270]
+      color_jitter:     {brightness: 0.4, contrast: 0.4, saturation: 0.4, hue: 0.1}
+      gaussian_blur:    true
+
+  jepa:
+    type: ssl
+    backbone:     "resnet18"
+    patch_size: 512 # definiti nel parquet, fisso non dinamico
+    stride: 256 # definiti nel parquet, fisso non dinamico
+    context_size: 512
+    hidden_dim:   512
+    augmentation:
+      horizontal_flip: true
+    training:
+      epochs:        2
+      batch_size:    8
       optimizer:     "adam"
-      learning_rate: 1e-3
+      learning_rate: 5e-4
       weight_decay:  1e-5
-      temperature:   0.5
 
   moco_v2:
     type: ssl
     backbone: "resnet18"
-    proj_dim:  128
-    augmentation:
-      enabled:        true
-      horizontal_flip: true
-      color_jitter:
-        brightness: 0.4
-        contrast:   0.4
-        saturation: 0.4
-        hue:        0.1
-      gaussian_blur:  true
-      grayscale:      true
+    patch_size: 512 # definiti nel parquet, fisso non dinamico
+    stride: 256 # definiti nel parquet, fisso non dinamico
+    proj_dim: 256
     training:
-      epochs:        10
-      batch_size:    128
-      optimizer:     "sgd"
-      learning_rate: 0.03
-      weight_decay:  1e-5
-      queue:         65536
-      m:             0.99
-      temperature:   0.07
+      epochs:         2
+      batch_size:     8
+      optimizer:      "sgd"
+      learning_rate:  0.03
+      weight_decay:   1e-4
+      queue_size:     256
+      momentum:       0.99
+      temperature:    0.07
+      lr_schedule:    "cosine"
+      warmup_epochs:  5
 
   rotation:
     type: ssl
     backbone: "resnet18"
+    patch_size: 512 # definiti nel parquet, fisso non dinamico
+    stride: 256 # definiti nel parquet, fisso non dinamico
     training:
-      epochs:        10
-      batch_size:    64
-      optimizer:     "adam"
-      learning_rate: 1e-3
-      weight_decay:  1e-5
-
-  jigsaw:
-    type: ssl
-    backbone:  "resnet18"
-    grid_size: 3
-    training:
-      epochs:        10
-      batch_size:    64
-      optimizer:     "adam"
-      learning_rate: 1e-3
-      weight_decay:  1e-5
+      epochs:        2
+      batch_size:    8
+      optimizer:     "sgd"
+      learning_rate: 5e-2
+      weight_decay:  1e-4
 
   supervised:
     type: sl
     backbone:   "resnet50"
+    patch_size: 512 # definiti nel parquet, fisso non dinamico
+    stride: 256 # definiti nel parquet, fisso non dinamico
     pretrained: false
     training:
-      epochs:        10
-      batch_size:    64
-      optimizer:     "adam"
-      learning_rate: 1e-3
-      weight_decay:  1e-5
+      epochs:        2
+      batch_size:    8
+      optimizer:     "sgd"
+      momentum:      0.9
+      learning_rate: 0.1
+      weight_decay:  1e-4
 
   transfer:
     type: sl
     backbone:   "resnet50"
+    patch_size: 512 # definiti nel parquet, fisso non dinamico
+    stride: 256 # definiti nel parquet, fisso non dinamico
     pretrained: true
     training:
-      epochs:        10
-      batch_size:    64
+      epochs:        2
+      batch_size:    8
       optimizer:     "adam"
-      learning_rate: 1e-3
+      learning_rate: 1e-4
       weight_decay:  1e-5
-
-
-# -----------------------------------------------------------------------------#data/processed/{dataset_id}/experiments/{EXP_CODE}/{model_name}/
-# ├── log_{EXP_CODE}.md
-# ├── {model_name}_epoch{best_epoch}_best.pt
-# ├── {model_name}_features.pt         # per SSL
-# └── {model_name}_classifier.joblib   # per SSL

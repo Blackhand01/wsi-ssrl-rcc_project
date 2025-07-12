@@ -2,71 +2,71 @@
 # RCC_WSIs preprocessing configuration
 # =============================================================================
 
-# -----------------------------------------------------------------------------#
-# Environment detection                                                         
-# -----------------------------------------------------------------------------#
+# --------------------------------------------------------------------------- #
+# Environment detection                                                       #
+# --------------------------------------------------------------------------- #
 env_paths:
   colab: "/content/drive/MyDrive/ColabNotebooks/wsi-ssrl-rcc_project"
   local: "/Users/stefanoroybisignano/Desktop/MLA/project/wsi-ssrl-rcc_project"
 
-# -----------------------------------------------------------------------------#
-# Base directories (non modificare)                                            
-# -----------------------------------------------------------------------------#
-dataset_dir: "${RESOLVED_BASE_DIR}/data/RCC_WSIs"
+# --------------------------------------------------------------------------- #
+# Base roots (placeholders sostituiti a run-time)                             #
+# --------------------------------------------------------------------------- #
 project_root: "${RESOLVED_BASE_DIR}"
+dataset_dir:  "${RESOLVED_BASE_DIR}/data/RCC_WSIs"
 
-# -----------------------------------------------------------------------------#
-# Raw data paths                                                               #
-# -----------------------------------------------------------------------------#
+# --------------------------------------------------------------------------- #
+# Raw data paths                                                              #
+# --------------------------------------------------------------------------- #
 paths:
-  ccrcc_wsi:       "${base_dir}/ccRCC"
-  ccrcc_xml:       "${base_dir}/ccRCC/ccRCC_xml"
-  prcc_wsi:        "${base_dir}/pRCC"
-  prcc_xml:        "${base_dir}/pRCC/pRCC_xml"
-  pre_ccrcc_wsi:   "${base_dir}/pre/ccRCC"
-  pre_ccrcc_xml:   "${base_dir}/pre/ccRCC/pre_ccRCC_xml"
-  pre_prcc_wsi:    "${base_dir}/pre/pRCC"
-  pre_prcc_xml:    "${base_dir}/pre/pRCC/pre_pRCC_xml"
-  chromo_wsi:      "${base_dir}/CHROMO"
-  onco_wsi:        "${base_dir}/ONCOCYTOMA"
-  chromo_ann:      "${base_dir}/Annotations_chromo"
-  onco_ann:        "${base_dir}/Annotations_onco"
+  ccrcc_wsi:       "${dataset_dir}/ccRCC"
+  ccrcc_xml:       "${dataset_dir}/ccRCC/ccRCC_xml"
+  prcc_wsi:        "${dataset_dir}/pRCC"
+  prcc_xml:        "${dataset_dir}/pRCC/pRCC_xml"
+  pre_ccrcc_wsi:   "${dataset_dir}/pre/ccRCC"
+  pre_ccrcc_xml:   "${dataset_dir}/pre/ccRCC/pre_ccRCC_xml"
+  pre_prcc_wsi:    "${dataset_dir}/pre/pRCC"
+  pre_prcc_xml:    "${dataset_dir}/pre/pRCC/pre_pRCC_xml"
+  chromo_wsi:      "${dataset_dir}/CHROMO"
+  onco_wsi:        "${dataset_dir}/ONCOCYTOMA"
+  chromo_ann:      "${dataset_dir}/Annotations_chromo"
+  onco_ann:        "${dataset_dir}/Annotations_onco"
 
-# -----------------------------------------------------------------------------#
-# Train/val/test splits by patient                                            
-# -----------------------------------------------------------------------------#
+# --------------------------------------------------------------------------- #
+# Path dove salvare lo split pazienti                                         #
+# --------------------------------------------------------------------------- #
 split_json: "${project_root}/data/processed/splits_by_patient.json"
 
-# -----------------------------------------------------------------------------#
-# Stage-specific overrides                                                    
-# -----------------------------------------------------------------------------#
+# --------------------------------------------------------------------------- #
+# Stage-specific overrides                                                    #
+# --------------------------------------------------------------------------- #
 stages:
   debug:
     downsample_patients:
       enabled: false
       per_class: 5
     patching:
-      patch_size:               224
-      stride:                   112
-      patches_per_class:        3
-      random_seed:              42
+      patch_size:        224
+      stride:            112
+      patches_per_class: 3
+      random_seed:       42
 
   training:
     downsample_patients:
       enabled: true
       per_class: 5
     patching:
-      patch_size:               224
-      stride:                   112
-      patches_per_class:        500
-      random_seed:              123
+      patch_size:        224
+      stride:            112
+      patches_per_class: 500
+      random_seed:       123
 
-# -----------------------------------------------------------------------------#
-# Dataset splitting (patient-level)                                            #
-# -----------------------------------------------------------------------------#
+# --------------------------------------------------------------------------- #
+# Dataset splitting (patient-level)                                           #
+# --------------------------------------------------------------------------- #
 split:
   ratios:
-    train: 0.60      # 60% dei pazienti per train
-    val:   0.20      # 20% dei pazienti per validation
-    test:  0.20      # 20% dei pazienti per test
-  random_seed: 42   # seed per rendere riproducibile lo split
+    train: 0.60
+    val:   0.20
+    test:  0.20
+  random_seed: 42
