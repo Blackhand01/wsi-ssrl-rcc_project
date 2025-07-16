@@ -35,27 +35,23 @@ def mc_dropout_predictions(
     """
     Esegue T forward-pass in modalità train (con dropout attivo).
     Restituisce un array shape [T, N, C] con i logits raccolti.
-
-    Args:
-        model: modello PyTorch con dropout attivo.
-        loader: DataLoader con batch (x, y) o (x, _).
-        device: dispositivo CUDA o CPU.
-        T: numero di forward-pass MC-Dropout.
     """
     model.train()
     all_logits = []
 
     with torch.no_grad():
-        for _ in range(T):
+        for t_idx in range(T):
+            print(f"🔁 MC-Dropout pass {t_idx+1}/{T}")
             logits_t = []
-            for xb, *_ in loader:  # ignora label
+            for b_idx, (xb, *_) in enumerate(loader):
+                print(f"    • Batch {b_idx+1} / MC-pass {t_idx+1}")
                 xb = xb.to(device)
                 logits = model(xb).cpu().numpy()
                 logits_t.append(logits)
             all_logits.append(np.concatenate(logits_t, axis=0))
 
+    print(f"✅ MC-Dropout completato: {T} pass, {len(all_logits[0])} patch per pass.")
     return np.stack(all_logits, axis=0)
-
 
 
 

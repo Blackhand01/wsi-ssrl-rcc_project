@@ -58,7 +58,7 @@ def train_classifier(features_path: str, output_model: str = "classifier.joblib"
     )
 
     # Classifier #5000 in principio
-    clf = LogisticRegression(max_iter=50, class_weight="balanced")
+    clf = LogisticRegression(max_iter=5000, class_weight="balanced")
     clf.fit(X_train, y_train)
 
     # Eval

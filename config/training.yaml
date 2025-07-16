@@ -9,7 +9,7 @@ env_paths:
 # 1. Experiment Identifier
 #    Leave empty to auto-generate a timestamp
 # -----------------------------------------------------------------------------
-exp_code: ""
+exp_code: "20250709142129"
 seed: 42
 # -----------------------------------------------------------------------------
 # 2. Cross-Validation
