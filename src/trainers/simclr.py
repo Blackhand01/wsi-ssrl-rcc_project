@@ -77,20 +77,24 @@ def build_simclr_loader(
         wds.WebDataset(
             shards_pattern,
             handler=wds.warn_and_continue,
-            shardshuffle=1000,
-            empty_check=False,
+            shardshuffle=False,   # inferenza → niente shuffle
+            empty_check=False
         )
         .decode("pil")
         .map(_SimCLRPreproc(patch_size, aug_cfg))
     )
     use_cuda = device.type == "cuda"
+    p = Path(shards_pattern)
+    pattern = str(p / "*.tar") if p.is_dir() else shards_pattern
+    n_shards = 1 if Path(pattern).is_file() else len(list(Path().glob(pattern)))
+    num_workers = min(4 if use_cuda else 0, n_shards)
     return DataLoader(
         ds,
         batch_size=batch_size,
-        shuffle=False,      # WebDataset already shuffles
-        num_workers=4 if use_cuda else 0,
+        shuffle=False,
+        num_workers=num_workers,
         pin_memory=use_cuda,
-        drop_last=True,     # even-sized batches required for contrastive loss
+        drop_last=True,
     )
 
 

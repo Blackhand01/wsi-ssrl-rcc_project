@@ -9,12 +9,12 @@ env_paths:
 # 1. Experiment Identifier
 #    Leave empty to auto-generate a timestamp
 # -----------------------------------------------------------------------------
-exp_code: "20250709142129"
+exp_code: "20250723180604"
 seed: 42
 # -----------------------------------------------------------------------------
 # 2. Cross-Validation
 # -----------------------------------------------------------------------------
-folds: [0, 1, 2]
+folds: [0, 1, 2, 3]
 train_encoder_once: true
 
 # -----------------------------------------------------------------------------
@@ -25,6 +25,7 @@ data:
   train: "data/processed/{dataset_id}/webdataset/fold{fold_idx}/train/patches-0000.tar"
   val:   "data/processed/{dataset_id}/webdataset/fold{fold_idx}/val/patches-0000.tar"
   test:  "data/processed/{dataset_id}/webdataset/test_holdout.tar"
+#  classes: ["ccRCC", "pRCC", "CHROMO", "ONCO", "not_tumour"]
 
 # -----------------------------------------------------------------------------
 # 4. Output Directory and File Patterns
@@ -79,95 +80,99 @@ run_models: ["rotation", "simclr",  "moco_v2", "jepa", "supervised", "transfer"]
 # -----------------------------------------------------------------------------
 # 7. Model Configurations
 # -----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------  
+# 7. Model Configurations – EXPERIMENT 1 (50 epochs, patch 512, stride 256)  
+# -----------------------------------------------------------------------------  
 models:
-  simclr:
+
+  simclr:                         # [Chen et al., 2020]:contentReference[oaicite:1]{index=1}  
     type: ssl
-    backbone: "resnet18"
-    patch_size: 512 # definiti nel parquet, fisso non dinamico
-    stride: 256 # definiti nel parquet, fisso non dinamico
-    proj_dim: 128
+    backbone:    "resnet18"
+    patch_size:  512
+    stride:      256
+    proj_dim:    128
     training:
-      epochs:         2
-      batch_size:     8
-      optimizer:      "adam"
-      learning_rate:  1e-3
-      weight_decay:   1e-5
-      temperature:    0.5
-    augmentation:
+      epochs:          25         # N = 50 richiesto
+      batch_size:      64         # testato su Colab T4 / M1 Metal ≈6 GB
+      optimizer:       "adam"
+      learning_rate:   3e-4       # valore stabile per batch 64
+      weight_decay:    1e-4
+      temperature:     0.5
+    augmentation:                 # forte data-aug → invarianza tessiturale
       horizontal_flip: true
-      rotation:         [0, 90, 180, 270]
+      rotation:         [0,90,180,270]
       color_jitter:     {brightness: 0.4, contrast: 0.4, saturation: 0.4, hue: 0.1}
       gaussian_blur:    true
 
-  jepa:
+  moco_v2:                        # [Chen et al., 2020]:contentReference[oaicite:2]{index=2}  
     type: ssl
-    backbone:     "resnet18"
-    patch_size: 512 # definiti nel parquet, fisso non dinamico
-    stride: 256 # definiti nel parquet, fisso non dinamico
-    context_size: 512
-    hidden_dim:   512
+    backbone:    "resnet18"
+    patch_size:  512
+    stride:      256
+    proj_dim:    256
+    training:
+      epochs:          25
+      batch_size:      64
+      optimizer:       "sgd"
+      learning_rate:   0.03        # lr ∝ 0.03·Batch/256
+      weight_decay:    1e-4
+      queue_size:      1024        # più grande → variabilità negative
+      momentum:        0.99
+      temperature:     0.07
+      lr_schedule:     "cosine"
+      warmup_epochs:   5
+
+  rotation:                       # [Gidaris et al., 2018]:contentReference[oaicite:3]{index=3}   
+    type: ssl
+    backbone:    "resnet18"
+    patch_size:  512
+    stride:      256
+    training:
+      epochs:          25
+      batch_size:      64
+      optimizer:       "sgd"
+      learning_rate:   1e-2        # più basso di SimCLR (task più semplice)
+      weight_decay:    1e-4
+
+  jepa:                           # [Assran et al., 2023]:contentReference[oaicite:4]{index=4}  
+    type: ssl
+    backbone:      "resnet18"
+    patch_size:    512
+    stride:        256
+    context_size:  512
+    hidden_dim:    512
+    training:
+      epochs:          25
+      batch_size:      32          # memoria ↑ (predizione multi-block)
+      optimizer:       "adamw"
+      learning_rate:   1e-4
+      weight_decay:    1e-2
     augmentation:
       horizontal_flip: true
-    training:
-      epochs:        2
-      batch_size:    8
-      optimizer:     "adam"
-      learning_rate: 5e-4
-      weight_decay:  1e-5
-
-  moco_v2:
-    type: ssl
-    backbone: "resnet18"
-    patch_size: 512 # definiti nel parquet, fisso non dinamico
-    stride: 256 # definiti nel parquet, fisso non dinamico
-    proj_dim: 256
-    training:
-      epochs:         2
-      batch_size:     8
-      optimizer:      "sgd"
-      learning_rate:  0.03
-      weight_decay:   1e-4
-      queue_size:     256
-      momentum:       0.99
-      temperature:    0.07
-      lr_schedule:    "cosine"
-      warmup_epochs:  5
-
-  rotation:
-    type: ssl
-    backbone: "resnet18"
-    patch_size: 512 # definiti nel parquet, fisso non dinamico
-    stride: 256 # definiti nel parquet, fisso non dinamico
-    training:
-      epochs:        2
-      batch_size:    8
-      optimizer:     "sgd"
-      learning_rate: 5e-2
-      weight_decay:  1e-4
 
   supervised:
     type: sl
-    backbone:   "resnet50"
-    patch_size: 512 # definiti nel parquet, fisso non dinamico
-    stride: 256 # definiti nel parquet, fisso non dinamico
-    pretrained: false
+    backbone:    "resnet50"
+    patch_size:  512
+    stride:      256
+    pretrained:  false
     training:
-      epochs:        2
-      batch_size:    8
-      optimizer:     "sgd"
-      momentum:      0.9
-      learning_rate: 0.1
-      weight_decay:  1e-4
+      epochs:          25
+      batch_size:      32
+      optimizer:       "sgd"
+      momentum:        0.9
+      learning_rate:   0.05        # step-decay ↘ ogni 15 epoche
+      weight_decay:    1e-4
 
   transfer:
     type: sl
-    backbone:   "resnet50"
-    patch_size: 512 # definiti nel parquet, fisso non dinamico
-    stride: 256 # definiti nel parquet, fisso non dinamico
-    pretrained: true
+    backbone:    "resnet50"
+    patch_size:  512
+    stride:      256
+    pretrained:  true              # ImageNet
     training:
-      epochs:        2
-      batch_size:    8
-      optimizer:     "adam"
-      learning_rate: 1e-4
-      weight_decay:  1e-5
+      epochs:          25
+      batch_size:      32
+      optimizer:       "adam"
+      learning_rate:   1e-4        # solo fine-tuning layer4+fc
+      weight_decay:    1e-5

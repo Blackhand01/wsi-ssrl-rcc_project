@@ -77,18 +77,20 @@ def build_rotation_loader(
         wds.WebDataset(
             pattern,
             handler=wds.warn_and_continue,
-            shardshuffle=True,
-            empty_check=False,
+            shardshuffle=False,   # inferenza → niente shuffle
+            empty_check=False     # evita ValueError se qualche worker resta senza shard
         )
         .decode("pil")
         .map(RotationPreprocessor(patch_size, seed))
     )
     use_cuda = (device.type == "cuda")
+    n_shards = 1 if Path(pattern).is_file() else len(list(Path().glob(pattern)))
+    num_workers = min(4 if use_cuda else 0, n_shards)
     return DataLoader(
         ds,
         batch_size=batch_size,
         shuffle=False,
-        num_workers=4 if use_cuda else 0,
+        num_workers=num_workers,
         pin_memory=use_cuda,
         drop_last=True,
     )
@@ -210,19 +212,29 @@ class RotationTrainer(BaseTrainer):
 
         # decode bytes → PIL → Tensor, keep key
         ds = (
-            wds.WebDataset(pattern, handler=wds.warn_and_continue)
-               .to_tuple("jpg", "__key__")
-               .map_tuple(
-                   lambda b: T.ToTensor()(Image.open(io.BytesIO(b)).convert("RGB")),
-                   lambda k: k,
-               )
+            wds.WebDataset(
+                pattern,
+                handler=wds.warn_and_continue,
+                shardshuffle=False,   # inferenza → niente shuffle
+                empty_check=False     # evita ValueError se qualche worker resta senza shard
+            )
+            .to_tuple("jpg", "__key__")
+            .map_tuple(
+                lambda b: T.ToTensor()(Image.open(io.BytesIO(b)).convert("RGB")),
+                lambda k: k,
+            )
         )
+
         use_cuda = (self.device.type == "cuda")
+        # worker ≤ shard → niente processi sprecati
+        n_shards = 1 if Path(pattern).is_file() else len(list(Path().glob(pattern)))
+        num_workers = min(4 if use_cuda else 0, n_shards)
+
         loader = DataLoader(
             ds,
             batch_size=self.batch_size,
             shuffle=False,
-            num_workers=4 if use_cuda else 0,
+            num_workers=num_workers,
             pin_memory=use_cuda,
         )
 

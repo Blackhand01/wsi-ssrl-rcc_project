@@ -66,18 +66,22 @@ def build_moco_loader(
         wds.WebDataset(
             shards_pattern,
             handler=wds.warn_and_continue,
-            shardshuffle=1000,
-            empty_check=False,
+            shardshuffle=False,   # inferenza → niente shuffle
+            empty_check=False
         )
         .decode("pil")
         .map(_MoCoPreproc(patch_size, aug_cfg))
     )
     use_cuda = (device.type == "cuda")
+    p = Path(shards_pattern)
+    pattern = str(p / "*.tar") if p.is_dir() else shards_pattern
+    n_shards = 1 if Path(pattern).is_file() else len(list(Path().glob(pattern)))
+    num_workers = min(4 if use_cuda else 0, n_shards)
     return DataLoader(
         ds,
         batch_size=batch_size,
         shuffle=False,
-        num_workers=4 if use_cuda else 0,
+        num_workers=num_workers,
         pin_memory=use_cuda,
         drop_last=True,
     )
@@ -144,12 +148,17 @@ class MoCoV2Trainer(BaseTrainer):
         for param in self.projector_k.parameters(): param.requires_grad = False
         self.encoder_k.eval(); self.projector_k.eval()
 
-        # dynamic queue: registriamo i buffer sul modulo encoder_q (che è nn.Module)
+        # dynamic queue: buffer *già* sul device corretto
         self.encoder_q.register_buffer(
             "queue",
-            nn.functional.normalize(torch.randn(self.queue_size, self.proj_dim), dim=1),
+            nn.functional.normalize(
+                torch.randn(self.queue_size, self.proj_dim, device=self.device), dim=1
+            ),
         )
-        self.encoder_q.register_buffer("queue_ptr", torch.zeros(1, dtype=torch.long))
+        self.encoder_q.register_buffer(
+            "queue_ptr",
+            torch.zeros(1, dtype=torch.long, device=self.device),
+        )
 
         # optimizer on query side
         params = list(self.encoder_q.parameters()) + list(self.projector_q.parameters())
