@@ -251,7 +251,13 @@ class MoCoV2Trainer(BaseTrainer):
 
     # --------------------------- epoch callbacks ----------------------------- #
     def post_epoch(self, epoch: int, loss: float) -> None:
-        if loss < self.best_loss:
+        """
+        Actions to perform after each epoch: 
+         - only save best checkpoint after warm-up epochs
+         - always step the LR scheduler if defined
+        """
+        # 1) checkpoint only after warmup
+        if epoch >= self.warmup_epochs and loss < self.best_loss:
             self.best_loss, self.best_epoch = loss, epoch
             save_checkpoint(
                 ckpt_dir=self.ckpt_dir,
@@ -262,6 +268,7 @@ class MoCoV2Trainer(BaseTrainer):
                 optimizer=self.optimizer,
                 metadata={"model_cfg": self.model_cfg, "data_cfg": self.data_cfg},
             )
+        # 2) step scheduler
         if self.scheduler is not None:
             self.scheduler.step()
 

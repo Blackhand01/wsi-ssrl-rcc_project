@@ -66,7 +66,7 @@ output:
 # 5. Evaluation Settings
 # -----------------------------------------------------------------------------
 evaluation:
-  mc_dropout_passes: 20
+  mc_dropout_passes: 50
   ece_bins:          10
   gradcam:
     top_k: 5
@@ -75,7 +75,7 @@ evaluation:
 # -----------------------------------------------------------------------------
 # 6. Models to Run
 # -----------------------------------------------------------------------------
-run_models: ["rotation", "simclr",  "moco_v2", "jepa", "supervised", "transfer"]
+run_models: ["transfer","rotation", "simclr", "jepa", "supervised", "moco_v2"]
 
 # -----------------------------------------------------------------------------
 # 7. Model Configurations
@@ -104,23 +104,29 @@ models:
       color_jitter:     {brightness: 0.4, contrast: 0.4, saturation: 0.4, hue: 0.1}
       gaussian_blur:    true
 
-  moco_v2:                        # [Chen et al., 2020]:contentReference[oaicite:2]{index=2}  
-    type: ssl
-    backbone:    "resnet18"
-    patch_size:  512
-    stride:      256
-    proj_dim:    256
-    training:
-      epochs:          25
-      batch_size:      64
-      optimizer:       "sgd"
-      learning_rate:   0.03        # lr ∝ 0.03·Batch/256
-      weight_decay:    1e-4
-      queue_size:      1024        # più grande → variabilità negative
-      momentum:        0.99
-      temperature:     0.07
-      lr_schedule:     "cosine"
-      warmup_epochs:   5
+  moco_v2:
+      type: ssl
+      backbone: "resnet18"
+      patch_size: 512
+      stride: 256
+      proj_dim: 256
+      training:
+        epochs: 25
+        batch_size: 64
+        optimizer: "sgd"
+        learning_rate: 0.0075      # 0.03 × 64/256
+        weight_decay: 1e-4
+        queue_size: 512
+        momentum: 0.99            # EMA per gli encoder
+        opt_momentum: 0.9         # momentum vero di SGD
+        temperature: 0.2
+        lr_schedule: "cosine"
+        warmup_epochs: 5
+      augmentation:               # “aug+” di MoCo v2
+        horizontal_flip: true
+        color_jitter: {brightness: 0.4, contrast: 0.4, saturation: 0.4, hue: 0.1}
+        gaussian_blur: true
+        grayscale: 0.2            # p = 0.2 applicata nel trainer
 
   rotation:                       # [Gidaris et al., 2018]:contentReference[oaicite:3]{index=3}   
     type: ssl
