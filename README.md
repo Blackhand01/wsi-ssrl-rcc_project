@@ -12,7 +12,6 @@ Some crops of the Regions of Interest (ROIs) divided in different classes are sh
 
 - **Stefano Roy Bisignano** 
 - **Mirko Di Maggio** 
-- **Rida Ben Hassi** 
 ---
 
 ## 🛠️ Prerequisites
